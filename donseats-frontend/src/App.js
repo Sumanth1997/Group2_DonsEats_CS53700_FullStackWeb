@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Header from './components/Header';
+import NavBar from './components/NavBar';
+import Menu from './components/Menu';
+ 
 
-function App() {
+import './styles/App.css'; // Import your main CSS file
+
+const App = () => {
+  const [selectedCategory, setSelectedCategory] = useState('Egg Sandwiches');
+  const [cartItems, setCartItems] = useState({});
+
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app-container">
+      <Header cartItems={cartItems} /> {/* Pass cartItems to Header */}
+      <div className="content-wrapper"> 
+        <NavBar onCategorySelect={handleCategorySelect} />
+      </div>
+      <Menu category={selectedCategory} cartItems={cartItems} setCartItems={setCartItems} />
     </div>
   );
-}
+};
 
 export default App;

@@ -1,0 +1,124 @@
+/* General Header Styling */
+.header {
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Promo Bar Styling */
+.promo-bar {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 20px;
+  background-color: #f7f7f7;
+  font-size: 14px;
+  color: #555;
+}
+
+.promo-bar a {
+  color: #ff7e00;
+  text-decoration: none;
+  margin-left: 5px;
+}
+
+.promo-bar a:hover {
+  text-decoration: underline;
+}
+
+/* Main Header Content Styling */
+.header-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+/* Logo Styling */
+.logo h1 {
+  font-size: 24px;
+  color: #222;
+  font-weight: bold;
+}
+
+/* Navigation Links Styling */
+.nav-links a {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #222;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  color: #ff7e00;
+}
+
+/* Restaurant Info Styling */
+.restaurant-info h2 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #222;
+}
+
+.restaurant-info p {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Right Section Styling (Rating, Cart, Login) */
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.rating {
+  margin-right: 20px;
+  text-align: center;
+}
+
+.rating-score {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ff7e00;
+}
+
+.rating p {
+  font-size: 12px;
+  color: #666;
+}
+
+.cart-total {
+  margin-left: 10px;
+  text-align: right;
+}
+
+.cart-total p {
+  margin: 0;
+  font-size: 14px;
+  color: #222;
+}
+
+.login-button {
+  margin-left: 15px;
+  padding: 8px 16px;
+  background-color: #222;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background-color: #444;
+}
+
+/* Operational Time Styling */
+.operational-time {
+  padding: 10px 20px;
+  background-color: #ff7e00;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+}
