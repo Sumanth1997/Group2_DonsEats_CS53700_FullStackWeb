@@ -4,7 +4,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
 .signup-container {
@@ -86,4 +85,6 @@ body {
 }
 .signup-form .login-link a:hover {
   text-decoration: underline;
-}/*# sourceMappingURL=SignupForm.css.map */
+}
+
+/*# sourceMappingURL=SignUpForm.css.map */

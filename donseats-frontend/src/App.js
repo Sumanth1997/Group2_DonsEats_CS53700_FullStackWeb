@@ -19,23 +19,24 @@ const App = () => {
 
   return (
     <Router>
-      <Header cartItems={cartItems} /> {/* Header outside Routes */}
-      <Routes>
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/" element={<HomePage />} /> {/* Default route */}
-        <Route 
-          path="/menu" 
-          element={
-            <div className="app-container">
-              <div className="content-wrapper"> 
-                <NavBar onCategorySelect={handleCategorySelect} />
-              </div>
-              <Menu category={selectedCategory} cartItems={cartItems} setCartItems={setCartItems} />
-            </div>
-          } 
-        />
-      </Routes>
+      
+      <div className="app-container"> {/* Wrap content with app-container */}
+        <Routes>
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/" element={<HomePage />} /> {/* Default route */}
+          <Route 
+            path="/menu" 
+            element={
+              <> 
+                <Header cartItems={cartItems} /> Header outside Routes
+                {/* <NavBar onCategorySelect={handleCategorySelect} /> */}
+                <Menu category={selectedCategory} cartItems={cartItems} setCartItems={setCartItems} />
+              </>
+            } 
+          />
+        </Routes>
+      </div> {/* Close app-container */}
     </Router>
   );
 };
