@@ -3,13 +3,13 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f0f2f5;
+  // background-color: #efda9b;
 
   .login-form {
-    background-color: #fff;
+    // background-color: #fff;
     padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    // border-radius: 8px;
+    // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 400px;
     text-align: center;
@@ -18,12 +18,12 @@
     // Add a college logo or branding banner at the top
     &::before {
       content: "";
-      background-image: url(''); // replace with the path to your college logo
+      background-image: url('./../../public/donsatwalb.jpg'); // replace with the path to your college logo
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
       display: block;
-      height: 80px;
+      height: 10rem;
       width: 100%;
       margin-bottom: 1.5rem;
     }
@@ -61,7 +61,7 @@
 
     button {
       padding: 0.75rem 2rem;
-      background-color: #ff9505; // Updated color for a fresh look
+      background-color: #a1712e; // Updated color for a fresh look a1712e
       border: none;
       color: #fff;
       font-size: 1rem;
@@ -70,7 +70,7 @@
       transition: background-color 0.3s;
 
       &:hover {
-        background-color: #ff7800; // Slightly darker shade on hover
+        background-color: #936c37; // Slightly darker shade on hover
       }
     }
   }

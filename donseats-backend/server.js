@@ -16,8 +16,8 @@ const { login, register } = require('./controllers/Login');
 app.post('/login', login);
 app.post('/register', register);
 
-const { home } = require('./controllers/Home');
-app.use("/api", home)
+// const { home } = require('./controllers/Home');
+// app.use("/api", home)
 
 
 // Server Listener
