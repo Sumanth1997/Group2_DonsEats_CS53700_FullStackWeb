@@ -2,9 +2,9 @@ import React from 'react';
 import '../styles/OfferSection.css';
 
 const offers = [
-  { title: 'First Order Discount', discount: '-20%', imageUrl: 'first-order.jpg' },
-  { title: 'Vegan Discount', discount: '-20%', imageUrl: 'vegan-discount.jpg' },
-  { title: 'Free Ice Cream Offer', discount: '-100%', imageUrl: 'ice-cream.jpg' },
+  { title: 'Teacher\'s Pet Special', discount: '-20%', imageUrl: 'teachers-pet.jpg' },
+  { title: 'Buy 1 Get 1 on Coffee', discount: 'BOGO', imageUrl: 'coffee-bogo.jpg' },
+  { title: 'Free Muffin with Large Coffee', discount: 'FREE', imageUrl: 'free-muffin.jpg' },
 ];
 
 const OfferSection = () => {

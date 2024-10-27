@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import '../styles/NavBar.css';
 
 const NavBar = ({ onCategorySelect }) => {
-  const categories = ['Egg Sandwiches', 'Signature Lunch', 'Beverages', 'Espresso'];
-  const [activeCategory, setActiveCategory] = useState(categories[0]); // Set the initial active category
+  const categories = ['Coffee & Espresso', 'Refreshers', 'Smoothies', 'Shakes'];
+  const [activeCategory, setActiveCategory] = useState(categories[0]);
 
   const handleCategorySelect = (category) => {
-    setActiveCategory(category); // Update the active category
-    onCategorySelect(category); // Trigger selection on click
+    setActiveCategory(category);
+    onCategorySelect(category);
   };
 
   return (
@@ -17,7 +17,7 @@ const NavBar = ({ onCategorySelect }) => {
           <li 
             key={index} 
             onClick={() => handleCategorySelect(category)}
-            className={`navbar-item ${category === activeCategory ? 'active' : ''}`} // Add active class
+            className={`navbar-item ${category === activeCategory ? 'active' : ''}`}
           >
             {category}
           </li>

@@ -20,7 +20,6 @@ const Menu = ({ category, cartItems, setCartItems }) => {
           [itemId]: prevCartItems[itemId] - 1,
         };
       } else {
-        // If quantity is 1, remove the item from the cart
         const { [itemId]: _, ...rest } = prevCartItems;
         return rest;
       }
@@ -45,11 +44,11 @@ const Menu = ({ category, cartItems, setCartItems }) => {
                   <button 
                     className="decrement-button" 
                     onClick={() => handleRemoveFromCart(item.title)} 
-                    disabled={!cartItems[item.title]} // Disable if quantity is zero
+                    disabled={!cartItems[item.title]} 
                   >
                     -
                   </button>
-                  <span>{cartItems[item.title] || 0}</span> {/* Display quantity */}
+                  <span>{cartItems[item.title] || 0}</span>
                   <button 
                     className="increment-button" 
                     onClick={() => handleAddToCart(item.title)}
@@ -63,7 +62,7 @@ const Menu = ({ category, cartItems, setCartItems }) => {
         </div>
       ))}
 
-<section className="info-section">
+      <section className="info-section">
         <div className="info-box delivery-info">
           <h3>Delivery Information</h3>
           <p>Monday: 12:00 AM–3:00 AM, 8:00 AM–3:00 AM</p>

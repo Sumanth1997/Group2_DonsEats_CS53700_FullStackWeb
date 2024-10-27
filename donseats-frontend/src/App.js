@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import Header from './components/Header';
 import NavBar from './components/NavBar';
 import Menu from './components/Menu';
- 
-
-import './styles/App.css'; // Import your main CSS file
+import './styles/App.css';
 
 const App = () => {
-  const [selectedCategory, setSelectedCategory] = useState('Egg Sandwiches');
+  const [selectedCategory, setSelectedCategory] = useState('Coffee & Espresso');
   const [cartItems, setCartItems] = useState({});
 
   const handleCategorySelect = (category) => {
@@ -16,7 +14,7 @@ const App = () => {
 
   return (
     <div className="app-container">
-      <Header cartItems={cartItems} /> {/* Pass cartItems to Header */}
+      <Header cartItems={cartItems} />
       <div className="content-wrapper"> 
         <NavBar onCategorySelect={handleCategorySelect} />
       </div>
