@@ -1,0 +1,231 @@
+.homepage {
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+.homepage__header {
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+}
+.homepage__header .header__promo {
+  background-color: #f9f9f9;
+  padding: 1px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #888;
+}
+.homepage__header .header__promo .promo__link {
+  color: #e67e22;
+  font-weight: bold;
+}
+.homepage__header .header__nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+.homepage__header .header__nav .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #e67e22;
+}
+.homepage__header .header__nav .nav__links {
+  display: flex;
+  gap: 20px;
+}
+.homepage__header .header__nav .nav__links li {
+  list-style: none;
+  cursor: pointer;
+}
+.homepage__header .header__nav .login-btn {
+  background-color: #e67e22;
+  color: #fff;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.homepage .homepage {
+  font-family: Arial, sans-serif;
+  color: #333;
+  /* Other sections */
+}
+.homepage .homepage__header {
+  /* Existing header styling */
+}
+.homepage .homepage__hero {
+  display: flex;
+  align-items: center; /* Center content vertically */
+  justify-content: center; /* Center content horizontally */
+  min-height: 80vh; /* Make the hero section take 80% of the viewport height */
+  padding: 0 20px; /* Reduce vertical padding */
+  background-color: #f0f0f0;
+  text-align: center;
+}
+.homepage .homepage__hero .hero__content {
+  flex: 1;
+  max-width: 500px; /* Limit width for better centering */
+  padding: 20px;
+  text-align: left;
+}
+.homepage .homepage__hero .hero__content h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+.homepage .homepage__hero .hero__content .hero__search {
+  margin-top: 15px;
+  display: flex;
+}
+.homepage .homepage__hero .hero__content .hero__search input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px 0 0 4px;
+}
+.homepage .homepage__hero .hero__content .hero__search button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #e67e22;
+  color: #fff;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+.homepage .homepage__hero .hero__image {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: 100%; /* Adjust to avoid excessive spacing */
+}
+.homepage .homepage__hero .hero__image img {
+  max-width: 80%; /* Control image width */
+  height: auto;
+}
+.homepage__popular-restaurants {
+  padding: 20px;
+}
+.homepage__popular-restaurants h2 {
+  font-size: 1.8rem;
+  color: #333;
+  text-align: center;
+}
+.homepage__popular-restaurants .restaurants__grid {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.homepage__popular-restaurants .restaurants__grid .restaurant__card {
+  width: 150px;
+  text-align: center;
+}
+.homepage__popular-restaurants .restaurants__grid .restaurant__card img {
+  width: 100%;
+  border-radius: 8px;
+}
+.homepage .homepage {
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+.homepage .homepage__footer {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+.homepage .footer__stats {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #e67e22;
+  padding: 20px;
+  color: #fff;
+  border-radius: 8px;
+  margin: 20px auto;
+  max-width: 1200px;
+}
+.homepage .footer__stats div {
+  text-align: center;
+}
+.homepage .footer__stats div p {
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 0;
+  color: #fff;
+}
+.homepage .footer__stats div span {
+  font-size: 1rem;
+  color: #fff;
+  display: block;
+  font-weight: bold;
+  margin-top: 5px;
+}
+@media (max-width: 768px) {
+  .homepage .footer__stats {
+    flex-direction: column;
+    padding: 15px;
+  }
+  .homepage .footer__stats div {
+    margin: 10px 0;
+  }
+}
+.homepage .popular-restaurants {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+.homepage .popular-restaurants h3 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.homepage .popular-restaurants .restaurant-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  justify-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.homepage .popular-restaurants .restaurant-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+  transition: transform 0.3s;
+  max-width: 180px;
+}
+.homepage .popular-restaurants .restaurant-card:hover {
+  transform: scale(1.05);
+}
+.homepage .popular-restaurants .restaurant-card img {
+  width: 80%;
+  height: auto;
+  -o-object-fit: contain;
+     object-fit: contain;
+  margin-bottom: 10px;
+}
+.homepage .popular-restaurants .restaurant-card button {
+  background-color: #e67e22;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+.homepage .popular-restaurants .restaurant-card button:hover {
+  background-color: #cf6d1a;
+}
+.homepage .popular-restaurants .restaurant-card button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.3);
+}/*# sourceMappingURL=HomePage.css.map */

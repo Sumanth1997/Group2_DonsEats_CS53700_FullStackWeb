@@ -1,0 +1,67 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f2f5;
+}
+.login-container .login-form {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  position: relative;
+}
+.login-container .login-form::before {
+  content: "";
+  background-image: url("");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: block;
+  height: 80px;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+.login-container .login-form h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: #333;
+}
+.login-container .login-form .form-group {
+  margin-bottom: 1rem;
+  text-align: left;
+}
+.login-container .login-form .form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+.login-container .login-form .form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+.login-container .login-form .error {
+  color: red;
+  margin-bottom: 1rem;
+}
+.login-container .login-form button {
+  padding: 0.75rem 2rem;
+  background-color: #ff9505;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.login-container .login-form button:hover {
+  background-color: #ff7800;
+}/*# sourceMappingURL=LoginForm.css.map */

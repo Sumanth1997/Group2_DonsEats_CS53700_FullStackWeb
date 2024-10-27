@@ -1,0 +1,272 @@
+.homepage {
+    font-family: Arial, sans-serif;
+    color: #333;
+  
+    &__header {
+      background-color: #fff;
+      border-bottom: 1px solid #ddd;
+  
+      .header__promo {
+        background-color: #f9f9f9;
+        padding: 1px;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #888;
+  
+        .promo__link {
+          color: #e67e22;
+          font-weight: bold;
+        }
+      }
+  
+      .header__nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+  
+        .logo {
+          font-size: 1.5rem;
+          font-weight: bold;
+          color: #e67e22;
+        }
+  
+        .nav__links {
+          display: flex;
+          gap: 20px;
+  
+          li {
+            list-style: none;
+            cursor: pointer;
+          }
+        }
+  
+        .login-btn {
+          background-color: #e67e22;
+          color: #fff;
+          padding: 8px 12px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+      }
+    }
+  
+    .homepage {
+  font-family: Arial, sans-serif;
+  color: #333;
+
+  &__header {
+    /* Existing header styling */
+  }
+
+  &__hero {
+    display: flex;
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+    min-height: 80vh; /* Make the hero section take 80% of the viewport height */
+    padding: 0 20px; /* Reduce vertical padding */
+    background-color: #f0f0f0;
+    text-align: center;
+  
+    .hero__content {
+      flex: 1;
+      max-width: 500px; /* Limit width for better centering */
+      padding: 20px;
+      text-align: left;
+
+      h1 {
+        font-size: 2.5rem;
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .hero__search {
+        margin-top: 15px;
+        display: flex;
+
+        input {
+          flex: 1;
+          padding: 10px;
+          border: 1px solid #ddd;
+          border-radius: 4px 0 0 4px;
+        }
+
+        button {
+          padding: 10px 20px;
+          border: none;
+          background-color: #e67e22;
+          color: #fff;
+          border-radius: 0 4px 4px 0;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .hero__image {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-height: 100%; /* Adjust to avoid excessive spacing */
+
+      img {
+        max-width: 80%; /* Control image width */
+        height: auto;
+      }
+    }
+  }
+
+  /* Other sections */
+}
+
+  
+    &__popular-restaurants {
+      padding: 20px;
+  
+      h2 {
+        font-size: 1.8rem;
+        color: #333;
+        text-align: center;
+      }
+  
+      .restaurants__grid {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 20px;
+  
+        .restaurant__card {
+          width: 150px;
+          text-align: center;
+  
+          img {
+            width: 100%;
+            border-radius: 8px;
+          }
+        }
+      }
+    }
+  
+    .homepage {
+        font-family: Arial, sans-serif;
+        color: #333;
+      
+        &__footer {
+          background-color: #333;
+          color: #fff;
+          padding: 20px;
+          text-align: center;
+            }
+          }
+          
+          .footer__stats {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: #e67e22;
+            padding: 20px;
+            color: #fff;
+            border-radius: 8px;
+            margin: 20px auto;
+            max-width: 1200px;
+      
+            div {
+              text-align: center;
+      
+              p {
+                font-size: 3rem;
+                font-weight: bold;
+                margin: 0;
+                color: #fff;
+                
+              }
+      
+              span {
+                font-size: 1rem;
+                color: #fff;
+                display: block;
+                font-weight: bold;
+                margin-top: 5px;
+              }
+            }
+      
+            @media (max-width: 768px) {
+              flex-direction: column;
+              padding: 15px;
+      
+              div {
+                margin: 10px 0;
+              }
+            }
+          }   
+  
+  .popular-restaurants {
+    padding: 20px;
+    background-color: #f9f9f9;
+  
+    h3 {
+      font-size: 1.8rem;
+      color: #333;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+  
+    .restaurant-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));  // Responsive columns
+      gap: 20px;
+      justify-items: center;
+      max-width: 1200px;  // Limits the grid width to avoid excessive stretching
+      margin: 0 auto;  // Centers the grid within the container
+    }
+  
+    .restaurant-card {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 15px;
+      transition: transform 0.3s;
+      max-width: 180px;  // Set max-width to keep cards uniform
+  
+      &:hover {
+        transform: scale(1.05);
+      }
+  
+      img {
+        width: 80%;
+        height: auto;
+        object-fit: contain;
+        margin-bottom: 10px;
+      }
+  
+      button {
+        background-color: #e67e22;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        font-size: 0.9rem;
+        font-weight: bold;
+        cursor: pointer;
+        width: 100%;
+        border-radius: 5px;
+        margin-top: 10px;
+  
+        &:hover {
+          background-color: #cf6d1a;
+        }
+  
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.3);
+        }
+      }
+    }
+}
+}
+      
