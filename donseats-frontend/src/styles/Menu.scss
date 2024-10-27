@@ -1,0 +1,152 @@
+.menu-section {
+  padding: 20px;
+}
+
+.menu-category {
+  margin-bottom: 30px;
+}
+
+.menu-category h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.menu-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive columns */
+  gap: 20px;
+}
+
+.menu-item {
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: left; /* Align text to the left */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  transition: box-shadow 0.3s ease; /* Smooth transition for shadow */
+}
+
+.menu-item:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+}
+
+.menu-item img {
+  width: 100%;
+  height: 200px; /* Maintain aspect ratio if needed */
+  object-fit: cover; /* Cover the entire area */
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.menu-item-details {
+  margin-bottom: 10px;
+}
+
+.menu-item-details h3 {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.menu-item-details p {
+  font-size: 14px;
+  color: #555;
+}
+
+.menu-item-price {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.menu-item-actions {
+  display: flex;
+  justify-content: flex-end; /* Align button to the right */
+}
+
+.menu-item-actions button {
+  background-color: #f0ad4e; /* Example button color */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth transition for button color */
+}
+
+.menu-item-actions button:hover {
+  background-color: #ec971f; /* Darker color on hover */
+}
+
+
+.menu-item-actions {
+  display: flex;
+  align-items: center;
+}
+
+.increment-button, .decrement-button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 10px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.increment-button:hover, .decrement-button:hover {
+  background-color: #45a049;
+}
+
+.increment-button:disabled, .decrement-button:disabled {
+  background-color: #ccc; /* Grey */
+  cursor: not-allowed;
+}
+
+.info-section {
+  display: flex;
+  justify-content: space-between;
+  background-color: #f8f8f8;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.info-box {
+  flex: 1;
+  margin: 0 10px;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.delivery-info {
+  background-color: #ffffff;
+  color: #222222;
+}
+
+.contact-info {
+  background-color: #f8f8f8;
+  color: #222222;
+}
+
+.operational-times {
+  background-color: #222222;
+  color: #ffffff;
+}
+
+.info-box h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.info-box p {
+  margin: 5px 0;
+}
+
+a {
+  color: #1e90ff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+

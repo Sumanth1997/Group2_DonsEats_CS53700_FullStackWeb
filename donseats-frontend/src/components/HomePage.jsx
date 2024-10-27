@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './../styles/HomePage.css';
 
 const restaurants = [
@@ -11,6 +12,16 @@ const restaurants = [
 ];
 
 const HomePage = () => {
+  const [selectedCategory, setSelectedCategory] = useState('Egg Sandwiches');
+  const [cartItems, setCartItems] = useState({});
+  const navigate = useNavigate();
+
+  const handleRestaurantClick = (restaurant) => {
+    if (restaurant.title === "Einstein Bros.") {
+      navigate('/menu', { state: { restaurant, selectedCategory, cartItems } });
+    }
+  };
+
   return (
     <div className="homepage">
       {/* Header Section */}
@@ -42,29 +53,26 @@ const HomePage = () => {
           </div>
         </div>
         <div className="hero__image">
-          {/* Replace this with an actual image component */}
           <img src="headerelephant.png" alt="Elephant holding burger" />
         </div>
       </section>
 
        {/* Popular Restaurants */}
-      <section className="popular-restaurants">
+       <section className="popular-restaurants">
         <h3>Popular Restaurants</h3>
         <div className="restaurant-grid">
           {restaurants.map((restaurant) => (
-            <div className="restaurant-card" key={restaurant.id}>
+            <div
+              className="restaurant-card"
+              key={restaurant.id}
+              onClick={() => handleRestaurantClick(restaurant)}
+            >
               <img src={restaurant.image} alt={restaurant.title} className="restaurant-card__image" />
-              <button
-                className="restaurant-card__button"
-                onClick={() => window.open(restaurant.link, "_blank")}
-              >
-                {restaurant.title}
-              </button>
+              <button className="restaurant-card__button">{restaurant.title}</button>
             </div>
           ))}
         </div>
       </section>
-
 
       {/* Footer Section */}
       <section className="footer__stats">
@@ -85,7 +93,7 @@ const HomePage = () => {
           <span>Cuisines</span>
         </div>
       </section>
-      
+
       <footer className="homepage__footer">
         <p>Official Purdue Fort Wayne Food Ordering Service</p>
         <p>&copy; Order4U. All Rights Reserved.</p>

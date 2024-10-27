@@ -1,0 +1,87 @@
+.cart-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+.cart-container .cart-button {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: left;
+  transition: background-color 0.2s ease;
+  border-radius: 5px;
+}
+.cart-container .cart-button:hover {
+  background-color: darkgreen;
+}
+.cart-container .cart-button i {
+  margin-right: 5px;
+  font-size: 1.2em;
+}
+.cart-container .cart-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  display: none;
+  min-width: 250px;
+}
+.cart-container .cart-dropdown h2 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+.cart-container .cart-dropdown ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 15px;
+}
+.cart-container .cart-dropdown li {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.cart-container .cart-dropdown .cart-total {
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+  margin-top: 10px;
+  font-weight: bold;
+  text-align: right;
+}
+.cart-container.show .cart-dropdown {
+  display: block;
+}
+.cart-container .checkout-section {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.cart-container .checkout-section h3 {
+  margin-bottom: 10px;
+}
+.cart-container .checkout-section .react-datepicker__input-container input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+}
+.cart-container .checkout-section .react-time-picker__wrapper {
+  width: auto;
+  margin-top: 10px;
+}
+.cart-container .checkout-section .react-time-picker__wrapper input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/*# sourceMappingURL=Cart.css.map */

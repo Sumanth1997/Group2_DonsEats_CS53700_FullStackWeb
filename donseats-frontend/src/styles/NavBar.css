@@ -1,0 +1,30 @@
+.navbar {
+  background-color: #f8f9fa; /* Light background for the navbar */
+  padding: 10px;
+}
+
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex; /* Align items horizontally */
+  justify-content: space-around;
+}
+
+.navbar-item {
+  margin-right: 20px; /* Spacing between items */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  padding: 10px; /* Padding for clickable area */
+  transition: background-color 0.3s; /* Smooth background transition */
+}
+
+.navbar-item:hover {
+  background-color: #e0e0e0; /* Background on hover */
+}
+
+.navbar-item.active {
+  background-color: black; /* Active category background */
+  color: white; /* Text color for active category */
+}
+
+/*# sourceMappingURL=NavBar.css.map */
