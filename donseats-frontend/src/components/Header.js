@@ -11,7 +11,7 @@ const Header = ({ cartItems }) => {
       {/* Main Header Content */}
       <div className="header-main">
         <div className="logo">
-          <h1>OrderUK</h1>
+          <h1>DonsEats</h1>
         </div>
 
         {/* Navigation Links */}
