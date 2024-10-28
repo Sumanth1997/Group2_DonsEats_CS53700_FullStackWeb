@@ -21,9 +21,9 @@ export const menuItems = {
         { title: 'Medium Coffee', price: '1.80 USD', imageUrl: 'Images/medium-coffee.jpg', description: 'Rich and smooth coffee, perfect to pair with breakfast or a light snack.' }
       ],
       'Customize it': [
-        { title: 'Gourmet IT', price: '10.50 USD', imageUrl: 'gourmet-it.jpg', description: 'Build your own gourmet experience with hand-selected premium toppings.' },
-        { title: 'Lighten Up', price: '7.00 USD', imageUrl: 'lighten-up.jpg', description: 'A lighter option with reduced calories and fresh ingredients.' },
-        { title: 'Thintastic', price: '6.25 USD', imageUrl: 'thintastic.jpg', description: 'A delicious low-carb choice with thin bread and fresh veggies.' }
+        { title: 'Gourmet IT', price: '10.50 USD', imageUrl: 'Images/all-nighter.jpg', description: 'Build your own gourmet experience with hand-selected premium toppings.' },
+        { title: 'Lighten Up', price: '7.00 USD', imageUrl: 'Images/turkey-sausage-cheddar.jpg', description: 'A lighter option with reduced calories and fresh ingredients.' },
+        { title: 'Thintastic', price: '6.25 USD', imageUrl: 'Images/garden-avocado.jpg', description: 'A delicious low-carb choice with thin bread and fresh veggies.' }
       ]
     },
     'Signature Lunch': {
