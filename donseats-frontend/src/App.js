@@ -4,13 +4,15 @@ import LoginForm from './components/LoginForm';
 import HomePage from './components/HomePage';
 import Signup from './components/Signup';
 import Menu from './components/Menu';
+import BonsMenu from './components/BonsMenu';
 import Header from './components/Header';
-import NavBar from './components/NavBar';
+import BonsHeader from './components/BonsHeader';
 
 import './styles/App.css'; 
 
 const App = () => {
   const [selectedCategory, setSelectedCategory] = useState('Egg Sandwiches');
+  const [bonsSelectedCategory, setBonsSelectedCategory] = useState('Coffee & Espresso');
   const [cartItems, setCartItems] = useState({});
 
   const handleCategorySelect = (category) => {
@@ -29,9 +31,18 @@ const App = () => {
             path="/menu" 
             element={
               <> 
-                <Header cartItems={cartItems} /> Header outside Routes
-                {/* <NavBar onCategorySelect={handleCategorySelect} /> */}
+                <Header cartItems={cartItems} /> 
                 <Menu category={selectedCategory} cartItems={cartItems} setCartItems={setCartItems} />
+              </>
+            } 
+          />
+          <Route 
+            path="/bonsmenu" 
+            element={
+              <> 
+                <BonsHeader cartItems={cartItems} /> 
+                {/* <NavBar onCategorySelect={handleCategorySelect} /> */}
+                <BonsMenu category={bonsSelectedCategory} cartItems={cartItems} setCartItems={setCartItems} />
               </>
             } 
           />

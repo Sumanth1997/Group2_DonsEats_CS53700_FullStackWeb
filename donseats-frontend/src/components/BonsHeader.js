@@ -1,20 +1,15 @@
 import React from 'react';
 import '../styles/Header.css';
-import Cart from './Cart';
+import Cart from './BonsCart';
 
-const Header = ({ cartItems }) => {
+const BonsHeader = ({ cartItems }) => {
   return (
     <header className="header">
-      {/* Promo Message */}
-  
-
-      {/* Main Header Content */}
       <div className="header-main">
         <div className="logo">
           <h1>DonsEats</h1>
         </div>
 
-        {/* Navigation Links */}
         <nav className="nav-links">
           <a href="#">Home</a>
           <a href="#">Special Offers</a>
@@ -22,30 +17,26 @@ const Header = ({ cartItems }) => {
           <a href="#">Track Order</a>
         </nav>
 
-        {/* Restaurant Information */}
         <div className="restaurant-info">
-          <h2>Einstein's Bros. Bagels</h2>
-          <p>Minimum Order: 10 USD | Delivery in 20-25 Minutes</p>
+          <h2>Bon Bon's Coffee</h2>
+          <p>Minimum Order: 5 USD | Delivery in 15-20 Minutes</p>
         </div>
 
-        {/* Rating and Cart/Login Section */}
         <div className="header-right">
           <div className="rating">
-            <span className="rating-score">3.4</span>
-            <p>1,360 reviews</p>
+            <span className="rating-score">4.8</span>
+            <p>1,500 reviews</p>
           </div>
           <Cart cartItems={cartItems} />
-          
           <button className="login-button">Login/Signup</button>
         </div>
       </div>
 
-      {/* Operational Time */}
       <div className="operational-time">
-        <span>Open until 7:00 PM</span>
+        <span>Open until 9:00 PM</span>
       </div>
     </header>
   );
 };
 
-export default Header;
+export default BonsHeader;
