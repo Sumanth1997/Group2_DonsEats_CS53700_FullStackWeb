@@ -1,13 +1,11 @@
 /* App.css */
 * {
-  box-sizing: border-box; /* Include padding and border in element's total width and height */
   margin: 0;
   padding: 0;
 }
 
 body {
   font-family: "Arial", sans-serif; /* Choose a font you like */
-  line-height: 1.6;
   background-color: #f4f4f4; /* Light background color */
   color: #333;
 }
@@ -17,7 +15,6 @@ body {
   flex-direction: column;
   align-items: center;
   min-height: 100vh; /* Ensure the container takes up full viewport height */
-  padding: 20px;
 }
 
 .content-wrapper {
@@ -51,6 +48,4 @@ a:hover {
   .cart-container {
     margin-bottom: 20px; /* Add spacing below cart on smaller screens */
   }
-}
-
-/*# sourceMappingURL=App.css.map */
+}/*# sourceMappingURL=App.css.map */

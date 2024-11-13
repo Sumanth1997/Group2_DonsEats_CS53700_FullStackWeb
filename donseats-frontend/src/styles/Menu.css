@@ -33,7 +33,8 @@
 .menu-item img {
   width: 100%;
   height: 200px; /* Maintain aspect ratio if needed */
-  object-fit: cover; /* Cover the entire area */
+  -o-object-fit: cover;
+     object-fit: cover; /* Cover the entire area */
   border-radius: 8px;
   margin-bottom: 10px;
 }
@@ -147,6 +148,4 @@ a {
 
 a:hover {
   text-decoration: underline;
-}
-
-/*# sourceMappingURL=Menu.css.map */
+}/*# sourceMappingURL=Menu.css.map */

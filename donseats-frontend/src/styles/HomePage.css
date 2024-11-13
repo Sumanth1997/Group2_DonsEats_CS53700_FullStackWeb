@@ -8,7 +8,7 @@
 }
 .homepage__header .header__promo {
   background-color: #f9f9f9;
-  padding: 1px;
+  padding: 10px;
   text-align: center;
   font-size: 0.9rem;
   color: #888;
@@ -48,9 +48,6 @@
   font-family: Arial, sans-serif;
   color: #333;
   /* Other sections */
-}
-.homepage .homepage__header {
-  /* Existing header styling */
 }
 .homepage .homepage__hero {
   display: flex;
@@ -141,7 +138,7 @@
   padding: 20px;
   color: #fff;
   border-radius: 8px;
-  margin: 20px auto;
+  margin: 35px auto;
   max-width: 1200px;
 }
 .homepage .footer__stats div {
@@ -170,7 +167,7 @@
   }
 }
 .homepage .popular-restaurants {
-  padding: 20px;
+  padding: 40px;
   background-color: #f9f9f9;
 }
 .homepage .popular-restaurants h3 {
