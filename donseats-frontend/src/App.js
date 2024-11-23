@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginForm from './components/LoginForm';
 import HomePage from './components/HomePage';
 import Signup from './components/Signup';
@@ -15,18 +15,13 @@ const App = () => {
   const [bonsSelectedCategory, setBonsSelectedCategory] = useState('Coffee & Espresso');
   const [cartItems, setCartItems] = useState({});
 
-  const handleCategorySelect = (category) => {
-    setSelectedCategory(category);
-  };
-
   return (
     <Router>
-      
-      <div className="app-container"> {/* Wrap content with app-container */}
+      <div className="app-container">
         <Routes>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/" element={<HomePage />} /> {/* Default route */}
+          <Route path="/" element={<HomePage />} />
           <Route 
             path="/menu" 
             element={
@@ -41,13 +36,12 @@ const App = () => {
             element={
               <> 
                 <BonsHeader cartItems={cartItems} /> 
-                {/* <NavBar onCategorySelect={handleCategorySelect} /> */}
                 <BonsMenu category={bonsSelectedCategory} cartItems={cartItems} setCartItems={setCartItems} />
               </>
             } 
           />
         </Routes>
-      </div> {/* Close app-container */}
+      </div>
     </Router>
   );
 };

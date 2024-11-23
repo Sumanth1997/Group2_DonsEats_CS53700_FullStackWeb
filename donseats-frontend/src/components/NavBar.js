@@ -17,7 +17,7 @@ const NavBar = ({ onCategorySelect }) => {
           <li 
             key={index} 
             onClick={() => handleCategorySelect(category)}
-            className={`navbar-item ${category === activeCategory ? 'active' : ''}`} // Add active class
+            className={`navbar-item ${category === activeCategory ? 'active' : ''}`}
           >
             {category}
           </li>

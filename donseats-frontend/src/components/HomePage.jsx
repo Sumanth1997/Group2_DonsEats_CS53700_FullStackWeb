@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import './../styles/HomePage.css';
 
 const restaurants = [
-  { id: 1, title: "Hungry Howies", link: "", image: "./hungryhowies.png" },
   { id: 2, title: "Don's at Walb", link: "/restaurants/dons-at-walb", image: "donsatwalb.jpg" },
   { id: 3, title: "Java Spot", link: "/restaurants/starbucks-java-spot", image: "starbucks.png" },
   { id: 4, title: "Einstein Bros.", link: "/restaurants/einstein-bros-bagels", image: "einstienbros.png" },
@@ -20,10 +19,13 @@ const HomePage = () => {
   const handleRestaurantClick = (restaurant) => {
     if (restaurant.title === "Einstein Bros.") {
       navigate('/menu', { state: { restaurant, selectedCategory, cartItems } });
-    }
-    else if (restaurant.title === "Bon Bon's Coffee"){
+    } else if (restaurant.title === "Bon Bon's Coffee") {
       navigate('/bonsmenu', { state: { restaurant, bonsSelectedCategory, cartItems } });
     }
+  };
+  
+  const handleLoginRedirect = () => {
+    navigate('/login'); // Redirect to the login page
   };
 
   return (
@@ -41,7 +43,7 @@ const HomePage = () => {
             <li>Special Offers</li>
             <li>Restaurants</li>
             <li>Track Order</li>
-            <li><button className="login-btn">Login/Signup</button></li>
+            <li><button className="login-btn" onClick={handleLoginRedirect}>Login/Signup</button></li>
           </ul>
         </nav>
       </header>

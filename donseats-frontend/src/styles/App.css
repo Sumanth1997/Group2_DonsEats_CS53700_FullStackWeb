@@ -14,16 +14,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh; /* Ensure the container takes up full viewport height */
-}
-
-.content-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  height: 100vh; /* Ensure the container takes up full viewport height */
   width: 100%;
-  max-width: 960px; /* Limit the width of the content area */
-  margin: 20px auto; /* Center the content with some top/bottom margin */
 }
 
 /* Additional Styles (You can customize these further) */
