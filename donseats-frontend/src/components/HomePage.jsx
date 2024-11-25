@@ -1,6 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../services/AuthContext'; 
+import { signOut } from 'firebase/auth'; 
+import { getAuth } from 'firebase/auth';
 import './../styles/HomePage.css';
+import app from '../services/firebaseConfig';
+const auth = getAuth(app);
 
 const restaurants = [
   { id: 2, title: "Don's at Walb", link: "/restaurants/dons-at-walb", image: "donsatwalb.jpg" },
@@ -14,7 +19,10 @@ const HomePage = () => {
   const [selectedCategory, setSelectedCategory] = useState('Egg Sandwiches');
   const [bonsSelectedCategory, setBonsSelectedCategory] = useState('Coffee & Espresso'); // Default for Bon Bon's
   const [cartItems, setCartItems] = useState({});
+  const { user, loading } = useContext(AuthContext);
+    
   const navigate = useNavigate();
+  
 
   const handleRestaurantClick = (restaurant) => {
     if (restaurant.title === "Einstein Bros.") {
@@ -27,6 +35,14 @@ const HomePage = () => {
   const handleLoginRedirect = () => {
     navigate('/login'); // Redirect to the login page
   };
+  const handleLogout = async () => {
+    try {
+        await signOut(auth);
+        navigate('/login'); // Redirect to login after logout
+    } catch (error) {
+        console.error("Logout error:", error);
+    }
+};
 
   return (
     <div className="homepage">
@@ -43,8 +59,24 @@ const HomePage = () => {
             <li>Special Offers</li>
             <li>Restaurants</li>
             <li>Track Order</li>
-            <li><button className="login-btn" onClick={handleLoginRedirect}>Login/Signup</button></li>
-          </ul>
+            <li>
+                            {loading ? ( // Show loading message while checking user status
+                                <p>Loading...</p>
+                            ) : user ? ( // User is logged in
+                                <div className="user-menu"> {/* Container for dropdown */}
+                                    <button className="username-btn">
+                                        Welcome, {user.displayName || user.email}!
+                                    </button>
+                                    <ul className="user-dropdown"> {/* Dropdown content */}
+                                        <li onClick={() => navigate('/orders')}>My Orders</li> {/* Navigate to orders page */}
+                                        <li onClick={handleLogout}>Logout</li>
+                                    </ul>
+                                </div>
+                            ) : ( // User is not logged in
+                                <button className="login-btn" onClick={handleLoginRedirect}>Login/Signup</button>
+                            )}
+                        </li>
+                        </ul>
         </nav>
       </header>
 

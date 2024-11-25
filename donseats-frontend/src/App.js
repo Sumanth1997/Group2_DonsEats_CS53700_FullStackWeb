@@ -7,6 +7,7 @@ import Menu from './components/Menu';
 import BonsMenu from './components/BonsMenu';
 import Header from './components/Header';
 import BonsHeader from './components/BonsHeader';
+import { AuthProvider } from './services/AuthContext'; 
 
 import './styles/App.css'; 
 
@@ -16,7 +17,9 @@ const App = () => {
   const [cartItems, setCartItems] = useState({});
 
   return (
+    <AuthProvider>
     <Router>
+      {/* <Header/> */}
       <div className="app-container">
         <Routes>
           <Route path="/login" element={<LoginForm />} />
@@ -43,6 +46,7 @@ const App = () => {
         </Routes>
       </div>
     </Router>
+    </AuthProvider>
   );
 };
 

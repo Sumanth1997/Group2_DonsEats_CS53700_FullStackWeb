@@ -1,25 +1,52 @@
 const express = require('express');
-const app = express();
 const cors = require('cors');
-require('dotenv').config();
-const authenticateToken = require('./middleware/middleware');
-
-// Middleware
-app.use(cors()); // Enable CORS (configure it as needed)
-app.use(express.json()); // Enable JSON parsing
-
-// Routes
-const testRoute = require('./routes/test');
-app.use('/api', testRoute);
-
-const { login, register } = require('./controllers/Login');
-app.post('/login', login);
-app.post('/register', register);
-
-// const { home } = require('./controllers/Home');
-// app.use("/api", home)
+const app = express();
+app.use(cors());
+const admin = require('firebase-admin');
 
 
-// Server Listener
+
+const serviceAccount = require('./serviceAccountKey.json'); // Correct path is crucial
+admin.initializeApp({  // Use admin.initializeApp
+  credential: admin.credential.cert(serviceAccount) // Use admin.credential.cert
+});
+
+const db = admin.firestore();
+
+
+app.get('/api/menuItems', async (req, res) => { // Async route handler
+  console.log("Received request for /api/menuItems");
+  try {
+    const menuItemsCollection = db.collection('menuItems'); // Use db directly
+    const menuItemsSnapshot = await menuItemsCollection.get(); // Use get() on collection
+
+    const menuItemsData = [];
+    menuItemsSnapshot.forEach((doc) => {
+      menuItemsData.push({ id: doc.id, ...doc.data() }); 
+    });
+
+    const formattedData = {}; 
+    menuItemsData.forEach(item => {
+        if (!formattedData[item.category]) {
+            formattedData[item.category] = {};
+        }
+        if (!formattedData[item.category][item.subcategory]) {
+            formattedData[item.category][item.subcategory] = [];
+        }
+        formattedData[item.category][item.subcategory].push(item);
+    });
+
+    res.json(formattedData);
+
+  } catch (error) {
+    console.error("Error fetching menu items: ", error);
+    res.status(500).send("Error fetching data"); // Send error to the client
+  }
+});
+
+
+// ... rest of server.js
+
+
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

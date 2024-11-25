@@ -3,15 +3,29 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
- "scripts": {
-  "start": "concurrently \"npm run server --prefix donseats-backend\" \"npm start --prefix donseats-frontend\"",
-  "server": "nodemon server.js"
-}
-,
+  "scripts": {
+    "start": "concurrently \"npm run server --prefix donseats-backend\" \"npm start --prefix donseats-frontend\"",
+    "server": "nodemon server.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^9.0.1"
+    "concurrently": "^9.0.1",
+    "eslint-config-react-app": "^7.0.1"
+  },
+  "dependencies": {
+    "axios": "^1.7.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "firebase": "^11.0.2",
+    "jsonwebtoken": "^9.0.2",
+    "react": "^18.3.1",
+    "react-date-picker": "^11.0.0",
+    "react-datepicker": "^7.5.0",
+    "react-router-dom": "^7.0.1",
+    "react-time-picker": "^7.0.0",
+    "web-vitals": "^4.2.4"
   }
 }

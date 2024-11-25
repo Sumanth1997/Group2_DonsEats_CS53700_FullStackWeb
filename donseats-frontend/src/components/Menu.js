@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import axios from 'axios';
 import '../styles/Header.css';
 import '../styles/NavBar.css';
 import '../styles/Menu.css';
@@ -6,37 +7,72 @@ import Cart from './Cart';
 import { menuItems } from './menuItems'; 
 
 const Menu = ({ cartItems, setCartItems }) => {
-  const [activeCategory, setActiveCategory] = useState('Egg Sandwiches'); // Default category
-  const categories = ['Egg Sandwiches', 'Signature Lunch', 'Beverages', 'Espresso'];
+  const [menuItems, setMenuItems] = useState({}); // Store menu items from backend
+  const [activeCategory, setActiveCategory] = useState('Egg Sandwiches');
+  const [loading, setLoading] = useState(true); // For loading state
+  const [error, setError] = useState(null); // For error state
+  const categories = Object.keys(menuItems); // Get categories dynamically
 
-  // Function to handle category selection
+
+  useEffect(() => {
+      const fetchMenuItems = async () => {
+          try {
+              const response = await axios.get('http://localhost:5001/api/menuItems');
+              setMenuItems(response.data);
+              setLoading(false); // Set loading to false after data is fetched
+
+          } catch (error) {
+              console.error("Error fetching menu items:", error);
+              setError(error); // Set error state
+              setLoading(false); // Set loading to false even if there's an error
+
+          }
+      };
+
+      fetchMenuItems();
+  }, []);
+
+
+
   const handleCategorySelect = (category) => {
-    setActiveCategory(category);
+      setActiveCategory(category);
   };
 
-  const items = menuItems[activeCategory] || {};
+
 
   const handleAddToCart = (itemId) => {
-    setCartItems((prevCartItems) => ({
-      ...prevCartItems,
-      [itemId]: (prevCartItems[itemId] || 0) + 1,
-    }));
+      setCartItems((prevCartItems) => ({
+          ...prevCartItems,
+          [itemId]: (prevCartItems[itemId] || 0) + 1,
+      }));
   };
 
   const handleRemoveFromCart = (itemId) => {
-    setCartItems((prevCartItems) => {
-      if (prevCartItems[itemId] > 1) {
-        return {
-          ...prevCartItems,
-          [itemId]: prevCartItems[itemId] - 1,
-        };
-      } else {
-        // If quantity is 1, remove the item from the cart
-        const { [itemId]: _, ...rest } = prevCartItems;
-        return rest;
-      }
-    });
+      setCartItems((prevCartItems) => {
+          if (prevCartItems[itemId] > 1) {
+              return {
+                  ...prevCartItems,
+                  [itemId]: prevCartItems[itemId] - 1,
+              };
+          } else {
+              const { [itemId]: _, ...rest } = prevCartItems;
+              return rest;
+          }
+      });
   };
+
+
+  if (loading) {
+      return <div>Loading menu items...</div>; // Display loading message
+  }
+
+  if (error) {
+      return <div>Error: {error.message}</div>; // Display error message
+  }
+
+  // Safely access items after data is loaded and no error
+  const items = menuItems[activeCategory] || {};
+
 
   return (
     <div className="app-container">
