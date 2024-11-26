@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import app from '../services/firebaseConfig';
 import './../styles/LoginForm.css';
 import { AuthContext } from '../services/AuthContext'; 
 
 const auth = getAuth(app);
+const db = getFirestore(app); 
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -22,10 +24,36 @@ const Login = () => {
 
 
         try {
-          const userCredential = await signInWithEmailAndPassword(auth, email, password); // Get user credential
-          setUser(userCredential.user) // set user in the context
-          setTimeout(() => navigate('/'), 500);// Or wherever you want to redirect on success
-        } catch (error) {
+          const userCredential = await signInWithEmailAndPassword(auth, email, password);
+          const user = userCredential.user;
+
+
+          // Get the user's role from Firestore
+          const docRef = doc(db, 'users', user.uid);
+          const docSnap = await getDoc(docRef);
+
+
+          if (docSnap.exists()) {
+              const userData = docSnap.data();
+              user.role = userData.role; // Add role to the user object
+              setUser(user); // Set user in context (including role)
+
+
+              // Now navigate based on the role
+              if (user.role === 'restaurantOwner') {
+                  navigate('/dashboard');
+              } else {
+                  navigate('/');
+              }
+
+          } else {
+              // Handle the case where user data is not found in Firestore
+              console.error("User data not found in Firestore.");
+              setError("User data not found."); // Set an appropriate error
+          }
+
+
+      } catch (error) {
             setError(error.message); // Use the actual Firebase error message
             console.error("Firebase login error:", error);
         } finally {
