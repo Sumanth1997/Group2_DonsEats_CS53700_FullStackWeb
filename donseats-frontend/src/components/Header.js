@@ -8,7 +8,7 @@ import { getAuth } from 'firebase/auth';
 import app from '../services/firebaseConfig';
 
 const auth = getAuth(app);
-const Header = ({ cartItems }) => {
+const Header = ({ cartItems,menuItems,setCartItems }) => {
   const { user, loading } = useContext(AuthContext);
     const navigate = useNavigate(); // Initialize useNavigate
 
@@ -52,7 +52,7 @@ const Header = ({ cartItems }) => {
             <span className="rating-score">3.4</span>
             <p>1,360 reviews</p>
           </div>
-          <Cart cartItems={cartItems} />
+          <Cart cartItems={cartItems} setCartItems={setCartItems} menuItems={menuItems} />
           
           {loading ? (
               <p>Loading...</p> 

@@ -1,64 +1,46 @@
 // Dashboard.js (new component)
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/Dashboard.css'; // Create this CSS file
-import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore';
-import app from '../services/firebaseConfig';
-import { AuthContext } from '../services/AuthContext'; // Import AuthContext
+import '../styles/Dashboard.css';
+import { AuthContext } from '../services/AuthContext';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import axios from 'axios';
 
-
-const db = getFirestore(app);
+// const db = getFirestore(app);
+// const storage = getStorage(app);
 
 const Dashboard = () => {
     const navigate = useNavigate();
-
-    const { user } = useContext(AuthContext); //Get user from Context
+    const { user } = useContext(AuthContext);
 
     const [pendingOrders, setPendingOrders] = useState([]);
+    const [imageUpload, setImageUpload] = useState(null);
+    const categories = ['Egg Sandwiches', 'Signature Lunch', 'Beverages', 'Espresso'];
+    const subcategories = {
+        'Egg Sandwiches': ['Classics', 'Signature', 'Egg white', 'Make it a meal', 'Customize it'],
+        'Signature Lunch': ['Classic', 'Hot & Toasty', 'Pizza Bagel', 'Deli Select'],
+        'Beverages': ['Classic', 'Flavored', 'Cold Brew Shakes', 'Strawberry Banana Smoothie', 'Brewed Coffee'],
+        'Espresso': ['Hot', 'Hot Chocolate', 'Iced'],
+    };
+
     const [newMenuItem, setNewMenuItem] = useState({
-        category: '', // Add category
-        subcategory: '', // Add subcategory
+        category: categories[0],
+        subcategory: subcategories[categories[0]][0],
         title: '',
         price: '',
         description: '',
         imageUrl: '',
     });
+
     const [menuItems, setMenuItems] = useState({});
     const [reviews, setReviews] = useState([]);
 
     useEffect(() => {
-        const fetchOrders = async () => {
-            // ... your logic to fetch pending orders from Firestore (or your backend)
-            try {
-              const ordersCollection = collection(db, 'orders'); // Assuming 'orders' is your collection
-              const querySnapshot = await getDocs(ordersCollection);
-      
-              const ordersData = querySnapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data(),
-              }));
-      
-              //Filter to display only Pending Orders
-              setPendingOrders(ordersData.filter((order) => order.status === 'pending'));
-            } catch (error) {
-                console.error('Error fetching orders:', error);
-            }
-        };
-        fetchOrders();
-
-        const fetchReviews = async () => {
-            // ... your logic to fetch reviews from Firestore (or your backend)
-            try {
-              // ... implementation ...
-            } catch (error) {
-                console.error('Error fetching reviews:', error);
-            }
-        };
-        fetchReviews();
+        
 
         const fetchMenuItems = async () => {
           try {
-              const response = await fetch('/api/menuItems'); // Replace with your backend endpoint
+              const response = await fetch('http://localhost:5001/api/menuItems'); // Replace with your backend endpoint
               if (!response.ok) {
                   throw new Error('Network response was not ok');
               }
@@ -75,59 +57,97 @@ const Dashboard = () => {
     }, []);
 
     const handleAddMenuItem = async () => {
-        try {
-            const docRef = await addDoc(collection(db, 'menuItems'), newMenuItem);
-            // ... handle success (e.g., update menuItems state, clear form)
-            setNewMenuItem({   // Clear the form after adding item
-              category: '',
-              subcategory: '',
-              title: '',
-              price: '',
-              description: '',
-              imageUrl: '',
-
-           });
-           alert('Item added to Menu successfully');
-
-        } catch (error) {
-            console.error('Error adding menu item:', error);
-             // ... error handling
-        }
-    };
-
-    const handleDeleteMenuItem = async (itemId) => { // itemId parameter
       try {
-        // itemId should be path to the specific document in menuItems collection you want to delete
-          await deleteDoc(doc(db, "menuItems", itemId)); //Correct this doc
-          // Update the local state after deleting from Firestore.
-          setMenuItems((prevMenuItems) => {
-             const updatedMenuItems = { ...prevMenuItems }; // Create a copy of menuItems
-             delete updatedMenuItems[itemId]; // Delete the item from copy using "title"
-             return updatedMenuItems;
+          if (!imageUpload) {
+              alert('Please upload an image');
+              return;
+          }
+  
+          const formData = new FormData();
+          formData.append('image', imageUpload);  // Append the image file
+          formData.append('category', newMenuItem.category);  //Append other form data
+          formData.append('subcategory', newMenuItem.subcategory);
+          formData.append('title', newMenuItem.title);
+          formData.append('price', newMenuItem.price);
+          formData.append('description', newMenuItem.description);
+  
+  
+          const response = await axios.post('http://localhost:5001/api/addMenuItem', formData, {
+              headers: {
+                  'Content-Type': 'multipart/form-data' // Important for file uploads
+              },
           });
-
-          alert('Menu Item deleted successfully'); // Show success message or handle in a better way if required.
+  
+          if (response.status !== 200) {  // Explicit status check
+              throw new Error(`Server returned an error: ${response.status} - ${response.statusText}`);
+          }
+  
+  
+  
+          // ... handle success
+          alert('Item added to Menu successfully');
+          // ... reset form, etc.
+          setNewMenuItem({
+            category: categories[0],
+            subcategory: subcategories[categories[0]][0],
+            title: '',
+            price: '',
+            description: '',
+            imageUrl: '',
+          });
+          setImageUpload(null);
+  
       } catch (error) {
-          console.error("Error deleting menu item:", error);
-           // Error handling, e.g., show error message to user
+          console.error('Error adding menu item:', error);
+          alert("Error adding menu item: " + (error.response?.data || error.message));
+  
       }
   };
 
-
-  const handleUpdateMenuItem = async (itemId, updatedData) => {
+  const handleDeleteMenuItem = async (itemId) => {
     try {
-        await updateDoc(doc(db, "menuItems", itemId), updatedData);
-         // Update the local state after updating in Firestore.
-         setMenuItems((prevMenuItems) => ({
-            ...prevMenuItems,
-            [itemId]: { ...prevMenuItems[itemId], ...updatedData }, //Merge updated data to the existing item
-         }));
-        console.log("Menu item updated successfully");
-        // ... optionally, clear the update form or display a success message
+        await axios.delete(`/api/deleteMenuItem/${itemId}`); // Send DELETE to the server
+        // Update local state (remove the deleted item)
+        const updatedMenuItems = { ...menuItems };
+        delete updatedMenuItems[itemId]; // Assuming itemId becomes the key
+        setMenuItems(updatedMenuItems);
+        alert('Menu Item deleted successfully');
     } catch (error) {
-        console.error("Error updating menu item:", error);
-        // ... error handling
+        // ... handle error
     }
+};
+
+
+const handleUpdateMenuItem = async (itemId, updatedData) => {
+  try {
+      // Correct the API endpoint here to match your backend route.  `/api/updateMenuItem/${itemId}`
+      const response = await axios.put(`/api/updateMenuItem/${itemId}`, updatedData);
+
+      if (!response.ok) {
+          throw new Error(`Error updating menu item: ${response.status} ${response.statusText}`);
+      }
+
+      // Update local state using the returned data or updatedData
+      const updatedItem = response.data; // Use the server-response
+
+      setMenuItems(prevMenuItems => ({
+          ...prevMenuItems,
+          [updatedItem.category]: {
+            ...prevMenuItems[updatedItem.category],
+            [updatedItem.subcategory]: prevMenuItems[updatedItem.category][updatedItem.subcategory].map(item =>
+                item.title === itemId ? updatedItem : item  // Replace existing item in state with updated item
+              )
+          }
+        }));
+      alert('Menu item updated successfully');
+
+
+
+  } catch (error) {
+      console.error("Error updating menu item:", error);
+      alert("Error updating menu item: " + error.message);
+
+  }
 };
 
 
@@ -157,10 +177,33 @@ const Dashboard = () => {
             <section className="menu-management">
                 <h2>Menu Management</h2>
                 <form onSubmit={(e) => { e.preventDefault(); handleAddMenuItem(); }}>
-                    {/* Input fields for category, subcategory, title, price, description, imageUrl */}
-                    <input type="text" placeholder="Category" value={newMenuItem.category} onChange={(e) => setNewMenuItem({ ...newMenuItem, category: e.target.value })} required />
-                    <input type="text" placeholder="Subcategory" value={newMenuItem.subcategory} onChange={(e) => setNewMenuItem({ ...newMenuItem, subcategory: e.target.value })} required />
-                    {/* ... other input fields */}
+                    <select value={newMenuItem.category} onChange={(e) => setNewMenuItem({ ...newMenuItem, category: e.target.value })} required>
+                        {categories.map((category) => (
+                            <option key={category} value={category}>
+                                {category}
+                            </option>
+                        ))}
+                    </select>
+                    {/* Subcategory selection (make this dynamic based on the chosen category) */}
+                    <select
+          value={newMenuItem.subcategory}
+          onChange={(e) => setNewMenuItem({ ...newMenuItem, subcategory: e.target.value })}
+          required
+        >
+          {subcategories[newMenuItem.category].map((subcategory) => (
+            <option key={subcategory} value={subcategory}>
+              {subcategory}
+            </option>
+          ))}
+        </select>
+
+                    <input type="text" placeholder="Title" value={newMenuItem.title} onChange={(e) => setNewMenuItem({ ...newMenuItem, title: e.target.value })} required />
+                    <input type="number" step="0.01" placeholder="Price" value={newMenuItem.price} onChange={(e) => setNewMenuItem({ ...newMenuItem, price: e.target.value })} required />
+                    <textarea placeholder="Description" value={newMenuItem.description} onChange={(e) => setNewMenuItem({ ...newMenuItem, description: e.target.value })} required />
+
+                    {/* Image upload */}
+                    <input type="file" onChange={(e) => setImageUpload(e.target.files[0])} required />
+
                     <button type="submit">Add Item</button>
                 </form>
                 <div> {/* Container for list of menu items and delete buttons */}

@@ -4,7 +4,7 @@ import '../styles/Header.css';
 import '../styles/NavBar.css';
 import '../styles/Menu.css';
 import Cart from './Cart';
-import { menuItems } from './menuItems'; 
+// import { menuItems } from './menuItems'; 
 
 const Menu = ({ cartItems, setCartItems }) => {
   const [menuItems, setMenuItems] = useState({}); // Store menu items from backend
@@ -110,7 +110,7 @@ const Menu = ({ cartItems, setCartItems }) => {
             </div>
           </div>
         ))}
-
+       
         <section className="info-section">
           <div className="info-box delivery-info">
             <h3>Delivery Information</h3>
@@ -144,6 +144,7 @@ const Menu = ({ cartItems, setCartItems }) => {
         </section>
       </section>
     </div>
+    
   );
 };
 

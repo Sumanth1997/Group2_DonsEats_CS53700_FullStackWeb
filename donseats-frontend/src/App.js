@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route,Navigate } from 'react-router-dom';
 import LoginForm from './components/LoginForm';
 import HomePage from './components/HomePage';
@@ -11,6 +11,7 @@ import { AuthProvider } from './services/AuthContext';
 import { AuthContext } from './services/AuthContext'; 
 import Dashboard from './components/Dashboard';
 import { useContext } from 'react'; 
+import axios from 'axios'; 
 
 import './styles/App.css'; 
 
@@ -22,12 +23,27 @@ const App = () => {
     const { user } = useContext(AuthContext);
     return user ? element : <Navigate to="/login" />; // Redirect to login if no user
   };
+  const [menuItems, setMenuItems] = useState({});
+
+   useEffect(() => {
+    const fetchMenuItems = async () => {
+        try {
+            const response = await axios.get('http://localhost:5001/api/menuItems');
+            setMenuItems(response.data);
+        } catch (error) {
+            //Handle error.
+        }
+
+    };
+    fetchMenuItems();
+}, []);
 
   return (
     <AuthProvider>
     <Router>
       {/* <Header/> */}
       <div className="app-container">
+      
         <Routes>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<Signup />} />
@@ -45,7 +61,7 @@ const App = () => {
             path="/menu" 
             element={
               <> 
-                <Header cartItems={cartItems} /> 
+                <Header cartItems={cartItems} setCartItems={setCartItems} menuItems={menuItems} />
                 <Menu category={selectedCategory} cartItems={cartItems} setCartItems={setCartItems} />
               </>
             } 
