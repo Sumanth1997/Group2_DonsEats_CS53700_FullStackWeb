@@ -1,21 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../styles/NavBar.css';
 
-const NavBar = ({ onCategorySelect }) => {
+const NavBar = ({ onCategorySelect, activeCategory }) => { // Receive props
   const categories = ['Egg Sandwiches', 'Signature Lunch', 'Beverages', 'Espresso'];
-  const [activeCategory, setActiveCategory] = useState(categories[0]); // Set the initial active category
 
   const handleCategorySelect = (category) => {
-    setActiveCategory(category); // Update the active category
-    onCategorySelect(category); // Trigger selection on click
+    onCategorySelect(category); // Call the function received from App
   };
 
   return (
-    <nav className="navbar">
+    // ... rest of the NavBar code, use activeCategory prop for highlighting
+       <nav className="navbar">
       <ul>
         {categories.map((category, index) => (
-          <li 
-            key={index} 
+          <li
+            key={index}
             onClick={() => handleCategorySelect(category)}
             className={`navbar-item ${category === activeCategory ? 'active' : ''}`}
           >
@@ -25,6 +24,6 @@ const NavBar = ({ onCategorySelect }) => {
       </ul>
     </nav>
   );
-}
+};
 
 export default NavBar;

@@ -6,9 +6,9 @@ import '../styles/Menu.css';
 import Cart from './Cart';
 // import { menuItems } from './menuItems'; 
 
-const Menu = ({ cartItems, setCartItems }) => {
+const Menu = ({ category,cartItems, setCartItems }) => {
   const [menuItems, setMenuItems] = useState({}); // Store menu items from backend
-  const [activeCategory, setActiveCategory] = useState('Egg Sandwiches');
+  // const [activeCategory, setActiveCategory] = useState({});
   const [loading, setLoading] = useState(true); // For loading state
   const [error, setError] = useState(null); // For error state
   const categories = Object.keys(menuItems); // Get categories dynamically
@@ -30,13 +30,13 @@ const Menu = ({ cartItems, setCartItems }) => {
       };
 
       fetchMenuItems();
-  }, []);
+  }, [category]);
 
 
 
-  const handleCategorySelect = (category) => {
-      setActiveCategory(category);
-  };
+  // const handleCategorySelect = (category) => {
+  //     setActiveCategory(category);
+  // };
 
 
 
@@ -71,7 +71,7 @@ const Menu = ({ cartItems, setCartItems }) => {
   }
 
   // Safely access items after data is loaded and no error
-  const items = menuItems[activeCategory] || {};
+  const items = menuItems[category] || {};
 
 
   return (

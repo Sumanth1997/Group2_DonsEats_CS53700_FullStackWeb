@@ -106,7 +106,7 @@ const Dashboard = () => {
 
   const handleDeleteMenuItem = async (itemId) => {
     try {
-        await axios.delete(`/api/deleteMenuItem/${itemId}`); // Send DELETE to the server
+        await axios.delete(`http://localhost:5001/api/deleteMenuItem/${itemId}`); // Send DELETE to the server
         // Update local state (remove the deleted item)
         const updatedMenuItems = { ...menuItems };
         delete updatedMenuItems[itemId]; // Assuming itemId becomes the key
@@ -120,35 +120,48 @@ const Dashboard = () => {
 
 const handleUpdateMenuItem = async (itemId, updatedData) => {
   try {
-      // Correct the API endpoint here to match your backend route.  `/api/updateMenuItem/${itemId}`
-      const response = await axios.put(`/api/updateMenuItem/${itemId}`, updatedData);
+    // Ensure title and price are provided
+    if (!updatedData.title || !updatedData.price) {
+      return alert("Title and price are required for updating.");
+    }
 
-      if (!response.ok) {
-          throw new Error(`Error updating menu item: ${response.status} ${response.statusText}`);
+    const dataToUpdate = {
+      title: updatedData.title, // Use updated title if available, otherwise use the original itemId
+      price: updatedData.price,
+    };
+
+    const response = await axios.put('http://localhost:5001/api/updateMenuItem', dataToUpdate, {
+      headers: {
+        'Content-Type': 'application/json'
       }
+    });
 
-      // Update local state using the returned data or updatedData
-      const updatedItem = response.data; // Use the server-response
+    if (!response.ok) {
+      throw new Error(`Error updating menu item: ${response.status} ${response.statusText}`);
+    }
 
-      setMenuItems(prevMenuItems => ({
-          ...prevMenuItems,
-          [updatedItem.category]: {
-            ...prevMenuItems[updatedItem.category],
-            [updatedItem.subcategory]: prevMenuItems[updatedItem.category][updatedItem.subcategory].map(item =>
-                item.title === itemId ? updatedItem : item  // Replace existing item in state with updated item
-              )
-          }
-        }));
-      alert('Menu item updated successfully');
+    const updatedItem = response.data;
 
+    setMenuItems(prevMenuItems => {
+      const updatedMenuItems = { ...prevMenuItems };
+      for (const category in updatedMenuItems) {
+        for (const subcategory in updatedMenuItems[category]) {
+          updatedMenuItems[category][subcategory] = updatedMenuItems[category][subcategory].map(item =>
+            item.title === itemId ? updatedItem : item
+          );
+        }
+      }
+      return updatedMenuItems;
+    });
 
+    alert('Menu item updated successfully');
 
   } catch (error) {
-      console.error("Error updating menu item:", error);
-      alert("Error updating menu item: " + error.message);
-
+    console.error("Error updating menu item:", error);
+    alert("Error updating menu item: " + error.message);
   }
 };
+
 
 
 

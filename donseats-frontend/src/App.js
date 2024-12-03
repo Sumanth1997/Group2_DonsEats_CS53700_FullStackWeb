@@ -12,11 +12,13 @@ import { AuthContext } from './services/AuthContext';
 import Dashboard from './components/Dashboard';
 import { useContext } from 'react'; 
 import axios from 'axios'; 
+import NavBar from './components/NavBar';
 
 import './styles/App.css'; 
 
 const App = () => {
   const [selectedCategory, setSelectedCategory] = useState('Egg Sandwiches');
+  const [activeCategory, setActiveCategory] = useState('Egg Sandwiches');
   const [bonsSelectedCategory, setBonsSelectedCategory] = useState('Coffee & Espresso');
   const [cartItems, setCartItems] = useState({});
   const PrivateRoute = ({ element, ...rest }) => {
@@ -62,7 +64,8 @@ const App = () => {
             element={
               <> 
                 <Header cartItems={cartItems} setCartItems={setCartItems} menuItems={menuItems} />
-                <Menu category={selectedCategory} cartItems={cartItems} setCartItems={setCartItems} />
+                <NavBar onCategorySelect={setActiveCategory} activeCategory={activeCategory} />
+                <Menu category={activeCategory} cartItems={cartItems} setCartItems={setCartItems} />
               </>
             } 
           />
