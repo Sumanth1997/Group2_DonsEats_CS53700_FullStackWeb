@@ -1,45 +1,81 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Cart.css';
-import { menuItems } from './menuItems';
+// import axios from 'axios'; 
 import DatePicker from 'react-datepicker'; // Or any date picker library you prefer
 import 'react-datepicker/dist/react-datepicker.css'; // Import CSS for the date picker
 import TimePicker from 'react-time-picker'; // Or any time picker library
 import 'react-time-picker/dist/TimePicker.css';
 
-const Cart = ({ cartItems }) => {
+const Cart = ({ cartItems, setCartItems,menuItems }) => {
   const [showCart, setShowCart] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   const [showCheckout, setShowCheckout] = useState(false); // To toggle checkout section
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
 
-  useEffect(() => {
-    const newTotalPrice = calculateTotalPrice();
-    setTotalPrice(newTotalPrice);
-  }, [cartItems]);
-
   const calculateTotalPrice = () => {
+    console.log("DEBUG: Calculating Total Price");
+    console.log("Cart Items:", cartItems);
+    console.log("Menu Items:", menuItems);
+  
     let totalPrice = 0;
   
-    for (const item in cartItems) {
-      // Find the item data ONLY within the relevant subcategory
-      const itemData = Object.values(menuItems)
-        .flatMap(subcategories => Object.values(subcategories)) // Get all subcategories
-        .flat() // Flatten into a single array of items
-        .find(i => i.title === item);
-  
-      if (itemData && itemData.price) {
-        const price = parseFloat(itemData.price.replace(' USD', ''));
-        if (!isNaN(price)) {
-          totalPrice += price * cartItems[item];
-        }
-      } else {
-        console.warn(`Item data for "${item}" not found or price is invalid.`);
-      }
+    if (!menuItems || Object.keys(cartItems).length === 0) {
+      console.log("DEBUG: No menu items or empty cart");
+      return 0;
     }
   
+    try {
+      for (const item in cartItems) {
+        console.log(`Processing item: ${item}, Quantity: ${cartItems[item]}`);
+  
+        // Flatten and find item strategy with more robust searching
+        const itemData = Object.values(menuItems)
+          .flatMap(category => 
+            Object.values(category).flatMap(subcategory => 
+              subcategory.filter(menuItem => menuItem.title === item)
+            )
+          )[0];
+  
+        console.log(`Found Item Data:`, itemData);
+  
+        if (itemData && itemData.price) {
+          const price = parseFloat(itemData.price.replace(' USD', ''));
+          const quantity = cartItems[item];
+  
+          if (!isNaN(price)) {
+            const itemTotal = price * quantity;
+            console.log(`Item: ${item}, Price: ${price}, Quantity: ${quantity}, Item Total: ${itemTotal}`);
+            totalPrice += itemTotal;
+          } else {
+            console.warn(`Invalid price for item: ${item}`);
+          }
+        } else {
+          console.warn(`Item data for "${item}" not found or price is invalid.`);
+        }
+      }
+    } catch (error) {
+      console.error("Error in total price calculation:", error);
+    }
+  
+    console.log(`DEBUG: Final Total Price: ${totalPrice}`);
     return totalPrice.toFixed(2);
   };
+  
+  useEffect(() => {
+    console.log("DEBUG: useEffect triggered");
+    console.log("Menu Items in useEffect:", menuItems);
+    console.log("Cart Items in useEffect:", cartItems);
+  
+    if (menuItems && Object.keys(cartItems).length > 0) { 
+      const newTotalPrice = calculateTotalPrice();
+      setTotalPrice(newTotalPrice);
+    } else {
+      setTotalPrice(0);
+    }
+  }, [cartItems, menuItems]);
+
+console.log(totalPrice);
   
 
   const toggleCart = () => {

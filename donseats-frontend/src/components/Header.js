@@ -1,8 +1,26 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 import '../styles/Header.css';
 import Cart from './Cart';
+import { AuthContext } from '../services/AuthContext';
+import { signOut } from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
+import app from '../services/firebaseConfig';
 
-const Header = ({ cartItems }) => {
+const auth = getAuth(app);
+const Header = ({ cartItems,menuItems,setCartItems }) => {
+  const { user, loading } = useContext(AuthContext);
+    const navigate = useNavigate(); // Initialize useNavigate
+
+
+    const handleLogout = async () => {
+      try {
+          await signOut(auth);
+          navigate('/login'); // Redirect after logout
+      } catch (error) {
+          console.error("Logout error:", error);
+      }
+  };
   return (
     <header className="header">
       {/* Promo Message */}
@@ -34,9 +52,20 @@ const Header = ({ cartItems }) => {
             <span className="rating-score">3.4</span>
             <p>1,360 reviews</p>
           </div>
-          <Cart cartItems={cartItems} />
+          <Cart cartItems={cartItems} setCartItems={setCartItems} menuItems={menuItems} />
           
-          <button className="login-button">Login/Signup</button>
+          {loading ? (
+              <p>Loading...</p> 
+          ) : user ? ( // User is logged in
+            <div className="user-menu"> {/* Wrap the user info and logout button */}
+              <span className="username">{user.displayName || user.email}</span>
+              <button className="logout-button" onClick={handleLogout}>Logout</button> 
+            </div>
+          ) : ( // User is not logged in
+              <Link to="/login" className="login-button"> {/* Use Link for navigation */}
+                  Login/Signup
+              </Link>
+            )}
         </div>
       </div>
 
