@@ -72,8 +72,7 @@ app.post('/api/addMenuItem', upload.single('image'), async (req, res) => {
 
     stream.on('finish', async () => {
       // Get the public URL of the uploaded file
-      const imageUrl = `https://storage.googleapis.com/${bucket.name}/menuImages/${imageFile.originalname}`;
-
+      const imageUrl = await getDownloadURL(file); 
       // Add menu item details to Firestore
       const newMenuItemDocumentRef = await db.collection('menuItems').add({
         category,

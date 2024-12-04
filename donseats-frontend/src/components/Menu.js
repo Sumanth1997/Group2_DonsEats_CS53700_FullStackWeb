@@ -1,78 +1,94 @@
-import React, { useState,useEffect } from 'react';
-import axios from 'axios';
-import '../styles/Header.css';
-import '../styles/NavBar.css';
-import '../styles/Menu.css';
-import Cart from './Cart';
-// import { menuItems } from './menuItems'; 
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "../styles/Header.css";
+import "../styles/NavBar.css";
+import "../styles/Menu.css";
+import Cart from "./Cart";
+// import { menuItems } from './menuItems';
 
-const Menu = ({ category,cartItems, setCartItems }) => {
+const Menu = ({ category, cartItems, setCartItems }) => {
   const [menuItems, setMenuItems] = useState({}); // Store menu items from backend
   // const [activeCategory, setActiveCategory] = useState({});
   const [loading, setLoading] = useState(true); // For loading state
   const [error, setError] = useState(null); // For error state
   const categories = Object.keys(menuItems); // Get categories dynamically
 
+  useEffect(() => {
+    const updateImageUrls = async () => { // Make this function async
+      if (!menuItems || Object.keys(menuItems).length === 0) {
+        return; // Nothing to update
+      }
+
+      const updatedMenuItems = { ...menuItems }; // Create a copy
+
+      for (const category in updatedMenuItems) {
+        for (const subcategory in updatedMenuItems[category]) {
+          for (const item of updatedMenuItems[category][subcategory]) {
+            console.log(item.imageUrl);
+            if (!item.imageUrl.startsWith('http')) { // Check if it's a local path
+              item.imageUrl = `${item.imageUrl}`; // Prepend /Images/
+            }
+          }
+        }
+      }
+      setMenuItems(updatedMenuItems);
+
+    };
+
+    updateImageUrls(); // Call the async function
+  }, [menuItems]); // Add menuItems as a dependency
 
   useEffect(() => {
-      const fetchMenuItems = async () => {
-          try {
-              const response = await axios.get('http://localhost:5001/api/menuItems');
-              setMenuItems(response.data);
-              setLoading(false); // Set loading to false after data is fetched
+    const fetchMenuItems = async () => {
+      try {
+        const response = await axios.get("http://localhost:5001/api/menuItems");
+        setMenuItems(response.data);
+        setLoading(false); // Set loading to false after data is fetched
+      } catch (error) {
+        console.error("Error fetching menu items:", error);
+        setError(error); // Set error state
+        setLoading(false); // Set loading to false even if there's an error
+      }
+    };
 
-          } catch (error) {
-              console.error("Error fetching menu items:", error);
-              setError(error); // Set error state
-              setLoading(false); // Set loading to false even if there's an error
-
-          }
-      };
-
-      fetchMenuItems();
+    fetchMenuItems();
   }, [category]);
-
-
 
   // const handleCategorySelect = (category) => {
   //     setActiveCategory(category);
   // };
 
-
-
   const handleAddToCart = (itemId) => {
-      setCartItems((prevCartItems) => ({
-          ...prevCartItems,
-          [itemId]: (prevCartItems[itemId] || 0) + 1,
-      }));
+    setCartItems((prevCartItems) => ({
+      ...prevCartItems,
+      [itemId]: (prevCartItems[itemId] || 0) + 1,
+    }));
   };
 
   const handleRemoveFromCart = (itemId) => {
-      setCartItems((prevCartItems) => {
-          if (prevCartItems[itemId] > 1) {
-              return {
-                  ...prevCartItems,
-                  [itemId]: prevCartItems[itemId] - 1,
-              };
-          } else {
-              const { [itemId]: _, ...rest } = prevCartItems;
-              return rest;
-          }
-      });
+    setCartItems((prevCartItems) => {
+      if (prevCartItems[itemId] > 1) {
+        return {
+          ...prevCartItems,
+          [itemId]: prevCartItems[itemId] - 1,
+        };
+      } else {
+        const { [itemId]: _, ...rest } = prevCartItems;
+        return rest;
+      }
+    });
   };
 
-
   if (loading) {
-      return <div>Loading menu items...</div>; // Display loading message
+    return <div>Loading menu items...</div>; // Display loading message
   }
 
   if (error) {
-      return <div>Error: {error.message}</div>; // Display error message
+    return <div>Error: {error.message}</div>; // Display error message
   }
 
   // Safely access items after data is loaded and no error
   const items = menuItems[category] || {};
-
 
   return (
     <div className="app-container">
@@ -83,23 +99,33 @@ const Menu = ({ category,cartItems, setCartItems }) => {
             <div className="menu-items">
               {subItems.map((item, index) => (
                 <div key={index} className="menu-item">
-                  <img src={item.imageUrl} alt={item.title} className="menu-item-image" />
+                  <img
+                  src={item.imageUrl} 
+                  alt={item.title}
+                  className="menu-item-image"
+                  onError={(e) => {
+                    if (e.target.src !== "/images/bonbons.jpg") {
+                      e.target.src = "/images/bonbons.jpg"; 
+                    }
+                  }}
+                />
+
                   <div className="menu-item-details">
                     <h3>{item.title}</h3>
                     <p>{item.description}</p>
                     <span className="menu-item-price">${item.price}</span>
                   </div>
                   <div className="menu-item-actions">
-                    <button 
-                      className="decrement-button" 
-                      onClick={() => handleRemoveFromCart(item.title)} 
-                      disabled={!cartItems[item.title]} 
+                    <button
+                      className="decrement-button"
+                      onClick={() => handleRemoveFromCart(item.title)}
+                      disabled={!cartItems[item.title]}
                     >
                       -
                     </button>
                     <span>{cartItems[item.title] || 0}</span>
-                    <button 
-                      className="increment-button" 
+                    <button
+                      className="increment-button"
                       onClick={() => handleAddToCart(item.title)}
                     >
                       +
@@ -110,7 +136,7 @@ const Menu = ({ category,cartItems, setCartItems }) => {
             </div>
           </div>
         ))}
-       
+
         <section className="info-section">
           <div className="info-box delivery-info">
             <h3>Delivery Information</h3>
@@ -123,12 +149,25 @@ const Menu = ({ category,cartItems, setCartItems }) => {
             <p>Sunday: 8:00 AM–12:00 AM</p>
             <p>Estimated time until delivery: 20 min</p>
           </div>
-          
+
           <div className="info-box contact-info">
             <h3>Contact Information</h3>
-            <p>If you have allergies or other dietary restrictions, please contact the restaurant. The restaurant will provide food-specific information upon request.</p>
+            <p>
+              If you have allergies or other dietary restrictions, please
+              contact the restaurant. The restaurant will provide food-specific
+              information upon request.
+            </p>
             <p>Phone number: +1 (260)-123-4567</p>
-            <p>Website: <a href="https://einsteinbagels.com/" target="_blank" rel="noopener noreferrer">https://einsteinbagels.com/</a></p>
+            <p>
+              Website:{" "}
+              <a
+                href="https://einsteinbagels.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                https://einsteinbagels.com/
+              </a>
+            </p>
           </div>
 
           <div className="info-box operational-times">
@@ -144,7 +183,6 @@ const Menu = ({ category,cartItems, setCartItems }) => {
         </section>
       </section>
     </div>
-    
   );
 };
 
