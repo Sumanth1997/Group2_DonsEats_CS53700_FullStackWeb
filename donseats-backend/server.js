@@ -341,5 +341,140 @@ app.get('/api/feedback/:restaurantId', async (req, res) => {
   }
 });
 
+
+
+app.post('/api/bagelsOrder', async (req, res) => {
+  try {
+    const { userId, items, status, orderPickupTime } = req.body;
+
+    // Generate a unique order ID (you can use various methods like UUIDs)
+    const orderId = generateUniqueId(); //  Implement this function (see below)
+
+    const orderDocRef = await db.collection('bagelsOrder').doc(orderId).set({ // Use doc(orderId) to set ID. Use set instead of add to manually set the doc ID
+      orderId, // Store orderId in document
+      userId,
+      items,
+      status,
+      orderPickupTime,
+      orderTime: admin.firestore.FieldValue.serverTimestamp(),
+    });
+
+
+
+    console.log('Order created with ID:', orderId);
+    res.status(201).json({ message: 'Order placed successfully', orderId: orderId }); // Return orderId in response
+
+  } catch (error) {
+    console.error('Error placing order:', error);
+    res.status(500).json({ error: 'Failed to place order' });
+  }
+});
+
+function generateUniqueId() {
+  // Example using a timestamp + random number (basic example, improve for production)
+  const timestamp = Date.now().toString();
+  const randomNumber = Math.floor(Math.random() * 10000).toString().padStart(4, '0'); // 4-digit random number
+
+  return `${timestamp}-${randomNumber}`;
+
+
+  // Or Consider using UUID library for better uniqueness: npm install uuid
+ // Example:
+  // const { v4: uuidv4 } = require('uuid');
+  // return uuidv4();
+}
+
+
+app.get('/api/bagelsOrder', async (req, res) => {
+  try {
+      const bagelsOrderRef = db.collection('bagelsOrder');
+      const snapshot = await bagelsOrderRef.get();
+
+
+      if (snapshot.empty) {
+          return res.status(200).json([]); // Return empty array if no orders
+
+      }
+
+      const orders = [];
+      snapshot.forEach(doc => {
+
+          orders.push({ orderId: doc.id, ...doc.data() }); // Include the document ID as orderId
+
+
+
+      });
+
+      res.status(200).json(orders);
+  } catch (error) {
+
+      console.error('Error fetching orders:', error);
+      res.status(500).json({ error: 'Failed to fetch orders' });
+
+  }
+
+});
+
+
+
+
+
+app.put('/api/bagelsOrder/:orderId', async (req, res) => {  // New route for updating order status
+  try {
+      const orderId = req.params.orderId;
+      const { status } = req.body;
+
+      const orderRef = db.collection('bagelsOrder').doc(orderId);
+      const doc = await orderRef.get();
+
+
+      if (!doc.exists) {
+          return res.status(404).json({ error: 'Order not found' });
+
+
+      }
+
+      // Update the order document with the new status
+
+      await orderRef.update({ status });
+
+
+
+      console.log(`Order ${orderId} updated to status: ${status}`);
+      res.json({ message: 'Order status updated successfully' });
+  } catch (error) {
+
+      console.error('Error updating order:', error);
+      res.status(500).json({ error: 'Failed to update order' }); // More informative error response
+  }
+
+});
+
+
+app.get('/api/bagelsOrder/user/:userId', async (req, res) => {  // New endpoint to fetch orders by User Id
+  try {
+      const userId = req.params.userId;  // Get userId from the URL
+      const bagelsOrderRef = db.collection('bagelsOrder').where('userId', '==', userId); // Filter by userId
+      const snapshot = await bagelsOrderRef.get();
+
+      if (snapshot.empty) {
+          return res.status(200).json([]); // Or 404 if you prefer to handle as "not found"
+      }
+
+
+      const orders = [];
+      snapshot.forEach(doc => {
+          orders.push({ orderId: doc.id, ...doc.data() });
+      });
+
+
+      res.status(200).json(orders);
+
+  } catch (error) {
+      console.error('Error fetching user orders:', error);
+      res.status(500).json({ error: 'Failed to fetch user orders' }); // Provide details about why it failed.
+  }
+});
+
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

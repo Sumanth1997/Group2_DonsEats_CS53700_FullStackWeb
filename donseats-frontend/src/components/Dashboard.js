@@ -14,6 +14,8 @@ const Dashboard = () => {
   const { user } = useContext(AuthContext);
 
   const [pendingOrders, setPendingOrders] = useState([]);
+  const [orderStatuses, setOrderStatuses] = useState({}); // Store order statuses
+
   const [imageUpload, setImageUpload] = useState(null);
   const categories = [
     "Egg Sandwiches",
@@ -209,7 +211,9 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchFeedback = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/api/feedback/einstein_bagels"); // Fetch feedback for the specific restaurant
+        const response = await axios.get(
+          "http://localhost:5001/api/feedback/einstein_bagels"
+        ); // Fetch feedback for the specific restaurant
         setFeedback(response.data);
       } catch (error) {
         console.error("Error fetching feedback:", error);
@@ -220,26 +224,104 @@ const Dashboard = () => {
     fetchFeedback();
   }, []);
 
+  useEffect(() => {
+    const fetchPendingOrders = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5001/api/bagelsOrder"
+        ); // New API endpoint (see server.js update below)
+        if (response.status === 200) {
+          const ordersWithInitialStatus = response.data.map((order) => ({
+            ...order,
+            status: order.status || "New", // Set initial status if not present
+          }));
+          setPendingOrders(ordersWithInitialStatus);
+
+          // Create an initial status object
+          const initialStatuses = {};
+          ordersWithInitialStatus.forEach((order) => {
+            initialStatuses[order.orderId] = order.status;
+          });
+          setOrderStatuses(initialStatuses);
+        } else {
+          console.error(
+            "Error fetching orders:",
+            response.status,
+            response.statusText
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching pending orders:", error);
+        // ... handle error (e.g., display an error message)
+      }
+    };
+
+    fetchPendingOrders();
+  }, []);
+
+  const handleUpdateOrderStatus = async (orderId, newStatus) => {
+    try {
+      await axios.put(`http://localhost:5001/api/bagelsOrder/${orderId}`, {
+        status: newStatus,
+      }); // New API endpoint for updates
+
+      // Update the order status in the local state:
+      setOrderStatuses((prevStatuses) => ({
+        ...prevStatuses,
+        [orderId]: newStatus,
+      }));
+
+      setPendingOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order.orderId === orderId ? { ...order, status: newStatus } : order
+        )
+      );
+
+      alert("Order status updated successfully!");
+    } catch (error) {
+      console.error("Error updating order status:", error);
+      alert("Error updating order status: " + error.message);
+    }
+  };
+
   return (
     <div className="dashboard">
       {/* Pending Orders Section */}
       <section className="orders-section">
-        {" "}
-        {/* Added a className here */}
         <h2>Pending Orders</h2>
         <ul>
           {pendingOrders.map((order) => (
-            <li key={order.id}>
-              {/* Display order details */}
-              <p>Order ID: {order.id}</p>
-              <p>Items: {JSON.stringify(order.cartItems)}</p>{" "}
-              {/* Assuming cartItems is stored directly in the order */}
-              {/* Display other details like order time, etc. */}
-              <p>Customer: {order.orderBy}</p>
-              <button onClick={() => navigate(`/order/${order.id}`)}>
-                View Details
-              </button>{" "}
-              {/* Navigate to specific order */}
+            <li key={order.orderId}>
+              <p>Order ID: {order.orderId}</p>
+
+              <p>
+                Items:
+                {Object.entries(order.items).map(([itemName, quantity]) => (
+                  <span key={itemName}>
+                    {itemName} x {quantity}
+                    <br />
+                  </span>
+                ))}
+              </p>
+
+              {/* ... other order details ... */}
+
+              <div>
+                <p>Current Status: {orderStatuses[order.orderId] || "New"}</p>{" "}
+                {/* Display status, default to 'New' */}
+                <select
+                  value={orderStatuses[order.orderId] || "New"}
+                  onChange={(e) =>
+                    handleUpdateOrderStatus(order.orderId, e.target.value)
+                  }
+                >
+                  <option value="New">New</option>
+                  <option value="Accepted">Accepted</option>
+                  <option value="Cancelled">Cancelled</option>
+                  <option value="Ready for Pickup">Ready for Pickup</option>
+                  <option value="Ready for Pickup">Completed</option>
+                </select>
+              </div>
             </li>
           ))}
         </ul>
@@ -390,21 +472,22 @@ const Dashboard = () => {
       {/* Reviews Section */}
       <section className="reviews-section">
         <h2>Feedback</h2>
-        <ul> {/* Use a list to display feedback */}
-            {feedback.map(feedbackItem => (
-                <li key={feedbackItem.id}>
-                    <p>{feedbackItem.feedback}</p>
-                    {/* Display other feedback details (user ID, timestamp, etc.) as needed */}
-                      <p>Feedback By: {feedbackItem.username}</p>
-                      {/* <p>
+        <ul>
+          {" "}
+          {/* Use a list to display feedback */}
+          {feedback.map((feedbackItem) => (
+            <li key={feedbackItem.id}>
+              <p>{feedbackItem.feedback}</p>
+              {/* Display other feedback details (user ID, timestamp, etc.) as needed */}
+              <p>Feedback By: {feedbackItem.username}</p>
+              {/* <p>
                           Feedback At:{' '}
                           {feedbackItem.timestamp
                               ? feedbackItem.timestamp.toDate().toLocaleString()
                               : 'N/A'}
                       </p> */}
-
-                </li>
-            ))}
+            </li>
+          ))}
         </ul>
       </section>
     </div>

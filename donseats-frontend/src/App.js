@@ -13,6 +13,9 @@ import Dashboard from './components/Dashboard';
 import { useContext } from 'react'; 
 import axios from 'axios'; 
 import NavBar from './components/NavBar';
+import Checkout from './components/Checkout';
+import OrderConfirmation from './components/OrderConfirmation';
+import TrackOrder from './components/TrackOrder'; 
 
 import './styles/App.css'; 
 
@@ -51,6 +54,9 @@ const App = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/checkout" element={<Checkout />} /> 
+          <Route path="/orderConfirmation" element={<OrderConfirmation />} />
+          <Route path='/trackOrder' element={<TrackOrder />} /> 
           {/* <Route
       path="/dashboard"
       element={

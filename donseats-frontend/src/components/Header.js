@@ -21,6 +21,9 @@ const Header = ({ cartItems,menuItems,setCartItems }) => {
           console.error("Logout error:", error);
       }
   };
+  const navigateToTrackOrder = () => {
+    navigate('/trackOrder'); // Navigate to /trackOrder when button is clicked
+  };
   return (
     <header className="header">
       {/* Promo Message */}
@@ -37,7 +40,7 @@ const Header = ({ cartItems,menuItems,setCartItems }) => {
           <a href="#">Home</a>
           <a href="#">Special Offers</a>
           <a href="#">Restaurants</a>
-          <a href="#">Track Order</a>
+          <a href="#" onClick={navigateToTrackOrder}>Track Order</a> 
         </nav>
 
         {/* Restaurant Information */}
