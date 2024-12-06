@@ -1,48 +1,41 @@
-import React, { useState,useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../services/AuthContext'; 
 import { signOut } from 'firebase/auth'; 
 import { getAuth } from 'firebase/auth';
 import './../styles/HomePage.css';
 import app from '../services/firebaseConfig';
+
 const auth = getAuth(app);
 
 const restaurants = [
-  { id: 2, title: "Don's at Walb", link: "/restaurants/dons-at-walb", image: "donsatwalb.jpg" },
-  { id: 3, title: "Java Spot", link: "/restaurants/starbucks-java-spot", image: "starbucks.png" },
-  { id: 4, title: "Einstein Bros.", link: "/restaurants/einstein-bros-bagels", image: "einstienbros.png" },
-  { id: 5, title: "Bon Bon's Coffee", link: "/restaurants/bon-bons-coffee", image: "bonbons.png" },
-  { id: 6, title: "Jimmy Johns", link: "/restaurants/jimmy-johns", image: "jimmyjohns.png" },
+  { id: 2, title: "Don's at Walb", link: "/DonsAtWalbMenu", image: "donsatwalb.jpg" },
+  { id: 3, title: "Java Spot", link: "/JavaSpotMenu", image: "starbucks.png" }, // Adjusted path
+  { id: 4, title: "Einstein Bros.", link: "/menu", image: "einstienbros.png" },
+  { id: 5, title: "Bon Bon's Coffee", link: "/bonsmenu", image: "bonbons.png" },
+  { id: 6, title: "Jimmy Johns", link: "/jimmy-johns", image: "jimmyjohns.png" },
 ];
 
 const HomePage = () => {
-  const [selectedCategory, setSelectedCategory] = useState('Egg Sandwiches');
-  const [bonsSelectedCategory, setBonsSelectedCategory] = useState('Coffee & Espresso'); // Default for Bon Bon's
-  const [cartItems, setCartItems] = useState({});
   const { user, loading } = useContext(AuthContext);
-    
   const navigate = useNavigate();
-  
 
   const handleRestaurantClick = (restaurant) => {
-    if (restaurant.title === "Einstein Bros.") {
-      navigate('/menu', { state: { restaurant, selectedCategory, cartItems } });
-    } else if (restaurant.title === "Bon Bon's Coffee") {
-      navigate('/bonsmenu', { state: { restaurant, bonsSelectedCategory, cartItems } });
-    }
+    navigate(restaurant.link); // Navigate to respective restaurant link
   };
-  
+
   const handleLoginRedirect = () => {
     navigate('/login'); // Redirect to the login page
   };
+
   const handleLogout = async () => {
     try {
-        await signOut(auth);
-        navigate('/login'); // Redirect to login after logout
+      await signOut(auth);
+      navigate('/login'); // Redirect to login after logout
     } catch (error) {
-        console.error("Logout error:", error);
+      console.error("Logout error:", error);
     }
-};
+  };
 
   return (
     <div className="homepage">
@@ -60,23 +53,21 @@ const HomePage = () => {
             <li>Restaurants</li>
             <li>Track Order</li>
             <li>
-                            {loading ? ( // Show loading message while checking user status
-                                <p>Loading...</p>
-                            ) : user ? ( // User is logged in
-                                <div className="user-menu"> {/* Container for dropdown */}
-                                    <button className="username-btn">
-                                        Welcome, {user.displayName || user.email}!
-                                    </button>
-                                    <ul className="user-dropdown"> {/* Dropdown content */}
-                                        <li onClick={() => navigate('/orders')}>My Orders</li> {/* Navigate to orders page */}
-                                        <li onClick={handleLogout}>Logout</li>
-                                    </ul>
-                                </div>
-                            ) : ( // User is not logged in
-                                <button className="login-btn" onClick={handleLoginRedirect}>Login/Signup</button>
-                            )}
-                        </li>
-                        </ul>
+              {loading ? (
+                <p>Loading...</p>
+              ) : user ? (
+                <div className="user-menu">
+                  <button className="username-btn">Welcome, {user.displayName || user.email}!</button>
+                  <ul className="user-dropdown">
+                    <li onClick={() => navigate('/orders')}>My Orders</li>
+                    <li onClick={handleLogout}>Logout</li>
+                  </ul>
+                </div>
+              ) : (
+                <button className="login-btn" onClick={handleLoginRedirect}>Login/Signup</button>
+              )}
+            </li>
+          </ul>
         </nav>
       </header>
 
@@ -95,8 +86,8 @@ const HomePage = () => {
         </div>
       </section>
 
-       {/* Popular Restaurants */}
-       <section className="popular-restaurants">
+      {/* Popular Restaurants */}
+      <section className="popular-restaurants">
         <h3>Popular Restaurants</h3>
         <div className="restaurant-grid">
           {restaurants.map((restaurant) => (

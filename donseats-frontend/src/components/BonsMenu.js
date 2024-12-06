@@ -1,9 +1,14 @@
-import React from 'react';
-import { bonsMenuItems } from './bonsMenuItems'; 
-import '../styles/Menu.css';
+import React, { useState } from 'react';
+import '../styles/ExploreMenu.css'; // Styling for category scrolling
+import '../styles/FoodDisplay.css'; // Styling for menu items
+import { bonsMenuItems } from './bonsMenuItems'; // Import Bon Bon's menu data
 
-const BonsMenu = ({ category, cartItems, setCartItems }) => {
-  const items = bonsMenuItems[category] || {};
+const BonsMenu = ({ cartItems, setCartItems }) => {
+  const [activeCategory, setActiveCategory] = useState(Object.keys(bonsMenuItems)[0]);
+
+  const handleCategoryClick = (category) => {
+    setActiveCategory(category);
+  };
 
   const handleAddToCart = (itemId) => {
     setCartItems((prevCartItems) => ({
@@ -27,73 +32,84 @@ const BonsMenu = ({ category, cartItems, setCartItems }) => {
   };
 
   return (
-    <section className="menu-section">
-      {Object.entries(items).map(([subcategory, subItems]) => (
-        <div key={subcategory} className="menu-category">
-          <h2>{subcategory}</h2>
-          <div className="menu-items">
-            {subItems.map((item, index) => (
-              <div key={index} className="menu-item">
-                <img src={item.imageUrl} alt={item.title} className="menu-item-image" />
-                <div className="menu-item-details">
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
-                  <span className="menu-item-price">${item.price}</span>
-                </div>
-                <div className="menu-item-actions">
-                  <button 
-                    className="decrement-button" 
-                    onClick={() => handleRemoveFromCart(item.title)} 
-                    disabled={!cartItems[item.title]} 
-                  >
-                    -
-                  </button>
-                  <span>{cartItems[item.title] || 0}</span>
-                  <button 
-                    className="increment-button" 
-                    onClick={() => handleAddToCart(item.title)}
-                  >
-                    +
-                  </button>
-                </div>
+    <div className="bons-menu-page">
+      {/* Explore Menu: Category Scroller */}
+      <div className="explore-menu">
+        <h1>Bon Bon's Coffee Menu</h1>
+        <div className="explore-menu-list">
+          {Object.keys(bonsMenuItems).map((category) => (
+            <div
+              key={category}
+              className={`explore-menu-list-item ${
+                activeCategory === category ? 'active' : ''
+              }`}
+              onClick={() => handleCategoryClick(category)}
+            >
+              <img
+                src={`/images/${category.toLowerCase()}.png`} // Dynamic category images
+                alt={category}
+                className={`menu-category-img ${
+                  activeCategory === category ? 'highlighted' : ''
+                }`}
+              />
+              <p>{category}</p>
+            </div>
+          ))}
+        </div>
+        <hr />
+      </div>
+
+      {/* Food Display: Menu Items */}
+      <div className="food-display">
+        <h2>{activeCategory}</h2>
+        {bonsMenuItems[activeCategory] &&
+          Object.entries(bonsMenuItems[activeCategory]).map(([subcategory, items]) => (
+            <div key={subcategory} className="menu-category">
+              <h3>{subcategory}</h3>
+              <div className="food-display-list">
+                {items.map((item, index) => (
+                  <div key={index} className="menu-item">
+                    <img
+                      src={item.imageUrl}
+                      alt={item.title}
+                      className="menu-item-image"
+                      onError={(e) => {
+                        if (e.target.src !== '/images/placeholder.jpg') {
+                          e.target.src = '/images/placeholder.jpg'; // Fallback image
+                        }
+                      }}
+                    />
+                    <div className="menu-item-details">
+                      <h4>{item.title}</h4>
+                      <p>{item.description}</p>
+                      <p className="menu-item-price">
+                        <strong>${item.price}</strong>
+                      </p>
+                      {/* Cart Actions */}
+                      <div className="menu-item-actions">
+                        <button
+                          className="decrement-button"
+                          onClick={() => handleRemoveFromCart(item.title)}
+                          disabled={!cartItems[item.title]}
+                        >
+                          -
+                        </button>
+                        <span>{cartItems[item.title] || 0}</span>
+                        <button
+                          className="increment-button"
+                          onClick={() => handleAddToCart(item.title)}
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
-      ))}
-
-      <section className="info-section">
-        <div className="info-box delivery-info">
-          <h3>Delivery Information</h3>
-          <p>Monday: 12:00 AM–3:00 AM, 8:00 AM–3:00 AM</p>
-          <p>Tuesday: 8:00 AM–3:00 AM</p>
-          <p>Wednesday: 8:00 AM–3:00 AM</p>
-          <p>Thursday: 8:00 AM–3:00 AM</p>
-          <p>Friday: 8:00 AM–3:00 AM</p>
-          <p>Saturday: 8:00 AM–3:00 AM</p>
-          <p>Sunday: 8:00 AM–12:00 AM</p>
-          <p>Estimated time until delivery: 20 min</p>
-        </div>
-        
-        <div className="info-box contact-info">
-          <h3>Contact Information</h3>
-          <p>If you have allergies or other dietary restrictions, please contact the restaurant. The restaurant will provide food-specific information upon request.</p>
-          <p>Phone number: +1 (260)-123-4567</p>
-          <p>Website: <a href="https://bonbonscoffee.com/" target="_blank" rel="noopener noreferrer">https://bonbonscoffee.com/</a></p>
-        </div>
-
-        <div className="info-box operational-times">
-          <h3>Operational Times</h3>
-          <p>Monday: 8:00 AM–3:00 AM</p>
-          <p>Tuesday: 8:00 AM–3:00 AM</p>
-          <p>Wednesday: 8:00 AM–3:00 AM</p>
-          <p>Thursday: 8:00 AM–3:00 AM</p>
-          <p>Friday: 8:00 AM–3:00 AM</p>
-          <p>Saturday: 8:00 AM–3:00 AM</p>
-          <p>Sunday: 8:00 AM–3:00 AM</p>
-        </div>
-      </section>
-    </section>
+            </div>
+          ))}
+      </div>
+    </div>
   );
 };
 
