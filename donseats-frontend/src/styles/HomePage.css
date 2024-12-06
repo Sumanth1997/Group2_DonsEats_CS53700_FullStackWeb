@@ -1,85 +1,119 @@
 .homepage {
   font-family: Arial, sans-serif;
   color: #333;
+  /* Promo Section */
+  /* Main Header Content */
+  /* Logo */
+  /* Right Section (for links and user menu) */
+  /* Navigation Links */
+  /* User Menu */
+  /* Other sections... */
 }
-.homepage__header {
-  background-color: #fff;
+.homepage .homepage__header {
+  width: 100%;
   border-bottom: 1px solid #ddd;
 }
-.homepage__header .header__promo {
-  background-color: #f9f9f9;
-  padding: 10px;
+.homepage .header__promo {
+  background-color: #f8f8f8;
   text-align: center;
+  padding: 5px 0;
   font-size: 0.9rem;
-  color: #888;
+  color: #333;
 }
-.homepage__header .header__promo .promo__link {
-  color: #e67e22;
+.homepage .header__promo .promo__link {
   font-weight: bold;
+  color: #e67e22;
+  cursor: pointer;
 }
-.homepage__header .header__nav {
+.homepage .header__content {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
 }
-.homepage__header .header__nav .logo {
+.homepage .header__logo .logo {
   font-size: 1.5rem;
   font-weight: bold;
   color: #e67e22;
 }
-.homepage__header .header__nav .nav__links {
+.homepage .header_right {
   display: flex;
-  gap: 20px;
+  align-items: center;
+  justify-content: space-between; /* Ensure space between all items */
+  gap: 40px; /* Space between elements in the header_right section */
 }
-.homepage__header .header__nav .nav__links li {
+.homepage .header__links nav .nav__links {
+  display: flex;
+  gap: 40px; /* Space between list items */
   list-style: none;
-  cursor: pointer;
+  margin: 0;
+  padding: 0;
 }
-.homepage__header .header__nav .login-btn {
-  background-color: #e67e22;
-  color: #fff;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 4px;
+.homepage .header__links nav .nav__links li {
   cursor: pointer;
-}
-.homepage .homepage {
-  font-family: Arial, sans-serif;
+  font-size: 1rem;
   color: #333;
-  /* Other sections */
 }
-.homepage .homepage__hero {
+.homepage .header__links nav .nav__links li:hover {
+  color: #e67e22;
+}
+.homepage .header__user {
+  display: flex; /* Keep it in a row */
+  gap: 20px; /* Space between login button and other user menu items */
+}
+.homepage .header__user .login-btn, .homepage .header__user .username-btn {
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #e67e22;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+.homepage .header__user .login-btn:hover, .homepage .header__user .username-btn:hover {
+  background-color: #cf6d1a;
+}
+.homepage .content__image {
+  flex: 1;
+  text-align: center;
+}
+.homepage .content__image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+.homepage__hero {
   display: flex;
-  align-items: center; /* Center content vertically */
-  justify-content: center; /* Center content horizontally */
-  min-height: 80vh; /* Make the hero section take 80% of the viewport height */
-  padding: 0 20px; /* Reduce vertical padding */
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  padding: 0 20px;
   background-color: #f0f0f0;
   text-align: center;
 }
-.homepage .homepage__hero .hero__content {
+.homepage__hero .hero__content {
   flex: 1;
-  max-width: 500px; /* Limit width for better centering */
+  max-width: 500px;
   padding: 20px;
   text-align: left;
 }
-.homepage .homepage__hero .hero__content h1 {
+.homepage__hero .hero__content h1 {
   font-size: 2.5rem;
   color: #333;
   margin-bottom: 10px;
 }
-.homepage .homepage__hero .hero__content .hero__search {
+.homepage__hero .hero__content .hero__search {
   margin-top: 15px;
   display: flex;
 }
-.homepage .homepage__hero .hero__content .hero__search input {
+.homepage__hero .hero__content .hero__search input {
   flex: 1;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px 0 0 4px;
 }
-.homepage .homepage__hero .hero__content .hero__search button {
+.homepage__hero .hero__content .hero__search button {
   padding: 10px 20px;
   border: none;
   background-color: #e67e22;
@@ -87,44 +121,17 @@
   border-radius: 0 4px 4px 0;
   cursor: pointer;
 }
-.homepage .homepage__hero .hero__image {
+.homepage__hero .hero__image {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  max-height: 100%; /* Adjust to avoid excessive spacing */
 }
-.homepage .homepage__hero .hero__image img {
-  max-width: 80%; /* Control image width */
+.homepage__hero .hero__image img {
+  max-width: 80%;
   height: auto;
 }
-.homepage__popular-restaurants {
-  padding: 20px;
-}
-.homepage__popular-restaurants h2 {
-  font-size: 1.8rem;
-  color: #333;
-  text-align: center;
-}
-.homepage__popular-restaurants .restaurants__grid {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-.homepage__popular-restaurants .restaurants__grid .restaurant__card {
-  width: 150px;
-  text-align: center;
-}
-.homepage__popular-restaurants .restaurants__grid .restaurant__card img {
-  width: 100%;
-  border-radius: 8px;
-}
-.homepage .homepage {
-  font-family: Arial, sans-serif;
-  color: #333;
-}
-.homepage .homepage__footer {
+.homepage__footer {
   background-color: #333;
   color: #fff;
   padding: 20px;
@@ -152,10 +159,13 @@
 }
 .homepage .footer__stats div span {
   font-size: 1rem;
-  color: #fff;
   display: block;
   font-weight: bold;
   margin-top: 5px;
+}
+.homepage .footer__stats .fo_stats {
+  display: flex;
+  gap: 12rem;
 }
 @media (max-width: 768px) {
   .homepage .footer__stats {
