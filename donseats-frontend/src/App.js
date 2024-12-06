@@ -5,8 +5,6 @@ import HomePage from './components/HomePage';
 import Signup from './components/Signup';
 import Menu from './components/Menu';
 import BonsMenu from './components/BonsMenu';
-import Header from './components/Header';
-import BonsHeader from './components/BonsHeader';
 import BonsNavBar from './components/BonsNavBar';
 import { AuthProvider } from './services/AuthContext'; 
 import { AuthContext } from './services/AuthContext'; 
@@ -18,7 +16,8 @@ import NavBar from './components/NavBar';
 import Checkout from './components/Checkout';
 import OrderConfirmation from './components/OrderConfirmation';
 import TrackOrder from './components/TrackOrder'; 
-
+import RestaurantsHeader from './components/RestaurantsHeader';
+import RestaurantsData  from './data/Restaurants';
 import './styles/App.css'; 
 import { bonsMenuItems } from './components/bonsMenuItems';
 
@@ -71,11 +70,12 @@ const App = () => {
         </PrivateRoute>
       }
     /> */}
+          {/* Example for Einstein Bros. */}
           <Route 
-            path="/menu" 
+            path="/EinsteinBros" 
             element={
               <> 
-                <Header cartItems={einsteinCartItems} setCartItems={setEinsteinCartItems} menuItems={menuItems} />
+                <RestaurantsHeader cartItems={einsteinCartItems} setCartItems={setEinsteinCartItems} menuItems={menuItems} restaurant={RestaurantsData["Einstein Bros."]} />
                 <NavBar onCategorySelect={setActiveCategory} activeCategory={activeCategory} />
                 <Menu category={activeCategory} cartItems={einsteinCartItems} setCartItems={setEinsteinCartItems} />
               </>
@@ -85,7 +85,8 @@ const App = () => {
             path="/bonsmenu" 
             element={
               <> 
-                <Header cartItems={bonsCartItems} setCartItems={setBonsCartItems} menuItems={bonsMenuItems} />
+                {/* <Header cartItems={bonsCartItems} setCartItems={setBonsCartItems} menuItems={bonsMenuItems} /> */}
+                <RestaurantsHeader cartItems={bonsCartItems} setCartItems={setBonsCartItems} menuItems={bonsMenuItems} restaurant={RestaurantsData["Bon Bon's Coffee"]} />
                 <BonsNavBar onCategorySelect={setBonsSelectedCategory} activeCategory={bonsSelectedCategory} />
                 <BonsMenu category={bonsSelectedCategory} cartItems={bonsCartItems} setCartItems={setBonsCartItems} />
               </>

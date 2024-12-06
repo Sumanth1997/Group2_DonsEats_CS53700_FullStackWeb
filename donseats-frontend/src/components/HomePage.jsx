@@ -5,6 +5,7 @@ import { signOut } from 'firebase/auth';
 import { getAuth } from 'firebase/auth';
 import './../styles/HomePage.css';
 import app from '../services/firebaseConfig';
+
 const auth = getAuth(app);
 
 const restaurants = [
@@ -25,7 +26,7 @@ const HomePage = () => {
 
   const handleRestaurantClick = (restaurant) => {
     if (restaurant.title === "Einstein Bros.") {
-      navigate('/menu', { state: { restaurant, selectedCategory, cartItems } });
+      navigate('/EinsteinBros', { state: { restaurant, selectedCategory, cartItems } });
     } else if (restaurant.title === "Bon Bon's Coffee") {
       navigate('/bonsmenu', { state: { restaurant, bonsSelectedCategory, cartItems } });
     }

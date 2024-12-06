@@ -5,15 +5,13 @@
 }
 .cart-container .cart-button {
   background-color: green;
-  color: white;
+  margin-left: 15px;
+  padding: 8px 16px;
+  color: #fff;
   border: none;
-  padding: 12px 20px;
-  font-size: 16px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: left;
-  transition: background-color 0.2s ease;
-  border-radius: 5px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
 }
 .cart-container .cart-button:hover {
   background-color: darkgreen;
@@ -26,35 +24,69 @@
   position: absolute;
   top: 100%;
   right: 0;
-  background-color: white;
-  border: 1px solid #ccc;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   z-index: 10;
   display: none;
-  min-width: 250px;
+  min-width: 280px;
+  padding: 15px;
+  transition: all 0.3s ease;
+  margin-top: 6px;
 }
 .cart-container .cart-dropdown h2 {
-  font-size: 1.2em;
-  margin-bottom: 10px;
+  font-size: 1.3em;
+  color: #333;
+  margin-bottom: 12px;
+  font-weight: 600;
+  border-bottom: 2px solid #f1f1f1;
+  padding-bottom: 10px;
 }
 .cart-container .cart-dropdown ul {
   list-style: none;
   padding: 0;
+  margin: 0;
   margin-bottom: 15px;
 }
 .cart-container .cart-dropdown li {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 8px;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #555;
+  padding: 6px 0;
+  transition: background-color 0.3s ease;
+}
+.cart-container .cart-dropdown li:hover {
+  background-color: #f9f9f9;
+  cursor: pointer;
 }
 .cart-container .cart-dropdown .cart-total {
-  border-top: 1px solid #eee;
-  padding-top: 10px;
-  margin-top: 10px;
-  font-weight: bold;
+  border-top: 1px solid #f1f1f1;
+  padding-top: 12px;
+  margin-top: 12px;
+  font-weight: 700;
   text-align: right;
+  font-size: 1.1em;
+  color: #333;
+}
+.cart-container .cart-dropdown .checkout-button {
+  background-color: green;
+  color: white;
+  padding: 8px 20px;
+  font-size: 1.1em;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
+  margin-top: 15px;
+}
+.cart-container .cart-dropdown .checkout-button:hover {
+  background-color: darkgreen;
 }
 .cart-container.show .cart-dropdown {
   display: block;
