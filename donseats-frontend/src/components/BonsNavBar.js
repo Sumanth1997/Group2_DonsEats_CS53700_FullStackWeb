@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../styles/NavBar.css';
 
 const BonsNavBar = ({ onCategorySelect }) => {
-  const categories = ['Egg Sandwiches', 'Signature Lunch', 'Beverages', 'Espresso'];
+  const categories = ['Coffee & Espresso', 'Refreshers', 'Smoothies', 'Shakes'];
   const [activeCategory, setActiveCategory] = useState(categories[0]); // Set the initial active category
 
   const handleCategorySelect = (category) => {

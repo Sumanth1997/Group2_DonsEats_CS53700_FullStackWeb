@@ -7,9 +7,11 @@ import Menu from './components/Menu';
 import BonsMenu from './components/BonsMenu';
 import Header from './components/Header';
 import BonsHeader from './components/BonsHeader';
+import BonsNavBar from './components/BonsNavBar';
 import { AuthProvider } from './services/AuthContext'; 
 import { AuthContext } from './services/AuthContext'; 
 import Dashboard from './components/Dashboard';
+import BonsDashboard from './components/BonsDashboard';
 import { useContext } from 'react'; 
 import axios from 'axios'; 
 import NavBar from './components/NavBar';
@@ -18,12 +20,15 @@ import OrderConfirmation from './components/OrderConfirmation';
 import TrackOrder from './components/TrackOrder'; 
 
 import './styles/App.css'; 
+import { bonsMenuItems } from './components/bonsMenuItems';
 
 const App = () => {
-  const [selectedCategory, setSelectedCategory] = useState('Egg Sandwiches');
+  // const [selectedCategory, setSelectedCategory] = useState('Egg Sandwiches');
   const [activeCategory, setActiveCategory] = useState('Egg Sandwiches');
   const [bonsSelectedCategory, setBonsSelectedCategory] = useState('Coffee & Espresso');
-  const [cartItems, setCartItems] = useState({});
+  const [einsteinCartItems, setEinsteinCartItems] = useState({});  // Einstein's cart
+  const [bonsCartItems, setBonsCartItems] = useState({});        // Bon Bon's cart
+
   const PrivateRoute = ({ element, ...rest }) => {
     const { user } = useContext(AuthContext);
     return user ? element : <Navigate to="/login" />; // Redirect to login if no user
@@ -54,6 +59,7 @@ const App = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/bonsdashboard" element={<BonsDashboard />} />
           <Route path="/checkout" element={<Checkout />} /> 
           <Route path="/orderConfirmation" element={<OrderConfirmation />} />
           <Route path='/trackOrder' element={<TrackOrder />} /> 
@@ -69,9 +75,9 @@ const App = () => {
             path="/menu" 
             element={
               <> 
-                <Header cartItems={cartItems} setCartItems={setCartItems} menuItems={menuItems} />
+                <Header cartItems={einsteinCartItems} setCartItems={setEinsteinCartItems} menuItems={menuItems} />
                 <NavBar onCategorySelect={setActiveCategory} activeCategory={activeCategory} />
-                <Menu category={activeCategory} cartItems={cartItems} setCartItems={setCartItems} />
+                <Menu category={activeCategory} cartItems={einsteinCartItems} setCartItems={setEinsteinCartItems} />
               </>
             } 
           />
@@ -79,8 +85,9 @@ const App = () => {
             path="/bonsmenu" 
             element={
               <> 
-                <BonsHeader cartItems={cartItems} /> 
-                <BonsMenu category={bonsSelectedCategory} cartItems={cartItems} setCartItems={setCartItems} />
+                <Header cartItems={bonsCartItems} setCartItems={setBonsCartItems} menuItems={bonsMenuItems} />
+                <BonsNavBar onCategorySelect={setBonsSelectedCategory} activeCategory={bonsSelectedCategory} />
+                <BonsMenu category={bonsSelectedCategory} cartItems={bonsCartItems} setCartItems={setBonsCartItems} />
               </>
             } 
           />

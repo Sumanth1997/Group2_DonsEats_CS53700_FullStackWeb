@@ -8,11 +8,10 @@ import app from '../services/firebaseConfig';
 const auth = getAuth(app);
 
 const restaurants = [
-  { id: 2, title: "Don's at Walb", link: "/restaurants/dons-at-walb", image: "donsatwalb.jpg" },
-  { id: 3, title: "Java Spot", link: "/restaurants/starbucks-java-spot", image: "starbucks.png" },
-  { id: 4, title: "Einstein Bros.", link: "/restaurants/einstein-bros-bagels", image: "einstienbros.png" },
-  { id: 5, title: "Bon Bon's Coffee", link: "/restaurants/bon-bons-coffee", image: "bonbons.png" },
-  { id: 6, title: "Jimmy Johns", link: "/restaurants/jimmy-johns", image: "jimmyjohns.png" },
+  { id: 1, title: "Don's at Walb", link: "/restaurants/dons-at-walb", image: "donsatwalb.jpg" },
+  { id: 2, title: "Java Spot", link: "/restaurants/starbucks-java-spot", image: "starbucks.png" },
+  { id: 3, title: "Einstein Bros.", link: "/restaurants/einstein-bros-bagels", image: "einstienbros.png" },
+  { id: 4, title: "Bon Bon's Coffee", link: "/restaurants/bon-bons-coffee", image: "bonbons.png" },
 ];
 
 const HomePage = () => {

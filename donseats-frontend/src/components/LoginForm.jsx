@@ -36,12 +36,20 @@ const Login = () => {
           if (docSnap.exists()) {
               const userData = docSnap.data();
               user.role = userData.role; // Add role to the user object
+              user.restaurant = userData.restaurant;
               setUser(user); // Set user in context (including role)
 
 
               // Now navigate based on the role
               if (user.role === 'restaurantOwner') {
+                if (user.restaurant === 'Bon Bons')
+                {
+                  navigate('/bonsdashboard');
+                }
+                else{
                   navigate('/dashboard');
+                }
+                  
               } else {
                   navigate('/');
               }

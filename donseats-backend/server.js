@@ -54,7 +54,37 @@ app.get("/api/menuItems", async (req, res) => {
   }
 });
 
-app.post("/api/addMenuItem", upload.single("image"), async (req, res) => {
+app.get("/api/bonsMenuItems", async (req, res) => {
+  // Async route handler
+  console.log("Received request for /api/bonsMenuItems");
+  try {
+    const menuItemsCollection = db.collection("bonsMenuItems"); // Use db directly
+    const menuItemsSnapshot = await menuItemsCollection.get(); // Use get() on collection
+
+    const menuItemsData = [];
+    menuItemsSnapshot.forEach((doc) => {
+      menuItemsData.push({ id: doc.id, ...doc.data() });
+    });
+
+    const formattedData = {};
+    menuItemsData.forEach((item) => {
+      if (!formattedData[item.category]) {
+        formattedData[item.category] = {};
+      }
+      if (!formattedData[item.category][item.subcategory]) {
+        formattedData[item.category][item.subcategory] = [];
+      }
+      formattedData[item.category][item.subcategory].push(item);
+    });
+
+    res.json(formattedData);
+  } catch (error) {
+    console.error("Error fetching menu items: ", error);
+    res.status(500).send("Error fetching data"); // Send error to the client
+  }
+});
+
+app.post("/api/bonsAddMenuItem", upload.single("image"), async (req, res) => {
   try {
     const { category, subcategory, title, price, description } = req.body;
     const imageFile = req.file;
@@ -78,7 +108,7 @@ app.post("/api/addMenuItem", upload.single("image"), async (req, res) => {
       // Get the public URL of the uploaded file
       const imageUrl = await getDownloadURL(file);
       // Add menu item details to Firestore
-      const newMenuItemDocumentRef = await db.collection("menuItems").add({
+      const newMenuItemDocumentRef = await db.collection("bonsMenuItems").add({
         category,
         subcategory,
         title,
@@ -136,13 +166,45 @@ app.get("/api/menuItems/updates", async (req, res) => {
   });
 });
 
-app.delete("/api/deleteMenuItem/:title", async (req, res) => {
+app.get("/api/bonsMenuItems/updates", async (req, res) => {
+  res.writeHead(200, {
+    "Content-Type": "text/event-stream",
+    "Cache-Control": "no-cache",
+    Connection: "keep-alive",
+  });
+
+  const unsubscribe = db.collection("bonsMenuItems").onSnapshot((snapshot) => {
+    const changes = snapshot.docChanges();
+
+    if (changes.length > 0) {
+      const menuItemsData = [];
+      snapshot.forEach((doc) => {
+        menuItemsData.push({ id: doc.id, ...doc.data() });
+      });
+
+      const formattedData = {}; // Format data as needed by your frontend
+      menuItemsData.forEach((item) => {
+        // Existing formatting logic...
+      });
+
+      res.write(`data: ${JSON.stringify(formattedData)}\n\n`); // Send formatted data
+    }
+  });
+
+  req.on("close", () => {
+    unsubscribe(); // Stop listening when client disconnects
+    console.log("Client disconnected from SSE");
+  });
+});
+
+
+app.delete("/api/deleteBonsMenuItem/:title", async (req, res) => {
   try {
     const title = req.params.title; // Get the item title to delete
 
     // Query for the document based on the title
     const snapshot = await db
-      .collection("menuItems")
+      .collection("bonsMenuItems")
       .where("title", "==", title)
       .get();
 
@@ -207,6 +269,48 @@ app.put("/api/updateMenuItem", async (req, res) => {
   }
 });
 
+app.put("/api/updateBonsMenuItem", async (req, res) => {
+  try {
+    const { title, price } = req.body;
+
+    // Ensure title and price are provided (These are your key fields for lookup)
+    if (!title || !price) {
+      return res.status(400).send("Title and price are required for updating.");
+    }
+
+    // Query Firestore for the document based on title (primary key)
+    const snapshot = await db
+      .collection("bonsMenuItems")
+      .where("title", "==", title)
+      .get();
+
+    if (snapshot.empty) {
+      return res.status(404).send("Menu item not found with the given title.");
+    }
+
+    // Get the first matching document (you should ideally have unique titles)
+    const docToUpdate = snapshot.docs[0];
+
+    // Create the update object; only include price if it's being changed
+    const updates = {
+      price: price, // Update the price
+    };
+
+    // Update the document
+    await docToUpdate.ref.update(updates);
+
+    // Fetch the updated document to return in the response (best practice)
+    const updatedDoc = await docToUpdate.ref.get();
+    const updatedMenuItem = { id: updatedDoc.id, ...updatedDoc.data() };
+
+    console.log("Menu item updated successfully:", updatedMenuItem);
+    res.status(200).json(updatedMenuItem); // Send back the updated object
+  } catch (error) {
+    console.error("Error updating menu item:", error);
+    res.status(500).send(error.message);
+  }
+});
+
 app.post("/api/requestNewDish", async (req, res) => {
   try {
     const { dishName, userId } = req.body; // Get dishName and userId from request body
@@ -238,10 +342,63 @@ app.post("/api/requestNewDish", async (req, res) => {
   }
 });
 
+app.post("/api/requestBonsNewDish", async (req, res) => {
+  try {
+    const { dishName, userId } = req.body; // Get dishName and userId from request body
+
+    if (!dishName || !userId) {
+      // Validation: Check for required fields
+      return res
+        .status(400)
+        .json({ error: "Dish name and user ID are required." });
+    }
+
+    // Add the request to Firestore
+    const requestDocRef = await db.collection("bonBons").add({
+      dishName: dishName, // The requested dish name
+      userId: userId, // The UID of the user making the request
+      requestTimestamp: admin.firestore.FieldValue.serverTimestamp(), // Add a timestamp
+    });
+
+    console.log("New dish request added with ID:", requestDocRef.id);
+    res
+      .status(201)
+      .json({
+        message: "Dish request submitted successfully",
+        requestId: requestDocRef.id,
+      });
+  } catch (error) {
+    console.error("Error adding dish request:", error);
+    res.status(500).json({ error: "Failed to submit dish request" }); // Send error to client
+  }
+});
+
 app.get("/api/einsteinBagels", async (req, res) => {
   // New route
   try {
     const einsteinBagelsRef = db.collection("einsteinBagels");
+    const snapshot = await einsteinBagelsRef.get();
+
+    if (snapshot.empty) {
+      return res.status(200).json([]); // Return empty array if no requests exist
+    }
+
+    const dishRequests = [];
+    snapshot.forEach((doc) => {
+      dishRequests.push({ id: doc.id, ...doc.data() });
+    });
+
+    res.status(200).json(dishRequests); // Send dish requests to the client
+  } catch (error) {
+    console.error("Error fetching dish requests:", error);
+    res.status(500).json({ error: "Failed to fetch dish requests" });
+  }
+});
+
+app.get("/api/bonBons", async (req, res) => {
+  // New route
+  try {
+    const einsteinBagelsRef = db.collection("bonBons");
     const snapshot = await einsteinBagelsRef.get();
 
     if (snapshot.empty) {
@@ -289,6 +446,8 @@ app.post("/api/submitFeedback", async (req, res) => {
     res.status(500).json({ error: "Failed to submit feedback" }); // Improved error response
   }
 });
+
+
 
 app.get('/api/feedback/:restaurantId', async (req, res) => {
   try {
@@ -343,6 +502,8 @@ app.get('/api/feedback/:restaurantId', async (req, res) => {
 
 
 
+
+
 app.post('/api/bagelsOrder', async (req, res) => {
   try {
     const { userId, items, status, orderPickupTime } = req.body;
@@ -351,6 +512,34 @@ app.post('/api/bagelsOrder', async (req, res) => {
     const orderId = generateUniqueId(); //  Implement this function (see below)
 
     const orderDocRef = await db.collection('bagelsOrder').doc(orderId).set({ // Use doc(orderId) to set ID. Use set instead of add to manually set the doc ID
+      orderId, // Store orderId in document
+      userId,
+      items,
+      status,
+      orderPickupTime,
+      orderTime: admin.firestore.FieldValue.serverTimestamp(),
+    });
+
+
+
+    console.log('Order created with ID:', orderId);
+    res.status(201).json({ message: 'Order placed successfully', orderId: orderId }); // Return orderId in response
+
+  } catch (error) {
+    console.error('Error placing order:', error);
+    res.status(500).json({ error: 'Failed to place order' });
+  }
+});
+
+
+app.post('/api/bonsOrder', async (req, res) => {
+  try {
+    const { userId, items, status, orderPickupTime } = req.body;
+
+    // Generate a unique order ID (you can use various methods like UUIDs)
+    const orderId = generateUniqueId(); //  Implement this function (see below)
+
+    const orderDocRef = await db.collection('bonsOrder').doc(orderId).set({ // Use doc(orderId) to set ID. Use set instead of add to manually set the doc ID
       orderId, // Store orderId in document
       userId,
       items,
@@ -416,6 +605,37 @@ app.get('/api/bagelsOrder', async (req, res) => {
 });
 
 
+app.get('/api/bonsOrder', async (req, res) => {
+  try {
+      const bagelsOrderRef = db.collection('bonsOrder');
+      const snapshot = await bagelsOrderRef.get();
+
+
+      if (snapshot.empty) {
+          return res.status(200).json([]); // Return empty array if no orders
+
+      }
+
+      const orders = [];
+      snapshot.forEach(doc => {
+
+          orders.push({ orderId: doc.id, ...doc.data() }); // Include the document ID as orderId
+
+
+
+      });
+
+      res.status(200).json(orders);
+  } catch (error) {
+
+      console.error('Error fetching orders:', error);
+      res.status(500).json({ error: 'Failed to fetch orders' });
+
+  }
+
+});
+
+
 
 
 
@@ -425,6 +645,38 @@ app.put('/api/bagelsOrder/:orderId', async (req, res) => {  // New route for upd
       const { status } = req.body;
 
       const orderRef = db.collection('bagelsOrder').doc(orderId);
+      const doc = await orderRef.get();
+
+
+      if (!doc.exists) {
+          return res.status(404).json({ error: 'Order not found' });
+
+
+      }
+
+      // Update the order document with the new status
+
+      await orderRef.update({ status });
+
+
+
+      console.log(`Order ${orderId} updated to status: ${status}`);
+      res.json({ message: 'Order status updated successfully' });
+  } catch (error) {
+
+      console.error('Error updating order:', error);
+      res.status(500).json({ error: 'Failed to update order' }); // More informative error response
+  }
+
+});
+
+
+app.put('/api/bonsOrder/:orderId', async (req, res) => {  // New route for updating order status
+  try {
+      const orderId = req.params.orderId;
+      const { status } = req.body;
+
+      const orderRef = db.collection('bonsOrder').doc(orderId);
       const doc = await orderRef.get();
 
 
@@ -475,6 +727,71 @@ app.get('/api/bagelsOrder/user/:userId', async (req, res) => {  // New endpoint 
       res.status(500).json({ error: 'Failed to fetch user orders' }); // Provide details about why it failed.
   }
 });
+
+app.get('/api/bonsOrder/user/:userId', async (req, res) => {  // New endpoint to fetch orders by User Id
+  try {
+      const userId = req.params.userId;  // Get userId from the URL
+      const bagelsOrderRef = db.collection('bonsOrder').where('userId', '==', userId); // Filter by userId
+      const snapshot = await bagelsOrderRef.get();
+
+      if (snapshot.empty) {
+          return res.status(200).json([]); // Or 404 if you prefer to handle as "not found"
+      }
+
+
+      const orders = [];
+      snapshot.forEach(doc => {
+          orders.push({ orderId: doc.id, ...doc.data() });
+      });
+
+
+      res.status(200).json(orders);
+
+  } catch (error) {
+      console.error('Error fetching user orders:', error);
+      res.status(500).json({ error: 'Failed to fetch user orders' }); // Provide details about why it failed.
+  }
+});
+
+
+app.get('/api/bonsMenuItems', async (req, res) => {
+  try {
+    const bonsMenuItemsRef = db.collection('bonsMenuItems'); // Assuming you have a 'bonsMenuItems' collection in Firestore. You might want to rename this collection.
+    const snapshot = await bonsMenuItemsRef.get();
+
+    if (snapshot.empty) {
+        return res.status(404).json({error: 'No Bon bons Menu Items found'}); // Send a 404 if no menu items are found. You can handle it as a 200 if you want to return an empty array.
+    }
+
+    // Convert Firestore data to a format suitable for the frontend
+      const bonsMenuItemsData = [];
+      snapshot.forEach((doc) => {
+        bonsMenuItemsData.push({ id: doc.id, ...doc.data() });
+      });
+
+      const formattedData = {}; //  Format the data like Menu.js expects
+      bonsMenuItemsData.forEach((item) => {
+        if (!formattedData[item.category]) {
+          formattedData[item.category] = {};
+        }
+        if (!formattedData[item.category][item.subcategory]) {
+          formattedData[item.category][item.subcategory] = [];
+        }
+        formattedData[item.category][item.subcategory].push(item);
+      });
+
+
+    res.status(200).json(formattedData);
+
+
+  } catch (error) {
+    console.error('Error fetching Bons menu items:', error);
+    res.status(500).json({ error: 'Failed to fetch Bons menu items' }); // Send a 500 and a more informative error message
+  }
+
+});
+
+
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

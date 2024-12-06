@@ -9,7 +9,7 @@ import axios from "axios";
 // const db = getFirestore(app);
 // const storage = getStorage(app);
 
-const Dashboard = () => {
+const BonsDashboard = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
 
@@ -17,34 +17,12 @@ const Dashboard = () => {
   const [orderStatuses, setOrderStatuses] = useState({}); // Store order statuses
 
   const [imageUpload, setImageUpload] = useState(null);
-  const categories = [
-    "Egg Sandwiches",
-    "Signature Lunch",
-    "Beverages",
-    "Espresso",
-  ];
+  const categories = ["Coffee & Espresso", "Refreshers", "Smoothies", "Shakes"];
   const subcategories = {
-    "Egg Sandwiches": [
-      "Classics",
-      "Signature",
-      "Egg white",
-      "Make it a meal",
-      "Customize it",
-    ],
-    "Signature Lunch": [
-      "Classic",
-      "Hot & Toasty",
-      "Pizza Bagel",
-      "Deli Select",
-    ],
-    Beverages: [
-      "Classic",
-      "Flavored",
-      "Cold Brew Shakes",
-      "Strawberry Banana Smoothie",
-      "Brewed Coffee",
-    ],
-    Espresso: ["Hot", "Hot Chocolate", "Iced"],
+    "Coffee & Espresso": ["Iced Espresso", "Hot Chocolates"],
+    "Refreshers": ["Specials"],
+    "Smoothies": ["Fruit Blends"],
+    "Shakes": ["Classic Shakes"],
   };
 
   const [newMenuItem, setNewMenuItem] = useState({
@@ -64,7 +42,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch("http://localhost:5001/api/menuItems"); // Replace with your backend endpoint
+        const response = await fetch("http://localhost:5001/api/bonsMenuItems"); // Replace with your backend endpoint
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -94,7 +72,7 @@ const Dashboard = () => {
       formData.append("description", newMenuItem.description);
 
       const response = await axios.post(
-        "http://localhost:5001/api/addMenuItem",
+        "http://localhost:5001/api/bonsAddMenuItem",
         formData,
         {
           headers: {
@@ -132,7 +110,7 @@ const Dashboard = () => {
 
   const handleDeleteMenuItem = async (itemId) => {
     try {
-      await axios.delete(`http://localhost:5001/api/deleteMenuItem/${itemId}`); // Send DELETE to the server
+      await axios.delete(`http://localhost:5001/api/deleteBonsMenuItem/${itemId}`); // Send DELETE to the server
       // Update local state (remove the deleted item)
       const updatedMenuItems = { ...menuItems };
       delete updatedMenuItems[itemId]; // Assuming itemId becomes the key
@@ -156,7 +134,7 @@ const Dashboard = () => {
       };
 
       const response = await axios.put(
-        "http://localhost:5001/api/updateMenuItem",
+        "http://localhost:5001/api/updateBonsMenuItem",
         dataToUpdate,
         {
           headers: {
@@ -197,7 +175,7 @@ const Dashboard = () => {
     const fetchDishRequests = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5001/api/einsteinBagels"
+          "http://localhost:5001/api/bonBons"
         ); // Use axios.get()
         setDishRequests(response.data);
       } catch (error) {
@@ -212,7 +190,7 @@ const Dashboard = () => {
     const fetchFeedback = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5001/api/feedback/einstein_bagels"
+          "http://localhost:5001/api/feedback/bon_bons"
         ); // Fetch feedback for the specific restaurant
         setFeedback(response.data);
       } catch (error) {
@@ -227,32 +205,28 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchPendingOrders = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5001/api/bagelsOrder"
-        ); // New API endpoint (see server.js update below)
+        const response = await axios.get("http://localhost:5001/api/bonsOrders"); // Replace with your actual endpoint
+
+        // Check response status
         if (response.status === 200) {
+          // Same logic to set pending orders and statuses as Dashboard.js
           const ordersWithInitialStatus = response.data.map((order) => ({
             ...order,
             status: order.status || "New", // Set initial status if not present
           }));
-          setPendingOrders(ordersWithInitialStatus);
 
-          // Create an initial status object
+          setPendingOrders(ordersWithInitialStatus);
           const initialStatuses = {};
           ordersWithInitialStatus.forEach((order) => {
             initialStatuses[order.orderId] = order.status;
           });
           setOrderStatuses(initialStatuses);
         } else {
-          console.error(
-            "Error fetching orders:",
-            response.status,
-            response.statusText
-          );
+          console.error("Error fetching Bons orders:", response.status, response.statusText);
         }
       } catch (error) {
         console.error("Error fetching pending orders:", error);
-        // ... handle error (e.g., display an error message)
+        // Handle error appropriately (e.g., display an error message)
       }
     };
 
@@ -261,9 +235,10 @@ const Dashboard = () => {
 
   const handleUpdateOrderStatus = async (orderId, newStatus) => {
     try {
-      await axios.put(`http://localhost:5001/api/bagelsOrder/${orderId}`, {
-        status: newStatus,
-      }); // New API endpoint for updates
+      await axios.put(
+        `http://localhost:5001/api/bonsOrders/${orderId}`, // Make sure this is your Bons order update endpoint
+        { status: newStatus }
+      );
 
       // Update the order status in the local state:
       setOrderStatuses((prevStatuses) => ({
@@ -494,4 +469,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default BonsDashboard;

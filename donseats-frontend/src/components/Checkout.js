@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "../styles/Checkout.css"; // Create this CSS file for styling
+import "../styles/Checkout.css";
 import { AuthContext } from "../services/AuthContext";
 
 const Checkout = () => {
@@ -9,7 +9,7 @@ const Checkout = () => {
   const navigate = useNavigate();
   const { cartItems, menuItems } = location.state || {};
   const [totalPrice, setTotalPrice] = useState(0);
-  const [orderType, setOrderType] = useState("now"); // 'now' or 'scheduled'
+  const [orderType, setOrderType] = useState("now");
   const [scheduledTime, setScheduledTime] = useState("");
   const { user } = useContext(AuthContext);
 
@@ -23,40 +23,26 @@ const Checkout = () => {
   }, [cartItems, menuItems]);
 
   const calculateTotalPrice = () => {
-    console.log("DEBUG: Calculating Total Price");
-    console.log("Cart Items:", cartItems);
-    console.log("Menu Items:", menuItems);
-
     let totalPrice = 0;
 
     if (!menuItems || Object.keys(cartItems).length === 0) {
-      console.log("DEBUG: No menu items or empty cart");
       return 0;
     }
 
     try {
       for (const item in cartItems) {
-        console.log(`Processing item: ${item}, Quantity: ${cartItems[item]}`);
-
-        // Flatten and find item strategy with more robust searching
         const itemData = Object.values(menuItems).flatMap((category) =>
           Object.values(category).flatMap((subcategory) =>
             subcategory.filter((menuItem) => menuItem.title === item)
           )
         )[0];
 
-        console.log(`Found Item Data:`, itemData);
-
         if (itemData && itemData.price) {
           const price = parseFloat(itemData.price.replace(" USD", ""));
           const quantity = cartItems[item];
 
           if (!isNaN(price)) {
-            const itemTotal = price * quantity;
-            console.log(
-              `Item: ${item}, Price: ${price}, Quantity: ${quantity}, Item Total: ${itemTotal}`
-            );
-            totalPrice += itemTotal;
+            totalPrice += price * quantity;
           } else {
             console.warn(`Invalid price for item: ${item}`);
           }
@@ -70,14 +56,13 @@ const Checkout = () => {
       console.error("Error in total price calculation:", error);
     }
 
-    console.log(`DEBUG: Final Total Price: ${totalPrice}`);
     return totalPrice.toFixed(2);
   };
 
   const handleOrderNow = async () => {
     try {
       const orderData = {
-        userId: user.uid, // Assuming you have user context
+        userId: user.uid,
         items: cartItems,
         status: "New",
         orderPickupTime: orderType === "now" ? "Now" : scheduledTime,
@@ -89,34 +74,63 @@ const Checkout = () => {
       );
       console.log("Order placed:", response.data);
       const orderId = response.data.orderId;
-      console.log("Order placed with ID:", orderId);
 
-      // Navigate to order confirmation or clear cart, etc.
       navigate('/orderConfirmation', { state: { orderId } });
 
     } catch (error) {
       console.error("Error placing order:", error);
-      // Handle error, display message to user
     }
   };
 
   const handleScheduleOrder = () => {
-    // Implement scheduling logic (date/time picker, validation, etc.)
-    // ... (Set scheduledTime state)
-    setOrderType("scheduled"); // Update order type to trigger correct API call in handleOrderNow
+    setOrderType("scheduled");
   };
 
-  // ... (rest of Checkout component JSX)
 
   return (
     <div className="checkout-container">
       <h2>Checkout</h2>
-      {/* Display cart items, quantity, image, and total price */}
+
+      {/* Item List */}
+      <ul className="checkout-items">
+        {Object.entries(cartItems).map(([itemName, quantity]) => {
+          const itemData = Object.values(menuItems)
+            .flatMap(category => Object.values(category))
+            .flat()
+            .find(item => item.title === itemName);
+
+          return (
+            itemData && (
+              <li key={itemName} className="checkout-item">
+                <img src={itemData.imageUrl} alt={itemName} className="checkout-item-image" />
+                <div className="checkout-item-details">
+                  <span>{itemName}</span>
+                  <span>Quantity: {quantity}</span>
+                  <span>Price: ${itemData.price}</span> {/* Display individual item price */}
+                </div>
+              </li>
+            )
+          );
+        })}
+      </ul>
+
+
+      {/* Total Price */}
+      <h3>Total: ${totalPrice}</h3>
+
       <button onClick={handleOrderNow}>Order Now</button>
-      <button onClick={handleScheduleOrder}>Schedule Order</button>{" "}
-      {/* New button */}
+      <button onClick={handleScheduleOrder}>Schedule Order</button>
+      {orderType === "scheduled" && (
+          <input
+              type="datetime-local" // Use datetime-local for combined date and time
+              value={scheduledTime}
+              onChange={(e) => setScheduledTime(e.target.value)}
+              min={new Date().toISOString().slice(0, 16)} // Set minimum to current date and time
+           />
+       )}
     </div>
   );
 };
 
 export default Checkout;
+
