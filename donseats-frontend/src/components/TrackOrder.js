@@ -17,7 +17,7 @@ const TrackOrder = () => {
             }
             try {
 
-                const response = await axios.get(`/api/bagelsOrder/user/${user.uid}`); // New endpoint (see server.js)
+                const response = await axios.get(`/api/bagelsOrder/user/${user.uid}`); // New endpoint (see index.js)
 
 
                 if(response.status === 200){
