@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import '../styles/Cart.css';
 // import axios from 'axios'; 
 import DatePicker from 'react-datepicker'; // Or any date picker library you prefer
 import 'react-datepicker/dist/react-datepicker.css'; // Import CSS for the date picker
 import TimePicker from 'react-time-picker'; // Or any time picker library
 import 'react-time-picker/dist/TimePicker.css';
+import { AuthContext } from '../services/AuthContext';
+import { Link } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Cart = ({ cartItems, setCartItems,menuItems }) => {
   const [showCart, setShowCart] = useState(false);
@@ -12,6 +15,9 @@ const Cart = ({ cartItems, setCartItems,menuItems }) => {
   const [showCheckout, setShowCheckout] = useState(false); // To toggle checkout section
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
+  const { user } = useContext(AuthContext);
+  const location = useLocation();
+    const navigate = useNavigate();
 
   const calculateTotalPrice = () => {
     console.log("DEBUG: Calculating Total Price");
@@ -84,9 +90,9 @@ console.log(totalPrice);
 
   const handleCheckoutClick = () => {
     if (Object.keys(cartItems).length > 0) {
-      setShowCheckout(true); 
+        navigate('/checkout', { state: { cartItems, menuItems } }); 
     }
-  };
+};
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -106,6 +112,8 @@ console.log(totalPrice);
   const filterWeekdays = (date) => {
     return isWeekday(date);
   };
+
+  
 
   return (
     <div className={`cart-container ${showCart ? 'show' : ''}`}>
@@ -139,9 +147,9 @@ console.log(totalPrice);
             onClick={handleCheckoutClick}
             className="checkout-button"
             disabled={Object.keys(cartItems).length === 0}
-          >
+        >
             Checkout
-          </button>
+        </button>
 
           {/* Checkout Section (Initially Hidden) */}
           {showCheckout && (

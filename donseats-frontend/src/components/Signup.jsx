@@ -17,6 +17,9 @@ const Signup = () => {
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+    const [selectedRestaurant, setSelectedRestaurant] = useState(''); // New state for selected restaurant
+    const restaurants = ["Don's at walb", "Bon Bons", "Einstein's bagels", "Javaspot"]; // Available restaurants
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -33,10 +36,10 @@ const Signup = () => {
 
             // 3. Save user data to Firestore
             await setDoc(doc(db, 'users', user.uid), {
-                username: username,
-                role: role,
-            });
-
+              username: username,
+              role: role,
+              restaurant: role === 'restaurantOwner' ? selectedRestaurant : 'student', // Conditional field
+          });
 
             navigate('/login');
 
@@ -111,6 +114,25 @@ const Signup = () => {
             </label>
           </div>
         </div>
+
+        {role === 'restaurantOwner' && (
+                    <div className="form-group">
+                        <label htmlFor="restaurant">Restaurant:</label>
+                        <select
+                            id="restaurant"
+                            value={selectedRestaurant}
+                            onChange={(e) => setSelectedRestaurant(e.target.value)}
+                            required
+                        >
+                            <option value="">Select a restaurant</option> {/* Default option */}
+                            {restaurants.map((restaurant) => (
+                                <option key={restaurant} value={restaurant}>
+                                    {restaurant}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                )}
 
         <button type="submit">Sign Up</button>
         

@@ -1,48 +1,62 @@
-import React, { useState,useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../services/AuthContext'; 
-import { signOut } from 'firebase/auth'; 
+import { AuthContext } from '../services/AuthContext';
+import { signOut } from 'firebase/auth';
 import { getAuth } from 'firebase/auth';
 import './../styles/HomePage.css';
 import app from '../services/firebaseConfig';
+
 const auth = getAuth(app);
 
 const restaurants = [
-  { id: 2, title: "Don's at Walb", link: "/restaurants/dons-at-walb", image: "donsatwalb.jpg" },
-  { id: 3, title: "Java Spot", link: "/restaurants/starbucks-java-spot", image: "starbucks.png" },
-  { id: 4, title: "Einstein Bros.", link: "/restaurants/einstein-bros-bagels", image: "einstienbros.png" },
-  { id: 5, title: "Bon Bon's Coffee", link: "/restaurants/bon-bons-coffee", image: "bonbons.png" },
-  { id: 6, title: "Jimmy Johns", link: "/restaurants/jimmy-johns", image: "jimmyjohns.png" },
+  { id: 1, title: "Don's at Walb", link: "/restaurants/dons-at-walb", image: "donsatwalb.jpg" },
+  { id: 2, title: "Java Spot", link: "/restaurants/starbucks-java-spot", image: "starbucks.png" },
+  { id: 3, title: "Einstein Bros.", link: "/restaurants/einstein-bros-bagels", image: "einstienbros.png" },
+  { id: 4, title: "Bon Bon's Coffee", link: "/restaurants/bon-bons-coffee", image: "bonbons.png" },
 ];
 
 const HomePage = () => {
   const [selectedCategory, setSelectedCategory] = useState('Egg Sandwiches');
   const [bonsSelectedCategory, setBonsSelectedCategory] = useState('Coffee & Espresso'); // Default for Bon Bon's
+  const [donsSelectedCategory, setDonsSelectedCategory] = useState('Epic Eats'); // Default for Bon Bon's
+  
   const [cartItems, setCartItems] = useState({});
   const { user, loading } = useContext(AuthContext);
     
   const navigate = useNavigate();
-  
+  const restaurantsRef = useRef(null); // Create ref for the restaurants section
 
   const handleRestaurantClick = (restaurant) => {
     if (restaurant.title === "Einstein Bros.") {
-      navigate('/menu', { state: { restaurant, selectedCategory, cartItems } });
+      navigate('/EinsteinBros', { state: { restaurant, selectedCategory, cartItems } });
     } else if (restaurant.title === "Bon Bon's Coffee") {
       navigate('/bonsmenu', { state: { restaurant, bonsSelectedCategory, cartItems } });
     }
+    else if (restaurant.title === "Don's at Walb") {
+      navigate('/donsmenu', { state: { restaurant, bonsSelectedCategory, cartItems } });
+    }
+    else if (restaurant.title === "Java Spot") {
+      navigate('/javamenu', { state: { restaurant, bonsSelectedCategory, cartItems } });
+    }
   };
-  
+
   const handleLoginRedirect = () => {
     navigate('/login'); // Redirect to the login page
   };
+
   const handleLogout = async () => {
     try {
-        await signOut(auth);
-        navigate('/login'); // Redirect to login after logout
+      await signOut(auth);
+      navigate('/login'); // Redirect to login after logout
     } catch (error) {
-        console.error("Logout error:", error);
+      console.error("Logout error:", error);
     }
-};
+  };
+
+  // Scroll to the restaurants section when clicked
+  const handleScrollToRestaurants = () => {
+    restaurantsRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <div className="homepage">
@@ -51,33 +65,34 @@ const HomePage = () => {
         <div className="header__promo">
           <p>Get 5% off your first order. <span className="promo__link">Promo: ORDER5</span></p>
         </div>
-        <nav className="header__nav">
-          <div className="logo">DonsEats</div>
-          <ul className="nav__links">
-            <li>Home</li>
-            <li>Browse Menu</li>
-            <li>Special Offers</li>
-            <li>Restaurants</li>
-            <li>Track Order</li>
-            <li>
-                            {loading ? ( // Show loading message while checking user status
-                                <p>Loading...</p>
-                            ) : user ? ( // User is logged in
-                                <div className="user-menu"> {/* Container for dropdown */}
-                                    <button className="username-btn">
-                                        Welcome, {user.displayName || user.email}!
-                                    </button>
-                                    <ul className="user-dropdown"> {/* Dropdown content */}
-                                        <li onClick={() => navigate('/orders')}>My Orders</li> {/* Navigate to orders page */}
-                                        <li onClick={handleLogout}>Logout</li>
-                                    </ul>
-                                </div>
-                            ) : ( // User is not logged in
-                                <button className="login-btn" onClick={handleLoginRedirect}>Login/Signup</button>
-                            )}
-                        </li>
-                        </ul>
-        </nav>
+        <div className="header__content">
+          <div className="header__logo">
+            <div className="logo">DonsEats</div>
+          </div>
+          <div className='header_right'>
+          <div className="header__links">
+            <nav className="header__nav">
+              <ul className="nav__links">
+                <li>Special Offers</li>
+                <li onClick={handleScrollToRestaurants}>Restaurants</li> {/* Trigger scroll to Popular Restaurants */}
+              </ul>
+            </nav>
+          </div>
+          <div className="header__user">
+            {loading ? (
+              <p>Loading...</p>
+            ) : user ? (
+              <div className="user-menu">
+                <button className="username-btn">
+                  Welcome, {user.displayName || user.email}!
+                </button>
+              </div>
+            ) : (
+              <button className="login-btn" onClick={handleLoginRedirect}>Login/Signup</button>
+            )}
+          </div>
+          </div>
+        </div>
       </header>
 
       {/* Hero Section */}
@@ -96,7 +111,7 @@ const HomePage = () => {
       </section>
 
        {/* Popular Restaurants */}
-       <section className="popular-restaurants">
+       <section className="popular-restaurants" ref={restaurantsRef}>
         <h3>Popular Restaurants</h3>
         <div className="restaurant-grid">
           {restaurants.map((restaurant) => (
@@ -113,7 +128,8 @@ const HomePage = () => {
       </section>
 
       {/* Footer Section */}
-      <section className="footer__stats">
+      <div  className="footer__stats">
+      <section className='fo_stats'>
         <div>
           <p>6</p>
           <span>Restaurants</span>
@@ -131,6 +147,7 @@ const HomePage = () => {
           <span>Cuisines</span>
         </div>
       </section>
+      </div>
 
       <footer className="homepage__footer">
         <p>Official Purdue Fort Wayne Food Ordering Service</p>
