@@ -1,0 +1,67 @@
+.confirmation-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; // Center vertically as well
+    min-height: calc(100vh - 80px); // Adjust for header/footer if needed
+    padding: 20px;
+    text-align: center; // Center the text within the container
+    background-color: #f0f0f0; // Or your preferred background
+  
+    h2 {
+      color: #333; // Or your brand color
+      margin-bottom: 20px;
+    }
+  
+    p {
+      font-size: 1.2em;
+      margin-bottom: 30px; // More spacing below the order ID
+    }
+  
+    .order-details {
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        width: 80%; // Responsive width
+        max-width: 600px; // Set a maximum width if needed
+  
+        ul {
+            list-style: none; // Remove bullet points
+            padding: 0;
+            margin: 0;
+  
+            li {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px 0;
+                border-bottom: 1px solid #eee;
+  
+                &:last-child {
+                    border-bottom: none;
+                }
+            }
+        }
+  
+    }
+  
+  
+    .continue-button {
+      background-color: #007bff; // Or your primary button color
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.3s ease; // Smooth transition
+  
+      &:hover {
+        background-color: #0056b3; // Darker shade on hover
+      }
+    }
+  }
+  
+  
+  

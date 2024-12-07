@@ -1,0 +1,92 @@
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: url("./../../public/register.png") no-repeat center center/cover;
+  font-family: "Arial", sans-serif;
+  margin: auto;
+  width: 100%;
+  flex-direction: column;
+}
+.signup-container .signup-form {
+  background: rgba(255, 255, 255, 0.85);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+}
+.signup-container .signup-form h2 {
+  margin-bottom: 1.5rem;
+  color: #e67e22;
+  font-size: 1.8rem;
+}
+.signup-container .signup-form .error {
+  color: red;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+.signup-container .signup-form .form-group {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+.signup-container .signup-form .form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+.signup-container .signup-form .form-group input {
+  display: block;
+  width: 93%;
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+.signup-container .signup-form .form-group input:focus {
+  outline: none;
+  border-color: #e67e22;
+  box-shadow: 0 0 5px #e67e22;
+}
+.signup-container .signup-form .form-group .role-selection {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 0.5rem;
+}
+.signup-container .signup-form .form-group .role-selection label {
+  font-size: 0.9rem;
+  font-weight: normal;
+}
+.signup-container .signup-form .form-group .role-selection input {
+  margin-right: 0.5rem;
+}
+.signup-container .signup-form button {
+  width: 100%;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 5px;
+  background: #e67e22;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.signup-container .signup-form button:hover {
+  background: #bf6516;
+}
+.signup-container .signup-form .login-link {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+.signup-container .signup-form .login-link a {
+  color: #e67e22;
+  text-decoration: none;
+  font-weight: bold;
+}
+.signup-container .signup-form .login-link a:hover {
+  text-decoration: underline;
+}/*# sourceMappingURL=SignupForm.css.map */

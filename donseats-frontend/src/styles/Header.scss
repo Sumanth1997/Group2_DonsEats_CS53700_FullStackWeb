@@ -1,0 +1,169 @@
+/* General Header Styling */
+.header {
+  // font-family: Arial, sans-serif;
+  background-color: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  width: 100%;
+}
+
+/* Main Header Content Styling */
+.header-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+/* Styling for nav-items container */
+.nav-items {
+  display: flex; /* Arrange items in a row */
+  gap: 30px; /* Add gap of 30px between the items */
+}
+
+.nav-links {
+  display: contents;
+}
+
+/* Logo Styling */
+.logo h1 {
+  font-size: 24px;
+  color: #ff7e00;
+  font-weight: bold;
+}
+
+/* Navigation Links Styling */
+.nav-links a {
+  margin: 0; /* Remove any default margin */
+  text-decoration: none;
+  color: #222;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  color: #ff7e00;
+}
+
+/* Restaurant Info Styling */
+.restaurant-info h2 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #222;
+}
+
+.restaurant-info p {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Right Section Styling (Rating, Cart, Login) */
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.rating {
+  margin-right: 20px;
+  text-align: center;
+}
+
+.rating-score {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ff7e00;
+}
+
+.rating p {
+  font-size: 12px;
+  color: #666;
+}
+
+.cart-total {
+  margin-left: 10px;
+  text-align: right;
+}
+
+.cart-total p {
+  margin: 0;
+  font-size: 14px;
+  color: #222;
+}
+
+.login-button {
+  margin-left: 15px;
+  padding: 8px 16px;
+  background-color: #ff7e00;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background-color: #ff7e00;
+}
+
+.logout-button {
+  background-color: #ff7e00;
+  margin-left: 15px;
+  padding: 8px 16px;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Operational Time Styling */
+.operational-time {
+  padding: 10px 20px;
+  background-color: #ff7e00;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Restaurant Dropdown Styles */
+.restaurant-dropdown {
+  position: relative;
+  display: inline-block; /* So it aligns with the link */
+}
+
+/* Dropdown Menu Styling */
+.dropdown-menu {
+  position: absolute;
+  background-color: white;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  width: 12rem;
+  padding: 8px 0;
+  margin-top: 5px;
+  transition: all 0.2s ease;
+  display: none; /* Initially hidden */
+}
+
+/* Show dropdown when parent link is hovered */
+.restaurant-dropdown:hover .dropdown-menu {
+  display: block; /* Show dropdown on hover */
+}
+
+/* Individual Dropdown Item Styling */
+.dropdown-menu a {
+  padding: 12px 20px;
+  display: block;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.3s ease, padding-left 0.3s ease;
+}
+
+/* Hover Effect for Dropdown Items */
+.dropdown-menu a:hover {
+  background-color: #f8f8f8;
+  padding-left: 10px;
+}
