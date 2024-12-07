@@ -49,5 +49,4 @@ node_modules/
 .idea/
 *.swp
 
-firebaseConfig.js
 serviceAccountKey.json

@@ -229,7 +229,7 @@ const Dashboard = () => {
       try {
         const response = await axios.get(
           "/api/bagelsOrder"
-        ); // New API endpoint (see server.js update below)
+        ); // New API endpoint (see index.js update below)
         if (response.status === 200) {
           const ordersWithInitialStatus = response.data.map((order) => ({
             ...order,
