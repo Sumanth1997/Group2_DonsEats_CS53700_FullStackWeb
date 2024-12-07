@@ -35,6 +35,9 @@ const HomePage = () => {
     else if (restaurant.title === "Don's at Walb") {
       navigate('/donsmenu', { state: { restaurant, bonsSelectedCategory, cartItems } });
     }
+    else if (restaurant.title === "Java Spot") {
+      navigate('/javamenu', { state: { restaurant, bonsSelectedCategory, cartItems } });
+    }
   };
 
   const handleLoginRedirect = () => {

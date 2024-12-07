@@ -50,6 +50,10 @@ const Login = () => {
                   {
                     navigate('/donsdashboard');
                   }
+                  else if (user.restaurant === 'Javaspot')
+                    {
+                      navigate('/donsdashboard');
+                    }
                 else{
                   navigate('/dashboard');
                 }

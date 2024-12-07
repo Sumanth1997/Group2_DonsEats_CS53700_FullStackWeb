@@ -4,7 +4,7 @@ import '../styles/Menu.css';
 import { AuthContext } from "../services/AuthContext";
 
 
-const BonsMenu = ({ category, cartItems, setCartItems }) => {
+const JavaMenu = ({ category, cartItems, setCartItems }) => {
     const [menuItems, setMenuItems] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -19,11 +19,11 @@ const BonsMenu = ({ category, cartItems, setCartItems }) => {
     useEffect(() => {
         const fetchMenuItems = async () => {
           try {
-            const response = await axios.get("http://localhost:5001/api/bons/menuItems");
+            const response = await axios.get("http://localhost:5001/api/java/menuItems");
             setMenuItems(response.data);
             setLoading(false);
           } catch (error) {
-            console.error("Error fetching Bons menu items:", error);
+            console.error("Error fetching Java menu items:", error);
             setError(error);
             setLoading(false);
           }
@@ -41,6 +41,11 @@ const BonsMenu = ({ category, cartItems, setCartItems }) => {
       }
 
       const items = menuItems[category] || {};
+
+      if (!items || Object.keys(items).length === 0) { 
+        return <div>No items found for this category.</div>;  // Informative message when category is empty or undefined.
+      }
+    
 
       const handleAddToCart = (itemId) => {
         setCartItems((prevCartItems) => ({
@@ -73,7 +78,7 @@ const BonsMenu = ({ category, cartItems, setCartItems }) => {
             return;
           }
           const response = await axios.post(
-            "http://localhost:5001/api/bons/requestNewDish",
+            "http://localhost:5001/api/java/requestNewDish",
             {
               dishName: newDishRequest,
               userId: user.uid,
@@ -105,7 +110,7 @@ const BonsMenu = ({ category, cartItems, setCartItems }) => {
             {
               feedback,
               userId: user.uid, // Include the user's UID
-              restaurantId: "bon_bons", // Or however you identify the restaurant
+              restaurantId: "java", // Or however you identify the restaurant
             }
           );
     
@@ -203,7 +208,7 @@ const BonsMenu = ({ category, cartItems, setCartItems }) => {
           <h3>Contact Information</h3>
           <p>If you have allergies or other dietary restrictions, please contact the restaurant. The restaurant will provide food-specific information upon request.</p>
           <p>Phone number: +1 (260)-123-4567</p>
-          <p>Website: <a href="https://bonbonscoffee.com/" target="_blank" rel="noopener noreferrer">https://bonbonscoffee.com/</a></p>
+          <p>Website: <a href="https://javaspot.com/" target="_blank" rel="noopener noreferrer">https://javaspot.com/</a></p>
         </div>
 
         <div className="info-box operational-times">
@@ -221,4 +226,4 @@ const BonsMenu = ({ category, cartItems, setCartItems }) => {
   );
 };
 
-export default BonsMenu;
+export default JavaMenu;

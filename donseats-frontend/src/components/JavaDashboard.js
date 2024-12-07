@@ -9,7 +9,7 @@ import axios from "axios";
 // const db = getFirestore(app);
 // const storage = getStorage(app);
 
-const BonsDashboard = () => {
+const JavaDashBoard = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
 
@@ -17,12 +17,13 @@ const BonsDashboard = () => {
   const [orderStatuses, setOrderStatuses] = useState({}); // Store order statuses
 
   const [imageUpload, setImageUpload] = useState(null);
-  const categories = ["Coffee & Espresso", "Refreshers", "Smoothies", "Shakes"];
+  const categories = ['Espresso', 'Iced Coffee & Tea', 'Frappuccino', 'Refreshers','Other'];
   const subcategories = {
-    "Coffee & Espresso": ["Iced Espresso", "Hot Chocolates"],
-    "Refreshers": ["Specials"],
-    "Smoothies": ["Fruit Blends"],
-    "Shakes": ["Classic Shakes"],
+    "Espresso": ["Hot Drinks"],
+    "Iced Coffee & Tea": ["Cold Beverages"],
+    "Frappuccino": ["Blended Beverages"],
+    "Refreshers": ["Cold Beverages"],
+    "Other":["Favorites"],
   };
 
   const [newMenuItem, setNewMenuItem] = useState({
@@ -42,7 +43,7 @@ const BonsDashboard = () => {
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch("http://localhost:5001/api/bons/menuItems"); // Replace with your backend endpoint
+        const response = await fetch("http://localhost:5001/api/java/menuItems"); // Replace with your backend endpoint
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -72,7 +73,7 @@ const BonsDashboard = () => {
       formData.append("description", newMenuItem.description);
 
       const response = await axios.post(
-        "http://localhost:5001/api/bons/addMenuItem",
+        "http://localhost:5001/api/java/addMenuItem",
         formData,
         {
           headers: {
@@ -110,7 +111,7 @@ const BonsDashboard = () => {
 
   const handleDeleteMenuItem = async (itemId) => {
     try {
-      await axios.delete(`http://localhost:5001/api/bons/menuItem/${itemId}`); // Send DELETE to the server
+      await axios.delete(`http://localhost:5001/api/java/menuItem/${itemId}`); // Send DELETE to the server
       // Update local state (remove the deleted item)
       const updatedMenuItems = { ...menuItems };
       delete updatedMenuItems[itemId]; // Assuming itemId becomes the key
@@ -134,7 +135,7 @@ const BonsDashboard = () => {
       };
 
       const response = await axios.put(
-        "http://localhost:5001/api/bons/menuItem",
+        "http://localhost:5001/api/java/menuItem",
         dataToUpdate,
         {
           headers: {
@@ -175,7 +176,7 @@ const BonsDashboard = () => {
     const fetchDishRequests = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5001/api/bons/bonBons"
+          "http://localhost:5001/api/java/javaSpot"
         ); // Use axios.get()
         setDishRequests(response.data);
       } catch (error) {
@@ -190,7 +191,7 @@ const BonsDashboard = () => {
     const fetchFeedback = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5001/api/feedback/bon_bons"
+          "http://localhost:5001/api/feedback/java"
         ); // Fetch feedback for the specific restaurant
         setFeedback(response.data);
       } catch (error) {
@@ -205,7 +206,7 @@ const BonsDashboard = () => {
   useEffect(() => {
     const fetchPendingOrders = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/api/bons/bonsOrders"); // Replace with your actual endpoint
+        const response = await axios.get("http://localhost:5001/api/java/javaOrders"); // Replace with your actual endpoint
 
         // Check response status
         if (response.status === 200) {
@@ -236,7 +237,7 @@ const BonsDashboard = () => {
   const handleUpdateOrderStatus = async (orderId, newStatus) => {
     try {
       await axios.put(
-        `http://localhost:5001/api/bons/bonsOrders/${orderId}`, // Make sure this is your Bons order update endpoint
+        `http://localhost:5001/api/java/javaOrders/${orderId}`, // Make sure this is your Bons order update endpoint
         { status: newStatus }
       );
 
@@ -469,4 +470,4 @@ const BonsDashboard = () => {
   );
 };
 
-export default BonsDashboard;
+export default JavaDashBoard;
