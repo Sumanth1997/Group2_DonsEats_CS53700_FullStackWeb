@@ -51,7 +51,7 @@ const Menu = ({ category, cartItems, setCartItems }) => {
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/api/menuItems");
+        const response = await axios.get("/api/menuItems");
         setMenuItems(response.data);
         setLoading(false); // Set loading to false after data is fetched
       } catch (error) {
@@ -110,7 +110,7 @@ const Menu = ({ category, cartItems, setCartItems }) => {
         return;
       }
       const response = await axios.post(
-        "http://localhost:5001/api/requestNewDish",
+        "/api/requestNewDish",
         {
           dishName: newDishRequest,
           userId: user.uid,
@@ -138,7 +138,7 @@ const Menu = ({ category, cartItems, setCartItems }) => {
       }
 
       const response = await axios.post(
-        "http://localhost:5001/api/submitFeedback",
+        "/api/submitFeedback",
         {
           feedback,
           userId: user.uid, // Include the user's UID

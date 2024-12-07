@@ -69,7 +69,7 @@ const Checkout = () => {
       };
 
       const response = await axios.post(
-        "http://localhost:5001/api/bagelsOrder",
+        "/api/bagelsOrder",
         orderData
       );
       console.log("Order placed:", response.data);

@@ -20,7 +20,7 @@ const DonsMenu = ({ category, cartItems, setCartItems }) => {
     useEffect(() => {
         const fetchMenuItems = async () => {
           try {
-            const response = await axios.get("http://localhost:5001/api/dons/menuItems"); // Correct API endpoint
+            const response = await axios.get("/api/dons/menuItems"); // Correct API endpoint
             setMenuItems(response.data);
             setLoading(false);
           } catch (error) {
@@ -74,7 +74,7 @@ const DonsMenu = ({ category, cartItems, setCartItems }) => {
             return;
           }
           const response = await axios.post(
-            "http://localhost:5001/api/dons/requestNewDish",
+            "/api/dons/requestNewDish",
             {
               dishName: newDishRequest,
               userId: user.uid,
@@ -102,7 +102,7 @@ const DonsMenu = ({ category, cartItems, setCartItems }) => {
           }
     
           const response = await axios.post(
-            "http://localhost:5001/api/submitFeedback",
+            "/api/submitFeedback",
             {
               feedback,
               userId: user.uid, // Include the user's UID

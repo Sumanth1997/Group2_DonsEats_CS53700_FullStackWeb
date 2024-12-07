@@ -19,7 +19,7 @@ const BonsMenu = ({ category, cartItems, setCartItems }) => {
     useEffect(() => {
         const fetchMenuItems = async () => {
           try {
-            const response = await axios.get("http://localhost:5001/api/bons/menuItems");
+            const response = await axios.get("/api/bons/menuItems");
             setMenuItems(response.data);
             setLoading(false);
           } catch (error) {
@@ -73,7 +73,7 @@ const BonsMenu = ({ category, cartItems, setCartItems }) => {
             return;
           }
           const response = await axios.post(
-            "http://localhost:5001/api/bons/requestNewDish",
+            "/api/bons/requestNewDish",
             {
               dishName: newDishRequest,
               userId: user.uid,
@@ -101,7 +101,7 @@ const BonsMenu = ({ category, cartItems, setCartItems }) => {
           }
     
           const response = await axios.post(
-            "http://localhost:5001/api/submitFeedback",
+            "/api/submitFeedback",
             {
               feedback,
               userId: user.uid, // Include the user's UID

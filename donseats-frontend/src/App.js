@@ -50,7 +50,7 @@ const App = () => {
    useEffect(() => {
     const fetchMenuItems = async () => {
         try {
-            const response = await axios.get('http://localhost:5001/api/menuItems');
+            const response = await axios.get('/api/menuItems');
             setMenuItems(response.data);
         } catch (error) {
             //Handle error.
@@ -59,7 +59,7 @@ const App = () => {
     };
     const fetchBonsMenuItems = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/api/bons/menuItems');
+        const response = await axios.get('/api/bons/menuItems');
         setBonsMenuItems(response.data);
       } catch (error) {
         console.error("Error fetching Bon Bon's menu items:", error);
@@ -68,7 +68,7 @@ const App = () => {
 
     const fetchDonsMenuItems = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/api/dons/menuItems');
+        const response = await axios.get('/api/dons/menuItems');
         setDonsMenuItems(response.data);
       } catch (error) {
         console.error("Error fetching Don's menu items:", error);
@@ -77,7 +77,7 @@ const App = () => {
 
     const fetchJavaMenuItems = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/api/java/menuItems');
+        const response = await axios.get('/api/java/menuItems');
         setDonsMenuItems(response.data);
       } catch (error) {
         console.error("Error fetching Don's menu items:", error);

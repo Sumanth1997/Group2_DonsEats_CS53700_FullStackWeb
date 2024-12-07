@@ -44,7 +44,7 @@ const DonsDashboard = () => {
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch("http://localhost:5001/api/dons/menuItems"); // Replace with your backend endpoint
+        const response = await fetch("/api/dons/menuItems"); // Replace with your backend endpoint
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -74,7 +74,7 @@ const DonsDashboard = () => {
       formData.append("description", newMenuItem.description);
 
       const response = await axios.post(
-        "http://localhost:5001/api/dons/addMenuItem",
+        "/api/dons/addMenuItem",
         formData,
         {
           headers: {
@@ -112,7 +112,7 @@ const DonsDashboard = () => {
 
   const handleDeleteMenuItem = async (itemId) => {
     try {
-      await axios.delete(`http://localhost:5001/api/dons/deleteMenuItem/${itemId}`); // Send DELETE to the server
+      await axios.delete(`/api/dons/deleteMenuItem/${itemId}`); // Send DELETE to the server
       // Update local state (remove the deleted item)
       const updatedMenuItems = { ...menuItems };
       delete updatedMenuItems[itemId]; // Assuming itemId becomes the key
@@ -136,7 +136,7 @@ const DonsDashboard = () => {
       };
 
       const response = await axios.put(
-        "http://localhost:5001/api/dons/updateMenuItem",
+        "/api/dons/updateMenuItem",
         dataToUpdate,
         {
           headers: {
@@ -177,7 +177,7 @@ const DonsDashboard = () => {
     const fetchDishRequests = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5001/api/dons/dishRequests"
+          "/api/dons/dishRequests"
         ); // Use axios.get()
         setDishRequests(response.data);
       } catch (error) {
@@ -192,7 +192,7 @@ const DonsDashboard = () => {
     const fetchFeedback = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5001/api/feedback/dons"
+          "/api/feedback/dons"
         ); // Fetch feedback for the specific restaurant
         setFeedback(response.data);
       } catch (error) {
@@ -207,7 +207,7 @@ const DonsDashboard = () => {
   useEffect(() => {
     const fetchPendingOrders = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/api/dons/donsOrders"); // Replace with your actual endpoint
+        const response = await axios.get("/api/dons/donsOrders"); // Replace with your actual endpoint
 
         // Check response status
         if (response.status === 200) {
@@ -238,7 +238,7 @@ const DonsDashboard = () => {
   const handleUpdateOrderStatus = async (orderId, newStatus) => {
     try {
       await axios.put(
-        `http://localhost:5001/api/dons/donsOrders/${orderId}`, // Make sure this is your dons order update endpoint
+        `/api/dons/donsOrders/${orderId}`, // Make sure this is your dons order update endpoint
         { status: newStatus }
       );
 
