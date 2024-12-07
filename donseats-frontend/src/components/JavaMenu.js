@@ -19,7 +19,7 @@ const JavaMenu = ({ category, cartItems, setCartItems }) => {
     useEffect(() => {
         const fetchMenuItems = async () => {
           try {
-            const response = await axios.get("http://localhost:5001/api/java/menuItems");
+            const response = await axios.get("/api/java/menuItems");
             setMenuItems(response.data);
             setLoading(false);
           } catch (error) {
@@ -78,7 +78,7 @@ const JavaMenu = ({ category, cartItems, setCartItems }) => {
             return;
           }
           const response = await axios.post(
-            "http://localhost:5001/api/java/requestNewDish",
+            "/api/java/requestNewDish",
             {
               dishName: newDishRequest,
               userId: user.uid,
@@ -106,7 +106,7 @@ const JavaMenu = ({ category, cartItems, setCartItems }) => {
           }
     
           const response = await axios.post(
-            "http://localhost:5001/api/submitFeedback",
+            "/api/submitFeedback",
             {
               feedback,
               userId: user.uid, // Include the user's UID

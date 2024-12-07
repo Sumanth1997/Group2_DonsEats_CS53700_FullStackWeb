@@ -64,7 +64,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch("http://localhost:5001/api/menuItems"); // Replace with your backend endpoint
+        const response = await fetch("/api/menuItems"); // Replace with your backend endpoint
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -94,7 +94,7 @@ const Dashboard = () => {
       formData.append("description", newMenuItem.description);
 
       const response = await axios.post(
-        "http://localhost:5001/api/addMenuItem",
+        "/api/addMenuItem",
         formData,
         {
           headers: {
@@ -132,7 +132,7 @@ const Dashboard = () => {
 
   const handleDeleteMenuItem = async (itemId) => {
     try {
-      await axios.delete(`http://localhost:5001/api/deleteMenuItem/${itemId}`); // Send DELETE to the server
+      await axios.delete(`/api/deleteMenuItem/${itemId}`); // Send DELETE to the server
       // Update local state (remove the deleted item)
       const updatedMenuItems = { ...menuItems };
       delete updatedMenuItems[itemId]; // Assuming itemId becomes the key
@@ -156,7 +156,7 @@ const Dashboard = () => {
       };
 
       const response = await axios.put(
-        "http://localhost:5001/api/updateMenuItem",
+        "/api/updateMenuItem",
         dataToUpdate,
         {
           headers: {
@@ -197,7 +197,7 @@ const Dashboard = () => {
     const fetchDishRequests = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5001/api/einsteinBagels"
+          "/api/einsteinBagels"
         ); // Use axios.get()
         setDishRequests(response.data);
       } catch (error) {
@@ -212,7 +212,7 @@ const Dashboard = () => {
     const fetchFeedback = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5001/api/feedback/einstein_bagels"
+          "/api/feedback/einstein_bagels"
         ); // Fetch feedback for the specific restaurant
         setFeedback(response.data);
       } catch (error) {
@@ -228,7 +228,7 @@ const Dashboard = () => {
     const fetchPendingOrders = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5001/api/bagelsOrder"
+          "/api/bagelsOrder"
         ); // New API endpoint (see server.js update below)
         if (response.status === 200) {
           const ordersWithInitialStatus = response.data.map((order) => ({
@@ -261,7 +261,7 @@ const Dashboard = () => {
 
   const handleUpdateOrderStatus = async (orderId, newStatus) => {
     try {
-      await axios.put(`http://localhost:5001/api/bagelsOrder/${orderId}`, {
+      await axios.put(`/api/bagelsOrder/${orderId}`, {
         status: newStatus,
       }); // New API endpoint for updates
 

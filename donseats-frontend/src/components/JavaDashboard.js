@@ -43,7 +43,7 @@ const JavaDashBoard = () => {
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch("http://localhost:5001/api/java/menuItems"); // Replace with your backend endpoint
+        const response = await fetch("/api/java/menuItems"); // Replace with your backend endpoint
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -73,7 +73,7 @@ const JavaDashBoard = () => {
       formData.append("description", newMenuItem.description);
 
       const response = await axios.post(
-        "http://localhost:5001/api/java/addMenuItem",
+        "/api/java/addMenuItem",
         formData,
         {
           headers: {
@@ -111,7 +111,7 @@ const JavaDashBoard = () => {
 
   const handleDeleteMenuItem = async (itemId) => {
     try {
-      await axios.delete(`http://localhost:5001/api/java/menuItem/${itemId}`); // Send DELETE to the server
+      await axios.delete(`/api/java/menuItem/${itemId}`); // Send DELETE to the server
       // Update local state (remove the deleted item)
       const updatedMenuItems = { ...menuItems };
       delete updatedMenuItems[itemId]; // Assuming itemId becomes the key
@@ -135,7 +135,7 @@ const JavaDashBoard = () => {
       };
 
       const response = await axios.put(
-        "http://localhost:5001/api/java/menuItem",
+        "/api/java/menuItem",
         dataToUpdate,
         {
           headers: {
@@ -176,7 +176,7 @@ const JavaDashBoard = () => {
     const fetchDishRequests = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5001/api/java/javaSpot"
+          "/api/java/javaSpot"
         ); // Use axios.get()
         setDishRequests(response.data);
       } catch (error) {
@@ -191,7 +191,7 @@ const JavaDashBoard = () => {
     const fetchFeedback = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5001/api/feedback/java"
+          "/api/feedback/java"
         ); // Fetch feedback for the specific restaurant
         setFeedback(response.data);
       } catch (error) {
@@ -206,7 +206,7 @@ const JavaDashBoard = () => {
   useEffect(() => {
     const fetchPendingOrders = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/api/java/javaOrders"); // Replace with your actual endpoint
+        const response = await axios.get("/api/java/javaOrders"); // Replace with your actual endpoint
 
         // Check response status
         if (response.status === 200) {
@@ -237,7 +237,7 @@ const JavaDashBoard = () => {
   const handleUpdateOrderStatus = async (orderId, newStatus) => {
     try {
       await axios.put(
-        `http://localhost:5001/api/java/javaOrders/${orderId}`, // Make sure this is your Bons order update endpoint
+        `/api/java/javaOrders/${orderId}`, // Make sure this is your Bons order update endpoint
         { status: newStatus }
       );
 
