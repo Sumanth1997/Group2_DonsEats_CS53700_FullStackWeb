@@ -18,6 +18,8 @@ const restaurants = [
 const HomePage = () => {
   const [selectedCategory, setSelectedCategory] = useState('Egg Sandwiches');
   const [bonsSelectedCategory, setBonsSelectedCategory] = useState('Coffee & Espresso'); // Default for Bon Bon's
+  const [donsSelectedCategory, setDonsSelectedCategory] = useState('Epic Eats'); // Default for Bon Bon's
+  
   const [cartItems, setCartItems] = useState({});
   const { user, loading } = useContext(AuthContext);
     
@@ -29,6 +31,9 @@ const HomePage = () => {
       navigate('/EinsteinBros', { state: { restaurant, selectedCategory, cartItems } });
     } else if (restaurant.title === "Bon Bon's Coffee") {
       navigate('/bonsmenu', { state: { restaurant, bonsSelectedCategory, cartItems } });
+    }
+    else if (restaurant.title === "Don's at Walb") {
+      navigate('/donsmenu', { state: { restaurant, bonsSelectedCategory, cartItems } });
     }
   };
 

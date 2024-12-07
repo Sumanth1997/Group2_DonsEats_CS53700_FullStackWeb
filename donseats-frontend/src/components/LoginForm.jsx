@@ -46,6 +46,10 @@ const Login = () => {
                 {
                   navigate('/bonsdashboard');
                 }
+                else if (user.restaurant === 'Don\'s at walb')
+                  {
+                    navigate('/donsdashboard');
+                  }
                 else{
                   navigate('/dashboard');
                 }

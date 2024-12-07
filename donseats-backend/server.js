@@ -13,6 +13,7 @@ const {
 app.use(express.json());
 const serviceAccount = require("./serviceAccountKey.json"); // Correct path is crucial
 
+
 admin.initializeApp({
   // Use admin.initializeApp
   credential: admin.credential.cert(serviceAccount), // Use admin.credential.cert
@@ -23,6 +24,9 @@ const db = admin.firestore();
 const storage = getStorage(); // Initialize Storage *after* initializing the app.
 
 const upload = multer({ storage: multer.memoryStorage() });
+
+const donsRoutes = require("./donsRoutes"); // Import the Dons routes
+app.use("/api/dons", donsRoutes);
 
 app.get("/api/menuItems", async (req, res) => {
   // Async route handler
