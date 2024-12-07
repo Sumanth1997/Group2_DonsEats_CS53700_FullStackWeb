@@ -2,6 +2,7 @@ import React, { useState, useEffect,useContext } from 'react';
 import axios from 'axios'; // Import axios
 import '../styles/Menu.css';
 import { AuthContext } from "../services/AuthContext";
+import FeedbackForm from './Feedback';
 
 
 const BonsMenu = ({ category, cartItems, setCartItems }) => {
@@ -14,7 +15,6 @@ const BonsMenu = ({ category, cartItems, setCartItems }) => {
     });
     const { user } = useContext(AuthContext);
     const [feedback, setFeedback] = useState("");
-    const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
 
     useEffect(() => {
         const fetchMenuItems = async () => {
@@ -63,61 +63,6 @@ const BonsMenu = ({ category, cartItems, setCartItems }) => {
         });
       };
 
-      const handleSubmit = async (e) => {
-        e.preventDefault();
-    
-        try {
-          if (!user) {
-            // Check if user is logged in
-            alert("You must be logged in to request a new dish.");
-            return;
-          }
-          const response = await axios.post(
-            "/api/bons/requestNewDish",
-            {
-              dishName: newDishRequest,
-              userId: user.uid,
-            }
-          );
-    
-          console.log("Dish request submitted:", response.data);
-          alert("Your dish request has been submitted!");
-          setNewDishRequest(""); // Clear the input field
-        } catch (error) {
-          console.error("Error submitting dish request:", error);
-          alert(
-            "There was an error submitting your request. Please try again later."
-          ); // User-friendly error message
-        }
-      };
-    
-      const handleFeedbackSubmit = async (e) => {
-        e.preventDefault();
-    
-        try {
-          if (!user) {
-            alert("You must be logged in to submit feedback.");
-            return;
-          }
-    
-          const response = await axios.post(
-            "/api/submitFeedback",
-            {
-              feedback,
-              userId: user.uid, // Include the user's UID
-              restaurantId: "bon_bons", // Or however you identify the restaurant
-            }
-          );
-    
-          console.log("Feedback submitted:", response.data);
-          setFeedback(""); // Clear the feedback input
-          setFeedbackSubmitted(true); // Set feedback submitted state
-        } catch (error) {
-          console.error("Error submitting feedback:", error);
-          alert("Error submitting your feedback. Please try again.");
-        }
-      };
-
   return (
     <section className="menu-section">
       {Object.entries(items).map(([subcategory, subItems]) => (
@@ -154,37 +99,7 @@ const BonsMenu = ({ category, cartItems, setCartItems }) => {
         </div>
       ))}
 
-<form onSubmit={handleSubmit}>
-          <h2>Request a New Dish</h2>
-          <input
-            type="text"
-            placeholder="Dish Name"
-            value={newDishRequest}
-            onChange={(e) => setNewDishRequest(e.target.value)}
-            required
-          />
-          <button type="submit">Submit Request</button>
-        </form>
-
-        <form onSubmit={handleFeedbackSubmit}>
-          <h2>Feedback</h2>
-          {feedbackSubmitted ? ( // Conditional rendering of the form
-            <p>Thank you for your feedback!</p> // Or render something else after feedback is submitted
-          ) : (
-            <>
-              {" "}
-              {/* Fragment to wrap multiple elements*/}
-              <textarea
-                value={feedback}
-                onChange={(e) => setFeedback(e.target.value)}
-                placeholder="Enter your feedback here"
-                rows="4" // Adjust as needed
-                required
-              />
-              <button type="submit">Submit Feedback</button>
-            </>
-          )}
-        </form>
+      <FeedbackForm user={user} />
 
       <section className="info-section">
         <div className="info-box delivery-info">

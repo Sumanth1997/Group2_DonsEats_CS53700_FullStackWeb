@@ -1,0 +1,73 @@
+.dish-feedback-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 500px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+  
+      h2 {
+        font-size: 20px;
+        font-weight: bold;
+        color: #333333;
+        margin-bottom: 0.5rem;
+        text-align: center;
+      }
+  
+      input,
+      textarea {
+        // width:  100%;
+        padding: 0.75rem;
+        border: 1px solid #cccccc;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-family: inherit;
+        color: #555555;
+        background-color: #f9f9f9;
+  
+        &:focus {
+          outline: none;
+          border-color: #4caf50;
+          background-color: #ffffff;
+          box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+        }
+      }
+  
+      button {
+        align-self: center;
+        background: green;
+        color: #ffffff;
+        font-size: 1rem;
+        padding: 0.75rem 2rem;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+  
+        &:hover {
+          background: #45a049;
+        }
+  
+        &:active {
+          transform: scale(0.98);
+        }
+      }
+  
+      p {
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: #4caf50;
+        text-align: center;
+      }
+    }
+  }
+  

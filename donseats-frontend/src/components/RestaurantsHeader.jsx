@@ -62,9 +62,8 @@ const RestaurantsHeader = ({ cartItems, restaurant, menuItems, setCartItems }) =
             {/* Restaurant Dropdown */}
             <div className="restaurant-dropdown">
             <a
-                onMouseEnter={() => setDropdownOpen(true)} // Show dropdown on hover
-                onMouseLeave={() => setDropdownOpen(false)} // Hide dropdown when mouse leaves
-                style={{ cursor: 'pointer' }}
+               onClick={() => setDropdownOpen(!dropdownOpen)}
+               style={{ cursor: 'pointer' }}
             >
                 Restaurants
             </a>

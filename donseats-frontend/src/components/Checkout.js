@@ -86,6 +86,13 @@ const Checkout = () => {
     setOrderType("scheduled");
   };
 
+  const removeItemFromCart = (itemName) => {
+    const updatedCartItems = { ...cartItems };
+    delete updatedCartItems[itemName];
+    // Update cartItems state in the parent component
+    // If you're using a context or prop, you might need to trigger an update
+    navigate(0);
+  };
 
   return (
     <div className="checkout-container">
@@ -102,35 +109,41 @@ const Checkout = () => {
           return (
             itemData && (
               <li key={itemName} className="checkout-item">
-                <img src={itemData.imageUrl} alt={itemName} className="checkout-item-image" />
-                <div className="checkout-item-details">
-                  <span>{itemName}</span>
-                  <span>Quantity: {quantity}</span>
-                  <span>Price: ${itemData.price}</span> {/* Display individual item price */}
-                </div>
-              </li>
+  <img src={itemData.imageUrl} alt={itemName} className="checkout-item-image" />
+  <div className="checkout-item-details">
+    <span className="delete-icon" onClick={() => removeItemFromCart(itemName)}>
+      <i className="fas fa-times"></i>
+    </span>
+    <span className="item-name">{itemName}</span> {/* Applied class to the item name */}
+    <div className="quantity-price">
+      <span className="item-quantity">Quantity: {quantity}</span>
+      <span className="item-price">Price: ${itemData.price}</span>
+    </div>
+  </div>
+</li>
+
             )
           );
         })}
       </ul>
 
-
       {/* Total Price */}
       <h3>Total: ${totalPrice}</h3>
 
-      <button onClick={handleOrderNow}>Order Now</button>
       <button onClick={handleScheduleOrder}>Schedule Order</button>
       {orderType === "scheduled" && (
-          <input
-              type="datetime-local" // Use datetime-local for combined date and time
-              value={scheduledTime}
-              onChange={(e) => setScheduledTime(e.target.value)}
-              min={new Date().toISOString().slice(0, 16)} // Set minimum to current date and time
-           />
-       )}
+        <input
+          className="schedule_input"
+          type="datetime-local" // Use datetime-local for combined date and time
+          value={scheduledTime}
+          onChange={(e) => setScheduledTime(e.target.value)}
+          min={new Date().toISOString().slice(0, 16)} // Set minimum to current date and time
+        />
+      )}
+
+      <button onClick={handleOrderNow}>Order Now</button>
     </div>
   );
 };
 
 export default Checkout;
-
