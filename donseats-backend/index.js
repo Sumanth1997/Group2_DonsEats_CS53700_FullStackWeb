@@ -30,7 +30,7 @@ const storage = getStorage(); // Initialize Storage *after* initializing the app
 const upload = multer({ storage: multer.memoryStorage() });
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, '../client/build')));
+app.use(express.static(path.join(__dirname, '../donseats-frontend/build')));
 
 const donsRoutes = require("./donsRoutes"); // Import the Dons routes
 app.use("/api/dons", donsRoutes);
