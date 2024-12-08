@@ -1,79 +1,119 @@
+:root {
+  --primary-color: #ff5722;
+  --primary-hover: #e64a19;
+  --secondary-color: #1976d2;
+  --secondary-hover: #1565c0;
+  --border-color: #eaeaea;
+  --background-light: #f9f9f9;
+  --shadow-light: rgba(0, 0, 0, 0.05);
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: var(--background-light);
+  margin: 0;
+  padding: 0;
+}
+
 .dashboard {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  padding: 2rem;
+  gap: 1.5rem;
+  padding: 1.5rem 2rem;
 }
-.dashboard .orders-section, .dashboard .menu-management, .dashboard .reviews-section {
-  border: 1px solid #ccc;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-}
-.dashboard .orders-section h2, .dashboard .menu-management h2, .dashboard .reviews-section h2 {
+
+.dashboard h2 {
+  font-size: 1.8rem;
+  color: #333;
   margin-bottom: 1rem;
+  font-weight: 600;
+  text-align: left;
 }
-.dashboard .orders-section ul, .dashboard .menu-management ul, .dashboard .reviews-section ul {
+
+.dashboard .section {
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background-color: #ffffff;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 4px 8px var(--shadow-light);
+}
+
+.dashboard .section:not(:last-child) {
+  margin-bottom: 1.5rem;
+}
+
+.dashboard ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
-.dashboard .orders-section ul li, .dashboard .menu-management ul li, .dashboard .reviews-section ul li {
+
+.dashboard ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  padding: 1rem;
   margin-bottom: 0.8rem;
-  padding: 0.5rem 1rem;
-  border: 1px solid #eee;
-  border-radius: 4px;
-  transition: background-color 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.dashboard .orders-section ul li:hover, .dashboard .menu-management ul li:hover, .dashboard .reviews-section ul li:hover {
-  background-color: #f5f5f5;
-}
-.dashboard .orders-section ul li button, .dashboard .menu-management ul li button, .dashboard .reviews-section ul li button {
-  background-color: #46a24e;
-  color: white;
-  border: none;
-  padding: 0.4rem 0.8rem;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.dashboard .orders-section form, .dashboard .menu-management form, .dashboard .reviews-section form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-}
-.dashboard .orders-section form input,
-.dashboard .orders-section form select,
-.dashboard .orders-section form button, .dashboard .menu-management form input,
-.dashboard .menu-management form select,
-.dashboard .menu-management form button, .dashboard .reviews-section form input,
-.dashboard .reviews-section form select,
-.dashboard .reviews-section form button {
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-.dashboard .orders-section form button[type=submit], .dashboard .menu-management form button[type=submit], .dashboard .reviews-section form button[type=submit] {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-.dashboard .orders-section form button[type=submit]:hover, .dashboard .menu-management form button[type=submit]:hover, .dashboard .reviews-section form button[type=submit]:hover {
-  background-color: #0056b3;
-}
-.dashboard .menu-management .menu-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-}
-.dashboard .menu-management form {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  transition: transform 0.3s, background-color 0.3s;
 }
 
-/*# sourceMappingURL=Dashboard.css.map */
+.dashboard ul li:hover {
+  background-color: var(--background-light);
+  transform: translateY(-3px);
+}
+
+.dashboard button {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.dashboard button:hover {
+  background-color: var(--primary-hover);
+}
+
+.dashboard input,
+.dashboard select,
+.dashboard textarea {
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+.dashboard .form-group {
+  margin-bottom: 1rem;
+}
+
+.dashboard .form-group label {
+  font-size: 1rem;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.dashboard form button {
+  background-color: var(--secondary-color);
+  color: #fff;
+  padding: 0.7rem 1.2rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.dashboard form button:hover {
+  background-color: var(--secondary-hover);
+}
