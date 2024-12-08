@@ -18,7 +18,6 @@ const serviceAccount = JSON.parse(
   Buffer.from(process.env.FIREBASE_CREDENTIALS, 'base64').toString('utf8')
 );
 
-
 admin.initializeApp({
   // Use admin.initializeApp
   credential: admin.credential.cert(serviceAccount), // Use admin.credential.cert
@@ -29,6 +28,9 @@ const db = admin.firestore();
 const storage = getStorage(); // Initialize Storage *after* initializing the app.
 
 const upload = multer({ storage: multer.memoryStorage() });
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, '../client/build')));
 
 const donsRoutes = require("./donsRoutes"); // Import the Dons routes
 app.use("/api/dons", donsRoutes);
