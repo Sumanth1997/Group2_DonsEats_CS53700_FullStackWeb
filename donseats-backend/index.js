@@ -32,6 +32,11 @@ const upload = multer({ storage: multer.memoryStorage() });
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../donseats-frontend/build')));
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../donseats-frontend/build', 'index.html'));
+});
+
+
 const donsRoutes = require("./donsRoutes"); // Import the Dons routes
 app.use("/api/dons", donsRoutes);
 
