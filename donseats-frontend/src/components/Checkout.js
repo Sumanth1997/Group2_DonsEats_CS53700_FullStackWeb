@@ -14,7 +14,7 @@ const Checkout = () => {
   const { user } = useContext(AuthContext);
   const [paymentMade, setPaymentMade] = useState(false);
 
-  console.log(cartItems);
+  // console.log(cartItems);
   useEffect(() => {
     if (menuItems && Object.keys(cartItems).length > 0) {
       const newTotalPrice = calculateTotalPrice();

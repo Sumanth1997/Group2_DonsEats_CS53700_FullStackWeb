@@ -81,8 +81,7 @@ const Cart = ({ cartItems, setCartItems,menuItems,restaurant }) => {
     }
   }, [cartItems, menuItems]);
 
-console.log(restaurant);
-  
+// console.log(restaurant);
 
   const toggleCart = () => {
     setShowCart(!showCart);

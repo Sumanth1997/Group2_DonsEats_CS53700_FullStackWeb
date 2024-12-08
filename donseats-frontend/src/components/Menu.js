@@ -1,69 +1,45 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { AuthContext } from "../services/AuthContext"; // Make sure to import AuthContext
+import { AuthContext } from "../services/AuthContext"; // Import AuthContext
 import FeedbackForm from "./Feedback";
-
-// import { menuItems } from './menuItems';
 
 const Menu = ({ category, cartItems, setCartItems }) => {
   const [menuItems, setMenuItems] = useState({}); // Store menu items from backend
-  // const [activeCategory, setActiveCategory] = useState({});
   const [loading, setLoading] = useState(true); // For loading state
   const [error, setError] = useState(null); // For error state
-  const categories = Object.keys(menuItems); // Get categories dynamically
-  const [newDishRequest, setNewDishRequest] = useState({
-    dishName: "",
-    description: "",
-  });
   const { user } = useContext(AuthContext);
-  const [feedback, setFeedback] = useState("");
-  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
 
   useEffect(() => {
-    const updateImageUrls = async () => {
-      // Make this function async
-      if (!menuItems || Object.keys(menuItems).length === 0) {
-        return; // Nothing to update
-      }
-
-      const updatedMenuItems = { ...menuItems }; // Create a copy
-
-      for (const category in updatedMenuItems) {
-        for (const subcategory in updatedMenuItems[category]) {
-          for (const item of updatedMenuItems[category][subcategory]) {
-            // console.log(item.imageUrl);
-            if (!item.imageUrl.startsWith("http")) {
-              // Check if it's a local path
-              item.imageUrl = `${item.imageUrl}`; // Prepend /Images/
-            }
-          }
-        }
-      }
-      setMenuItems(updatedMenuItems);
-    };
-
-    updateImageUrls(); // Call the async function
-  }, [menuItems]); // Add menuItems as a dependency
-
-  useEffect(() => {
+    // Fetch menu items from backend
     const fetchMenuItems = async () => {
       try {
         const response = await axios.get("/api/menuItems");
-        setMenuItems(response.data);
-        setLoading(false); // Set loading to false after data is fetched
-      } catch (error) {
-        console.error("Error fetching menu items:", error);
-        setError(error); // Set error state
-        setLoading(false); // Set loading to false even if there's an error
+        const data = response.data;
+
+        // Update image URLs dynamically
+        const updatedData = { ...data };
+        for (const category in updatedData) {
+          for (const subcategory in updatedData[category]) {
+            updatedData[category][subcategory] = updatedData[category][subcategory].map((item) => ({
+              ...item,
+              imageUrl: item.imageUrl.startsWith("http")
+                ? item.imageUrl
+                : `${item.imageUrl}`,
+            }));
+          }
+        }
+
+        setMenuItems(updatedData);
+        setLoading(false); // Stop loading
+      } catch (err) {
+        console.error("Error fetching menu items:", err);
+        setError(err); // Set error state
+        setLoading(false); // Stop loading on error
       }
     };
 
     fetchMenuItems();
-  }, [category]);
-
-  // const handleCategorySelect = (category) => {
-  //     setActiveCategory(category);
-  // };
+  }, []); // Empty dependency array ensures it runs only once on mount
 
   const handleAddToCart = (itemId) => {
     setCartItems((prevCartItems) => ({
