@@ -288,7 +288,7 @@ app.get('/api/feedback/:restaurantId', async (req, res) => {
 
 app.post('/api/bagelsOrder', async (req, res) => {
   try {
-    const { userId, items, status, orderPickupTime } = req.body;
+    const { userId, items, status, orderPickupTime,restaurant } = req.body;
 
     // Generate a unique order ID (you can use various methods like UUIDs)
     const orderId = generateUniqueId(); //  Implement this function (see below)
@@ -299,6 +299,7 @@ app.post('/api/bagelsOrder', async (req, res) => {
       items,
       status,
       orderPickupTime,
+      restaurant,
       orderTime: admin.firestore.FieldValue.serverTimestamp(),
     });
 

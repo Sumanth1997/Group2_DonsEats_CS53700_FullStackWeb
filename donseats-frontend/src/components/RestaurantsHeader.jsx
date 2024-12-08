@@ -87,7 +87,7 @@ const RestaurantsHeader = ({ cartItems, restaurant, menuItems, setCartItems }) =
             <span className="rating-score">{restaurant.rating}</span>
             <p>{restaurant.reviews} reviews</p>
           </div>
-          <Cart cartItems={cartItems} setCartItems={setCartItems} menuItems={menuItems} />
+          <Cart cartItems={cartItems} setCartItems={setCartItems} menuItems={menuItems} restaurant={restaurant.title}/>
 
           {loading ? (
             <p>Loading...</p> 
