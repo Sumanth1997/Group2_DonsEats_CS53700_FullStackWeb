@@ -7,12 +7,12 @@ import { AuthContext } from "../services/AuthContext";
 const Checkout = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { cartItems, menuItems } = location.state || {};
+  const { cartItems, menuItems,restaurant } = location.state || {};
   const [totalPrice, setTotalPrice] = useState(0);
   const [orderType, setOrderType] = useState("now");
   const [scheduledTime, setScheduledTime] = useState("");
   const { user } = useContext(AuthContext);
-
+  console.log(cartItems);
   useEffect(() => {
     if (menuItems && Object.keys(cartItems).length > 0) {
       const newTotalPrice = calculateTotalPrice();
@@ -66,6 +66,7 @@ const Checkout = () => {
         items: cartItems,
         status: "New",
         orderPickupTime: orderType === "now" ? "Now" : scheduledTime,
+        restaurant: restaurant || "Unknown Restaurant"
       };
 
       const response = await axios.post(

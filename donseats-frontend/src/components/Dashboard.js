@@ -322,6 +322,7 @@ const Dashboard = () => {
                   <option value="Ready for Pickup">Completed</option>
                 </select>
               </div>
+              <p>Pickup Time: {order.orderPickupTime}</p>
             </li>
           ))}
         </ul>

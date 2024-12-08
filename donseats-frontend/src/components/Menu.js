@@ -1,9 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import "../styles/Header.css";
-import "../styles/NavBar.css";
-import "../styles/Menu.css";
-import Cart from "./Cart";
 import { AuthContext } from "../services/AuthContext"; // Make sure to import AuthContext
 import FeedbackForm from "./Feedback";
 
@@ -35,7 +31,7 @@ const Menu = ({ category, cartItems, setCartItems }) => {
       for (const category in updatedMenuItems) {
         for (const subcategory in updatedMenuItems[category]) {
           for (const item of updatedMenuItems[category][subcategory]) {
-            console.log(item.imageUrl);
+            // console.log(item.imageUrl);
             if (!item.imageUrl.startsWith("http")) {
               // Check if it's a local path
               item.imageUrl = `${item.imageUrl}`; // Prepend /Images/

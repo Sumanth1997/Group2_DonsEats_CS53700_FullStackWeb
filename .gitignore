@@ -48,5 +48,5 @@ node_modules/
 .vscode/
 .idea/
 *.swp
-
+.env.local
 serviceAccountKey.json
