@@ -12,6 +12,7 @@ const {
 } = require("firebase-admin/storage"); // Import from Firebase Admin SDK
 app.use(express.json());
 const serviceAccount = require("./serviceAccountKey.json"); // Correct path is crucial
+// const functions = require('firebase-functions');
 
 
 admin.initializeApp({
@@ -287,7 +288,7 @@ app.get('/api/feedback/:restaurantId', async (req, res) => {
 
 app.post('/api/bagelsOrder', async (req, res) => {
   try {
-    const { userId, items, status, orderPickupTime } = req.body;
+    const { userId, items, status, orderPickupTime,restaurant } = req.body;
 
     // Generate a unique order ID (you can use various methods like UUIDs)
     const orderId = generateUniqueId(); //  Implement this function (see below)
@@ -298,6 +299,7 @@ app.post('/api/bagelsOrder', async (req, res) => {
       items,
       status,
       orderPickupTime,
+      restaurant,
       orderTime: admin.firestore.FieldValue.serverTimestamp(),
     });
 
@@ -412,5 +414,7 @@ app.get('/api/bagelsOrder/user/:userId', async (req, res) => {  // New endpoint 
       res.status(500).json({ error: 'Failed to fetch user orders' }); // Provide details about why it failed.
   }
 });
+
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// exports.donseats_backend = functions.https.onRequest(app);

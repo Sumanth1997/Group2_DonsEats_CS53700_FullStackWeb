@@ -7,12 +7,14 @@ import { AuthContext } from "../services/AuthContext";
 const Checkout = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { cartItems, menuItems } = location.state || {};
+  const { cartItems, menuItems,restaurant } = location.state || {};
   const [totalPrice, setTotalPrice] = useState(0);
   const [orderType, setOrderType] = useState("now");
   const [scheduledTime, setScheduledTime] = useState("");
   const { user } = useContext(AuthContext);
+  const [paymentMade, setPaymentMade] = useState(false);
 
+  // console.log(cartItems);
   useEffect(() => {
     if (menuItems && Object.keys(cartItems).length > 0) {
       const newTotalPrice = calculateTotalPrice();
@@ -21,6 +23,7 @@ const Checkout = () => {
       setTotalPrice(0);
     }
   }, [cartItems, menuItems]);
+
 
   const calculateTotalPrice = () => {
     let totalPrice = 0;
@@ -66,6 +69,7 @@ const Checkout = () => {
         items: cartItems,
         status: "New",
         orderPickupTime: orderType === "now" ? "Now" : scheduledTime,
+        restaurant: restaurant || "Unknown Restaurant"
       };
 
       const response = await axios.post(
@@ -85,6 +89,10 @@ const Checkout = () => {
   const handleScheduleOrder = () => {
     setOrderType("scheduled");
   };
+
+  const handlePayNowClick = () => {
+    setPaymentMade(true); // Simulate successful payment
+};
 
   const removeItemFromCart = (itemName) => {
     const updatedCartItems = { ...cartItems };
@@ -141,7 +149,15 @@ const Checkout = () => {
         />
       )}
 
-      <button onClick={handleOrderNow}>Order Now</button>
+<button onClick={handlePayNowClick} disabled={paymentMade}>
+                {paymentMade ? "Payment Complete" : "Pay Now (Simulated)"}
+            </button>
+
+          
+            <button onClick={handleOrderNow} disabled={!paymentMade}>
+                Order Now
+            </button>
+
     </div>
   );
 };

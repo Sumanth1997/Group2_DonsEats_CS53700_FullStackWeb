@@ -9,7 +9,7 @@ import { AuthContext } from '../services/AuthContext';
 import { Link } from 'react-router-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const Cart = ({ cartItems, setCartItems,menuItems }) => {
+const Cart = ({ cartItems, setCartItems,menuItems,restaurant }) => {
   const [showCart, setShowCart] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   const [showCheckout, setShowCheckout] = useState(false); // To toggle checkout section
@@ -81,8 +81,7 @@ const Cart = ({ cartItems, setCartItems,menuItems }) => {
     }
   }, [cartItems, menuItems]);
 
-console.log(totalPrice);
-  
+// console.log(restaurant);
 
   const toggleCart = () => {
     setShowCart(!showCart);
@@ -90,7 +89,7 @@ console.log(totalPrice);
 
   const handleCheckoutClick = () => {
     if (Object.keys(cartItems).length > 0) {
-        navigate('/checkout', { state: { cartItems, menuItems } }); 
+        navigate('/checkout', { state: { cartItems, menuItems,restaurant } }); 
     }
 };
 

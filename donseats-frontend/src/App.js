@@ -36,7 +36,7 @@ const App = () => {
   const [einsteinCartItems, setEinsteinCartItems] = useState({});  // Einstein's cart
   const [bonsCartItems, setBonsCartItems] = useState({});  
   const [donsCartItems, setDonsCartItems] = useState({}); 
-  const [javaCartItems, setJavaCartItems] = useState({});        // Bon Bon's cart
+  const [javaCartItems, setJavaCartItems] = useState({});        
 
   const PrivateRoute = ({ element, ...rest }) => {
     const { user } = useContext(AuthContext);
@@ -78,7 +78,7 @@ const App = () => {
     const fetchJavaMenuItems = async () => {
       try {
         const response = await axios.get('/api/java/menuItems');
-        setDonsMenuItems(response.data);
+        setJavaMenuItems(response.data);
       } catch (error) {
         console.error("Error fetching Don's menu items:", error);
       }

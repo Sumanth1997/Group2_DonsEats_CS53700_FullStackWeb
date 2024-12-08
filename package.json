@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "concurrently \"npm run server --prefix donseats-backend\" \"npm start --prefix donseats-frontend\"",
-    "server": "nodemon server.js"
+    "server": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
