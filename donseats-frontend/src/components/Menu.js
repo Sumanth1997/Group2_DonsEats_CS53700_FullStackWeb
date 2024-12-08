@@ -8,12 +8,13 @@ const Menu = ({ category, cartItems, setCartItems }) => {
   const [loading, setLoading] = useState(true); // For loading state
   const [error, setError] = useState(null); // For error state
   const { user } = useContext(AuthContext);
+  const API_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     // Fetch menu items from backend
     const fetchMenuItems = async () => {
       try {
-        const response = await axios.get("/api/menuItems");
+        const response = await axios.get(`${API_URL}/api/menuItems`);
         const data = response.data;
 
         // Update image URLs dynamically

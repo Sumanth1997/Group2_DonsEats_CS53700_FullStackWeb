@@ -9,6 +9,7 @@ const TrackOrder = () => {
     const { user } = useContext(AuthContext);
     const [userOrders, setUserOrders] = useState([]);
     const [ordersByRestaurant, setOrdersByRestaurant] = useState({});
+    const API_URL = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
         const fetchUserOrders = async () => {
@@ -17,7 +18,7 @@ const TrackOrder = () => {
                 return;
             }
             try {
-                const response = await axios.get(`/api/bagelsOrder/user/${user.uid}`);
+                const response = await axios.get(`${API_URL}/api/bagelsOrder/user/${user.uid}`);
                 if (response.status === 200) {
                     setUserOrders(response.data);
 

@@ -3,7 +3,13 @@ const cors = require("cors");
 const app = express();
 const path = require('path');
 
-app.use(cors());
+require("dotenv").config();
+app.use(cors({
+  origin: process.env.FRONTEND_URL,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+}));
+
 const admin = require("firebase-admin");
 const multer = require("multer"); // For handling multipart/form-data
 const {
@@ -13,7 +19,7 @@ const {
   getDownloadURL,
 } = require("firebase-admin/storage"); // Import from Firebase Admin SDK
 app.use(express.json());
-// const serviceAccount = require("./serviceAccountKey.json"); // Correct path is crucial
+//const serviceAccount = require("./serviceAccountKey.json"); // Correct path is crucial
 // const functions = require('firebase-functions');
 
 const serviceAccount = JSON.parse(

@@ -15,12 +15,13 @@ const DonsMenu = ({ category, cartItems, setCartItems }) => {
     const { user } = useContext(AuthContext);
     const [feedback, setFeedback] = useState("");
     const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
+    const API_URL = process.env.REACT_APP_API_URL;
 
 
     useEffect(() => {
         const fetchMenuItems = async () => {
           try {
-            const response = await axios.get("/api/dons/menuItems"); // Correct API endpoint
+            const response = await axios.get(`${API_URL}/api/dons/menuItems`); // Correct API endpoint
             setMenuItems(response.data);
             setLoading(false);
           } catch (error) {
@@ -74,7 +75,7 @@ const DonsMenu = ({ category, cartItems, setCartItems }) => {
             return;
           }
           const response = await axios.post(
-            "/api/dons/requestNewDish",
+            `${API_URL}/api/dons/requestNewDish`,
             {
               dishName: newDishRequest,
               userId: user.uid,
@@ -102,7 +103,7 @@ const DonsMenu = ({ category, cartItems, setCartItems }) => {
           }
     
           const response = await axios.post(
-            "/api/submitFeedback",
+            `${API_URL}/api/submitFeedback`,
             {
               feedback,
               userId: user.uid, // Include the user's UID

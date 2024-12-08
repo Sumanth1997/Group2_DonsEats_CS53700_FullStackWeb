@@ -13,6 +13,7 @@ const Checkout = () => {
   const [scheduledTime, setScheduledTime] = useState("");
   const { user } = useContext(AuthContext);
   const [paymentMade, setPaymentMade] = useState(false);
+  const API_URL = process.env.REACT_APP_API_URL;
 
   // console.log(cartItems);
   useEffect(() => {
@@ -73,7 +74,7 @@ const Checkout = () => {
       };
 
       const response = await axios.post(
-        "/api/bagelsOrder",
+        `${API_URL}/api/bagelsOrder`,
         orderData
       );
       console.log("Order placed:", response.data);

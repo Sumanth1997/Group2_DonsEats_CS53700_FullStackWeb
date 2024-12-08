@@ -38,11 +38,12 @@ const BonsDashboard = () => {
   const [reviews, setReviews] = useState([]);
   const [dishRequests, setDishRequests] = useState([]);
   const [feedback, setFeedback] = useState([]);
+  const API_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch("/api/bons/menuItems"); // Replace with your backend endpoint
+        const response = await fetch(`${API_URL}/api/bons/menuItems`); // Replace with your backend endpoint
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -72,7 +73,7 @@ const BonsDashboard = () => {
       formData.append("description", newMenuItem.description);
 
       const response = await axios.post(
-        "/api/bons/addMenuItem",
+        `${API_URL}/api/bons/addMenuItem`,
         formData,
         {
           headers: {
@@ -110,7 +111,7 @@ const BonsDashboard = () => {
 
   const handleDeleteMenuItem = async (itemId) => {
     try {
-      await axios.delete(`/api/bons/menuItem/${itemId}`); // Send DELETE to the server
+      await axios.delete(`${API_URL}/api/bons/menuItem/${itemId}`); // Send DELETE to the server
       // Update local state (remove the deleted item)
       const updatedMenuItems = { ...menuItems };
       delete updatedMenuItems[itemId]; // Assuming itemId becomes the key
@@ -134,7 +135,7 @@ const BonsDashboard = () => {
       };
 
       const response = await axios.put(
-        "/api/bons/menuItem",
+        `${API_URL}/api/bons/menuItem`,
         dataToUpdate,
         {
           headers: {
@@ -175,7 +176,7 @@ const BonsDashboard = () => {
     const fetchDishRequests = async () => {
       try {
         const response = await axios.get(
-          "/api/bons/bonBons"
+          `${API_URL}/api/bons/bonBons`
         ); // Use axios.get()
         setDishRequests(response.data);
       } catch (error) {
@@ -190,7 +191,7 @@ const BonsDashboard = () => {
     const fetchFeedback = async () => {
       try {
         const response = await axios.get(
-          "/api/feedback/bon_bons"
+          `${API_URL}/api/feedback/bon_bons`
         ); // Fetch feedback for the specific restaurant
         setFeedback(response.data);
       } catch (error) {
@@ -205,7 +206,7 @@ const BonsDashboard = () => {
   useEffect(() => {
     const fetchPendingOrders = async () => {
       try {
-        const response = await axios.get("/api/bons/bonsOrders"); // Replace with your actual endpoint
+        const response = await axios.get(`${API_URL}/api/bons/bonsOrders`); // Replace with your actual endpoint
 
         // Check response status
         if (response.status === 200) {
@@ -236,7 +237,7 @@ const BonsDashboard = () => {
   const handleUpdateOrderStatus = async (orderId, newStatus) => {
     try {
       await axios.put(
-        `/api/bons/bonsOrders/${orderId}`, // Make sure this is your Bons order update endpoint
+        `${API_URL}/api/bons/bonsOrders/${orderId}`, // Make sure this is your Bons order update endpoint
         { status: newStatus }
       );
 

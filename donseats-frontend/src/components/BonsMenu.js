@@ -15,11 +15,12 @@ const BonsMenu = ({ category, cartItems, setCartItems }) => {
     });
     const { user } = useContext(AuthContext);
     const [feedback, setFeedback] = useState("");
-
+    const API_URL = process.env.REACT_APP_API_URL;
+    
     useEffect(() => {
         const fetchMenuItems = async () => {
           try {
-            const response = await axios.get("/api/bons/menuItems");
+            const response = await axios.get(`${API_URL}/api/bons/menuItems`);
             setMenuItems(response.data);
             setLoading(false);
           } catch (error) {
