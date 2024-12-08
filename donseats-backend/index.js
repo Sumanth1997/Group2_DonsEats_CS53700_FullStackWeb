@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const path = require('path');
+
 app.use(cors());
 const admin = require("firebase-admin");
 const multer = require("multer"); // For handling multipart/form-data
