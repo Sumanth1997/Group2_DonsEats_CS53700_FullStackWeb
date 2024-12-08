@@ -11,7 +11,7 @@ import { getAuth } from "firebase/auth";
     measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
   };
 
-
+console.log(firebaseConfig.apiKey);
 const app = initializeApp(firebaseConfig); // initialize the app
 
 

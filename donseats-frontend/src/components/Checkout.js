@@ -12,7 +12,7 @@ const Checkout = () => {
   const [orderType, setOrderType] = useState("now");
   const [scheduledTime, setScheduledTime] = useState("");
   const { user } = useContext(AuthContext);
-
+  console.log(cartItems);
   useEffect(() => {
     if (menuItems && Object.keys(cartItems).length > 0) {
       const newTotalPrice = calculateTotalPrice();
