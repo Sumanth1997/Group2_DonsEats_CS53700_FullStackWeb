@@ -13,6 +13,7 @@ const Checkout = () => {
   const [scheduledTime, setScheduledTime] = useState("");
   const { user } = useContext(AuthContext);
   const [paymentMade, setPaymentMade] = useState(false);
+  const [showModal, setShowModal] = useState(false); 
 
   console.log(cartItems);
   useEffect(() => {
@@ -63,6 +64,10 @@ const Checkout = () => {
   };
 
   const handleOrderNow = async () => {
+    if (!user) {
+      setShowModal(true); // Show the modal instead of alert
+      return;
+    }
     try {
       const orderData = {
         userId: user.uid,
@@ -105,6 +110,19 @@ const Checkout = () => {
   return (
     <div className="checkout-container">
       <h2>Checkout</h2>
+
+      {showModal && (
+        <div className="modal">  {/* Add a CSS class for styling */}
+          <div className="modal-content"> {/* Add a CSS class for styling */}
+            <p>Please log in to place an order.</p>
+            <button onClick={() => {
+              setShowModal(false);
+              navigate('/login');
+            }}>Go to Login</button>
+            <button onClick={() => setShowModal(false)}>Close</button>
+          </div>
+        </div>
+      )}
 
       {/* Item List */}
       <ul className="checkout-items">

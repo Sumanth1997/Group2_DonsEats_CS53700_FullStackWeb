@@ -30,8 +30,7 @@ h2 {
 .checkout-item img {
   width: 80px;
   height: 80px;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   border-radius: 8px;
   margin-right: 15px;
 }
@@ -125,4 +124,29 @@ button:disabled {
   border-color: #28a745;
   outline: none;
   box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
-}/*# sourceMappingURL=Checkout.css.map */
+}
+
+.modal {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%; /* Or whatever width you want */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Add shadow effect */
+}
+
+/*# sourceMappingURL=Checkout.css.map */
