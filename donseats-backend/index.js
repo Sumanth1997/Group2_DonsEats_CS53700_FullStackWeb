@@ -140,6 +140,41 @@ app.put("/api/updateMenuItem", async (req, res) => {
   }
 });
 
+app.delete('/api/deleteMenuItem', async (req, res) => {
+  try {
+      const { item, category, subcategory } = req.body;  // Get data from request body
+    //  console.log(req.body);
+      
+      // if (!title || !category || !subcategory) {
+      //     return res.status(400).json({ error: 'Title, category, and subcategory are required.' });
+      // }
+
+
+      const snapshot = await db.collection('menuItems')
+          .where('title', '==', item)
+          .where('category', '==', category)
+          .where('subcategory', '==', subcategory)
+          .get();
+
+      if (snapshot.empty) {
+        console.log("Snapshot empty");
+          return res.status(404).json({ error: 'Menu item not found.' });
+      }
+
+      console.log("Before delete");
+      const docToDelete = snapshot.docs[0];
+      await docToDelete.ref.delete();
+      console.log("After delete");
+
+      res.json({ message: 'Menu item deleted successfully.' }); // 200 OK is implicit
+
+  } catch (error) {
+
+      console.error('Error deleting menu item:', error);
+      res.status(500).json({ error: 'Failed to delete menu item.' });
+
+  }
+});
 
 
 app.post("/api/requestNewDish", async (req, res) => {
@@ -165,7 +200,7 @@ app.post("/api/requestNewDish", async (req, res) => {
       .status(201)
       .json({
         message: "Dish request submitted successfully",
-        requestId: requestDocRef.id,
+        // requestId: requestDocRef.id,
       });
   } catch (error) {
     console.error("Error adding dish request:", error);
@@ -220,8 +255,7 @@ app.post("/api/submitFeedback", async (req, res) => {
     res
       .status(201)
       .json({
-        message: "Feedback submitted successfully",
-        feedbackId: feedbackDocRef.id,
+        message: "Feedback submitted successfully"
       });
   } catch (error) {
     console.error("Error submitting feedback:", error);
@@ -288,6 +322,7 @@ app.get('/api/feedback/:restaurantId', async (req, res) => {
 
 app.post('/api/bagelsOrder', async (req, res) => {
   try {
+    console.log("Request Body:", req.body);
     const { userId, items, status, orderPickupTime,restaurant } = req.body;
 
     // Generate a unique order ID (you can use various methods like UUIDs)
@@ -416,5 +451,6 @@ app.get('/api/bagelsOrder/user/:userId', async (req, res) => {  // New endpoint 
 });
 
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const server = app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 // exports.donseats_backend = functions.https.onRequest(app);
+module.exports = { app, server }; 

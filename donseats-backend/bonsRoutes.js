@@ -420,5 +420,41 @@ router.get("/menuItems", async (req, res) => {
     }
   
   });
+
+  router.delete('/deleteMenuItem', async (req, res) => {
+    try {
+        const { item, category, subcategory } = req.body;  // Get data from request body
+      //  console.log(req.body);
+        
+        // if (!title || !category || !subcategory) {
+        //     return res.status(400).json({ error: 'Title, category, and subcategory are required.' });
+        // }
+  
+  
+        const snapshot = await db.collection('bonsMenuItems')
+            .where('title', '==', item)
+            .where('category', '==', category)
+            .where('subcategory', '==', subcategory)
+            .get();
+  
+        if (snapshot.empty) {
+          console.log("Snapshot empty");
+            return res.status(404).json({ error: 'Menu item not found.' });
+        }
+  
+        console.log("Before delete");
+        const docToDelete = snapshot.docs[0];
+        await docToDelete.ref.delete();
+        console.log("After delete");
+  
+        res.json({ message: 'Menu item deleted successfully.' }); // 200 OK is implicit
+  
+    } catch (error) {
+  
+        console.error('Error deleting menu item:', error);
+        res.status(500).json({ error: 'Failed to delete menu item.' });
+  
+    }
+  });
 module.exports = router;
 

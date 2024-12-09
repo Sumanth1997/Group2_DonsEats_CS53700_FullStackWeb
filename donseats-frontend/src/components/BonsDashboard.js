@@ -108,16 +108,35 @@ const BonsDashboard = () => {
     }
   };
 
-  const handleDeleteMenuItem = async (itemId) => {
+  const handleDeleteMenuItem = async (item,category,subcategory) => {  // Pass the whole item object
+  
     try {
-      await axios.delete(`/api/bons/menuItem/${itemId}`); // Send DELETE to the server
-      // Update local state (remove the deleted item)
-      const updatedMenuItems = { ...menuItems };
-      delete updatedMenuItems[itemId]; // Assuming itemId becomes the key
-      setMenuItems(updatedMenuItems);
-      alert("Menu Item deleted successfully");
+      // const { title, category, subcategory } = item;
+        const response = await axios.delete('/api/bons/deleteMenuItem', {  // Send data in request body
+            data: { item, category, subcategory }
+        });
+  
+        if (response.status != 200) {
+          throw new Error("Network response was not ok " + response.status + response.statusText);
+        }
+        alert("Menu Item deleted successfully");
+        // Update local state to remove the deleted item:
+        setMenuItems(prevMenuItems => {
+          const updatedMenuItems = { ...prevMenuItems };
+          // Find and remove the item:
+          const categoryItems = updatedMenuItems[category][subcategory];
+          updatedMenuItems[category][subcategory] = categoryItems.filter(i => i.title !== item);
+  
+          return updatedMenuItems;
+        });
+  
+  
+  
     } catch (error) {
-      // ... handle error
+        console.error("Error deleting menu item:", error);
+        alert("Error deleting menu item: " + error.message);
+  
+  
     }
   };
 
@@ -391,7 +410,7 @@ const BonsDashboard = () => {
                       <li key={item.title}>
                         {item.title} - ${item.price}{" "}
                         <button
-                          onClick={() => handleDeleteMenuItem(item.title)}
+                          onClick={() => handleDeleteMenuItem(item.title,category,subcategory)}
                         >
                           Delete
                         </button>
