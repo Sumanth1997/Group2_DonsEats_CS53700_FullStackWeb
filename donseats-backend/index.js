@@ -1,7 +1,15 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-app.use(cors());
+const path = require('path');
+
+require("dotenv").config();
+app.use(cors({
+  origin: process.env.FRONTEND_URL,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+}));
+
 const admin = require("firebase-admin");
 const multer = require("multer"); // For handling multipart/form-data
 const {
@@ -14,6 +22,9 @@ app.use(express.json());
 const serviceAccount = require("./serviceAccountKey.json"); // Correct path is crucial
 // const functions = require('firebase-functions');
 
+// const serviceAccount = JSON.parse(
+//   Buffer.from(process.env.FIREBASE_CREDENTIALS, 'base64').toString('utf8')
+// );
 
 admin.initializeApp({
   // Use admin.initializeApp
@@ -25,6 +36,14 @@ const db = admin.firestore();
 const storage = getStorage(); // Initialize Storage *after* initializing the app.
 
 const upload = multer({ storage: multer.memoryStorage() });
+
+// Serve static files from the React app
+// app.use(express.static(path.join(__dirname, '../donseats-frontend/build')));
+
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../donseats-frontend/build', 'index.html'));
+// });
+
 
 const donsRoutes = require("./donsRoutes"); // Import the Dons routes
 app.use("/api/dons", donsRoutes);

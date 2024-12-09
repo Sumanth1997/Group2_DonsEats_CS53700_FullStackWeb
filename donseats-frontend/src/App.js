@@ -36,7 +36,9 @@ const App = () => {
   const [einsteinCartItems, setEinsteinCartItems] = useState({});  // Einstein's cart
   const [bonsCartItems, setBonsCartItems] = useState({});  
   const [donsCartItems, setDonsCartItems] = useState({}); 
-  const [javaCartItems, setJavaCartItems] = useState({});        
+  const [javaCartItems, setJavaCartItems] = useState({});
+  const API_URL = process.env.REACT_APP_API_URL;  
+  // console.log("url ->", API_URL);      
 
   const PrivateRoute = ({ element, ...rest }) => {
     const { user } = useContext(AuthContext);
@@ -50,7 +52,7 @@ const App = () => {
    useEffect(() => {
     const fetchMenuItems = async () => {
         try {
-            const response = await axios.get('/api/menuItems');
+            const response = await axios.get(`${API_URL}/api/menuItems`);
             setMenuItems(response.data);
         } catch (error) {
             //Handle error.
@@ -59,7 +61,7 @@ const App = () => {
     };
     const fetchBonsMenuItems = async () => {
       try {
-        const response = await axios.get('/api/bons/menuItems');
+        const response = await axios.get(`${API_URL}/api/bons/menuItems`);
         setBonsMenuItems(response.data);
       } catch (error) {
         console.error("Error fetching Bon Bon's menu items:", error);
@@ -68,7 +70,7 @@ const App = () => {
 
     const fetchDonsMenuItems = async () => {
       try {
-        const response = await axios.get('/api/dons/menuItems');
+        const response = await axios.get(`${API_URL}/api/dons/menuItems`);
         setDonsMenuItems(response.data);
       } catch (error) {
         console.error("Error fetching Don's menu items:", error);
@@ -77,7 +79,7 @@ const App = () => {
 
     const fetchJavaMenuItems = async () => {
       try {
-        const response = await axios.get('/api/java/menuItems');
+        const response = await axios.get(`${API_URL}/api/java/menuItems`);
         setJavaMenuItems(response.data);
       } catch (error) {
         console.error("Error fetching Don's menu items:", error);
@@ -124,7 +126,7 @@ const App = () => {
             element={
               <> 
                 <RestaurantsHeader cartItems={einsteinCartItems} setCartItems={setEinsteinCartItems} menuItems={menuItems} restaurant={RestaurantsData["Einstein Bros."]} />
-                <NavBar onCategorySelect={setActiveCategory} activeCategory={activeCategory} />
+                {/* <NavBar onCategorySelect={setActiveCategory} activeCategory={activeCategory} /> */}
                 <Menu category={activeCategory} cartItems={einsteinCartItems} setCartItems={setEinsteinCartItems} />
               </>
             } 
@@ -135,7 +137,7 @@ const App = () => {
               <> 
                 {/* <Header cartItems={bonsCartItems} setCartItems={setBonsCartItems} menuItems={bonsMenuItems} /> */}
                 <RestaurantsHeader cartItems={bonsCartItems} setCartItems={setBonsCartItems} menuItems={bonsMenuItems} restaurant={RestaurantsData["Bon Bon's Coffee"]} />
-                <BonsNavBar onCategorySelect={setBonsSelectedCategory} activeCategory={bonsSelectedCategory} />
+                {/* <BonsNavBar onCategorySelect={setBonsSelectedCategory} activeCategory={bonsSelectedCategory} /> */}
                 <BonsMenu category={bonsSelectedCategory} cartItems={bonsCartItems} setCartItems={setBonsCartItems} />
               </>
             } 
@@ -146,7 +148,7 @@ const App = () => {
               <> 
                 {/* <Header cartItems={bonsCartItems} setCartItems={setBonsCartItems} menuItems={bonsMenuItems} /> */}
                 <RestaurantsHeader cartItems={donsCartItems} setCartItems={setDonsCartItems} menuItems={donsMenuItems} restaurant={RestaurantsData["Don's at Walb"]} />
-                <DonsNavBar onCategorySelect={setDonsSelectedCategory} activeCategory={donsSelectedCategory} />
+                {/* <DonsNavBar onCategorySelect={setDonsSelectedCategory} activeCategory={donsSelectedCategory} /> */}
                 <DonsMenu category={donsSelectedCategory} cartItems={donsCartItems} setCartItems={setDonsCartItems} />
               </>
             } 
@@ -157,7 +159,7 @@ const App = () => {
               <> 
                 {/* <Header cartItems={bonsCartItems} setCartItems={setBonsCartItems} menuItems={bonsMenuItems} /> */}
                 <RestaurantsHeader cartItems={javaCartItems} setCartItems={setJavaCartItems} menuItems={javaMenuItems} restaurant={RestaurantsData["Java Spot"]} />
-                <JavaNavBar onCategorySelect={setJavaSelectedCategory} activeCategory={javaSelectedCategory} />
+                {/* <JavaNavBar onCategorySelect={setJavaSelectedCategory} activeCategory={javaSelectedCategory} /> */}
                 <JavaMenu category={javaSelectedCategory} cartItems={javaCartItems} setCartItems={setJavaCartItems} />
               </>
             } 

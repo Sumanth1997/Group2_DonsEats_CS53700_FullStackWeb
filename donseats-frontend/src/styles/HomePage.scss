@@ -70,26 +70,44 @@
     }
   }
 
-  /* User Menu */
   .header__user {
-    display: flex; /* Keep it in a row */
-    gap: 20px; /* Space between login button and other user menu items */
-    
-    .login-btn, .username-btn {
-      padding: 8px 15px;
-      font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  
+    .user-menu {
+      display: flex;
+      align-items: center;
+    }
+  
+    .username {
+      font-size: 1rem;
+      font-weight: 500; /* Medium font weight for a modern look */
+      color: #e67e22; /* Neutral text color */
+      margin-right: 40px;
+    }
+  
+    .logout-icon {
+      background-color: transparent;
       border: none;
-      border-radius: 5px;
+      font-size: 1.8rem; /* Icon size */
+      color: #e67e22; /* Primary color for the icon */
       cursor: pointer;
-      background-color: #e67e22;
-      color: white;
-      transition: background-color 0.3s ease;
-
+      transition: color 0.3s ease;
+  
       &:hover {
-        background-color: #cf6d1a;
+        color: #cf6d1a; /* Slightly darker color on hover */
+      }
+  
+      i {
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     }
+
   }
+  
 
   .content__image {
   flex: 1;
@@ -101,8 +119,6 @@
     border-radius: 8px;
   }
   }
-  
-
 
   &__hero {
     display: flex;
@@ -117,7 +133,7 @@
       flex: 1;
       max-width: 500px;
       padding: 20px;
-      text-align: left;
+      text-align: right;
 
       h1 {
         font-size: 2.5rem;
@@ -159,8 +175,6 @@
       }
     }
   }
-
-  /* Other sections... */
 
   &__footer {
     background-color: #333;

@@ -1,16 +1,5 @@
-:root {
-  --primary-color: #ff5722;
-  --primary-hover: #e64a19;
-  --secondary-color: #1976d2;
-  --secondary-hover: #1565c0;
-  --border-color: #eaeaea;
-  --background-light: #f9f9f9;
-  --shadow-light: rgba(0, 0, 0, 0.05);
-}
-
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: var(--background-light);
+  background-color: #f9f9f9;
   margin: 0;
   padding: 0;
 }
@@ -21,7 +10,6 @@ body {
   gap: 1.5rem;
   padding: 1.5rem 2rem;
 }
-
 .dashboard h2 {
   font-size: 1.8rem;
   color: #333;
@@ -29,25 +17,21 @@ body {
   font-weight: 600;
   text-align: left;
 }
-
 .dashboard .section {
-  border: 1px solid var(--border-color);
+  border: 1px solid #eaeaea;
   border-radius: 10px;
   background-color: #ffffff;
   padding: 1rem 1.5rem;
-  box-shadow: 0 4px 8px var(--shadow-light);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
-
 .dashboard .section:not(:last-child) {
   margin-bottom: 1.5rem;
 }
-
 .dashboard ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
-
 .dashboard ul li {
   display: flex;
   justify-content: space-between;
@@ -55,18 +39,16 @@ body {
   background-color: #fff;
   padding: 1rem;
   margin-bottom: 0.8rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid #eaeaea;
   border-radius: 6px;
   transition: transform 0.3s, background-color 0.3s;
 }
-
 .dashboard ul li:hover {
-  background-color: var(--background-light);
+  background-color: #f9f9f9;
   transform: translateY(-3px);
 }
-
 .dashboard button {
-  background-color: var(--primary-color);
+  background-color: #ff5722;
   color: #fff;
   border: none;
   padding: 0.5rem 1rem;
@@ -75,35 +57,30 @@ body {
   font-weight: bold;
   transition: background-color 0.3s;
 }
-
 .dashboard button:hover {
-  background-color: var(--primary-hover);
+  background-color: #e64a19;
 }
-
 .dashboard input,
 .dashboard select,
 .dashboard textarea {
   width: 100%;
   padding: 0.7rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid #eaeaea;
   border-radius: 6px;
   font-size: 1rem;
   margin-top: 0.5rem;
 }
-
 .dashboard .form-group {
   margin-bottom: 1rem;
 }
-
 .dashboard .form-group label {
   font-size: 1rem;
   font-weight: 500;
   display: block;
   margin-bottom: 0.5rem;
 }
-
 .dashboard form button {
-  background-color: var(--secondary-color);
+  background-color: #1976d2;
   color: #fff;
   padding: 0.7rem 1.2rem;
   border-radius: 6px;
@@ -113,7 +90,6 @@ body {
   cursor: pointer;
   margin-top: 0.5rem;
 }
-
 .dashboard form button:hover {
-  background-color: var(--secondary-hover);
-}
+  background-color: #1565c0;
+}/*# sourceMappingURL=Dashboard.css.map */

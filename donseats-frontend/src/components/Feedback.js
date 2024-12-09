@@ -6,6 +6,7 @@ const FeedbackForm = ({ user }) => {
   const [newDishRequest, setNewDishRequest] = useState('');
   const [feedback, setFeedback] = useState('');
   const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
+  const API_URL = process.env.REACT_APP_API_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,7 +17,7 @@ const FeedbackForm = ({ user }) => {
         return;
       }
 
-      const response = await axios.post('http://localhost:5001/api/requestNewDish', {
+      const response = await axios.post(`${API_URL}/api/requestNewDish`, {
         dishName: newDishRequest,
         userId: user.uid,
       });

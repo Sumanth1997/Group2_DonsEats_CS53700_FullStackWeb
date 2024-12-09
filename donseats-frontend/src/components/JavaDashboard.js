@@ -5,6 +5,7 @@ import "../styles/Dashboard.css";
 import { AuthContext } from "../services/AuthContext";
 // import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import axios from "axios";
+import AdminHeader from "./AdminHeader"; // Import AdminHeader
 
 // const db = getFirestore(app);
 // const storage = getStorage(app);
@@ -39,11 +40,12 @@ const JavaDashBoard = () => {
   const [reviews, setReviews] = useState([]);
   const [dishRequests, setDishRequests] = useState([]);
   const [feedback, setFeedback] = useState([]);
+  const API_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch("/api/java/menuItems"); // Replace with your backend endpoint
+        const response = await fetch(`${API_URL}/api/java/menuItems`); // Replace with your backend endpoint
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -73,7 +75,7 @@ const JavaDashBoard = () => {
       formData.append("description", newMenuItem.description);
 
       const response = await axios.post(
-        "/api/java/addMenuItem",
+        `${API_URL}/api/java/addMenuItem`,
         formData,
         {
           headers: {
@@ -111,7 +113,7 @@ const JavaDashBoard = () => {
 
   const handleDeleteMenuItem = async (itemId) => {
     try {
-      await axios.delete(`/api/java/menuItem/${itemId}`); // Send DELETE to the server
+      await axios.delete(`${API_URL}/api/java/menuItem/${itemId}`); // Send DELETE to the server
       // Update local state (remove the deleted item)
       const updatedMenuItems = { ...menuItems };
       delete updatedMenuItems[itemId]; // Assuming itemId becomes the key
@@ -135,7 +137,7 @@ const JavaDashBoard = () => {
       };
 
       const response = await axios.put(
-        "/api/java/menuItem",
+        `${API_URL}/api/java/menuItem`,
         dataToUpdate,
         {
           headers: {
@@ -176,7 +178,7 @@ const JavaDashBoard = () => {
     const fetchDishRequests = async () => {
       try {
         const response = await axios.get(
-          "/api/java/javaSpot"
+          `${API_URL}/api/java/javaSpot`
         ); // Use axios.get()
         setDishRequests(response.data);
       } catch (error) {
@@ -191,7 +193,7 @@ const JavaDashBoard = () => {
     const fetchFeedback = async () => {
       try {
         const response = await axios.get(
-          "/api/feedback/java"
+          `${API_URL}/api/feedback/java`
         ); // Fetch feedback for the specific restaurant
         setFeedback(response.data);
       } catch (error) {
@@ -206,7 +208,7 @@ const JavaDashBoard = () => {
   useEffect(() => {
     const fetchPendingOrders = async () => {
       try {
-        const response = await axios.get("/api/java/javaOrders"); // Replace with your actual endpoint
+        const response = await axios.get(`${API_URL}/api/java/javaOrders`);
 
         // Check response status
         if (response.status === 200) {
@@ -237,7 +239,7 @@ const JavaDashBoard = () => {
   const handleUpdateOrderStatus = async (orderId, newStatus) => {
     try {
       await axios.put(
-        `/api/java/javaOrders/${orderId}`, // Make sure this is your Bons order update endpoint
+        `${API_URL}/api/java/javaOrders/${orderId}`, // Make sure this is your Bons order update endpoint
         { status: newStatus }
       );
 
@@ -262,6 +264,9 @@ const JavaDashBoard = () => {
 
   return (
     <div className="dashboard">
+            <AdminHeader /> {/* Render AdminHeader */}
+      <section className="dashboard-content">
+      <h2>Welcome to the Admin Dashboard</h2>
       {/* Pending Orders Section */}
       <section className="orders-section">
         <h2>Pending Orders</h2>
@@ -465,6 +470,7 @@ const JavaDashBoard = () => {
             </li>
           ))}
         </ul>
+      </section>
       </section>
     </div>
   );
