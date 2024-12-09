@@ -4,7 +4,6 @@
   align-items: center;
   height: 100vh;
   background: url("./../../public/register.png") no-repeat center center/cover;
-  font-family: "Arial", sans-serif;
   margin: auto;
   width: 100%;
   flex-direction: column;

@@ -5,8 +5,6 @@
   /* Logo */
   /* Right Section (for links and user menu) */
   /* Navigation Links */
-  /* User Menu */
-  /* Other sections... */
 }
 .homepage .homepage__header {
   width: 100%;
@@ -57,21 +55,35 @@
   color: #e67e22;
 }
 .homepage .header__user {
-  display: flex; /* Keep it in a row */
-  gap: 20px; /* Space between login button and other user menu items */
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
-.homepage .header__user .login-btn, .homepage .header__user .username-btn {
-  padding: 8px 15px;
-  font-size: 0.9rem;
+.homepage .header__user .user-menu {
+  display: flex;
+  align-items: center;
+}
+.homepage .header__user .username {
+  font-size: 1rem;
+  font-weight: 500; /* Medium font weight for a modern look */
+  color: #e67e22; /* Neutral text color */
+  margin-right: 40px;
+}
+.homepage .header__user .logout-icon {
+  background-color: transparent;
   border: none;
-  border-radius: 5px;
+  font-size: 1.8rem; /* Icon size */
+  color: #e67e22; /* Primary color for the icon */
   cursor: pointer;
-  background-color: #e67e22;
-  color: white;
-  transition: background-color 0.3s ease;
+  transition: color 0.3s ease;
 }
-.homepage .header__user .login-btn:hover, .homepage .header__user .username-btn:hover {
-  background-color: #cf6d1a;
+.homepage .header__user .logout-icon:hover {
+  color: #cf6d1a; /* Slightly darker color on hover */
+}
+.homepage .header__user .logout-icon i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .homepage .content__image {
   flex: 1;
@@ -95,7 +107,7 @@
   flex: 1;
   max-width: 500px;
   padding: 20px;
-  text-align: left;
+  text-align: right;
 }
 .homepage__hero .hero__content h1 {
   font-size: 2.5rem;

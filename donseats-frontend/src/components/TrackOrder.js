@@ -10,6 +10,9 @@ const TrackOrder = () => {
     const [userOrders, setUserOrders] = useState([]);
     const [ordersByRestaurant, setOrdersByRestaurant] = useState({});
     const API_URL = process.env.REACT_APP_API_URL;
+    const [expandedRestaurant, setExpandedRestaurant] = useState(null);
+
+
 
     useEffect(() => {
         const fetchUserOrders = async () => {
@@ -47,29 +50,44 @@ const TrackOrder = () => {
 
 
     const restaurantNames = ["Don's at Walb", "Java Spot", "Einstein Bros.", "Bon Bon's Coffee"]; // List of restaurants
+    const toggleRestaurant = (restaurantName) => {
+        setExpandedRestaurant((prev) => (prev === restaurantName ? null : restaurantName));
+      };
+      
 
     return (
         <div className="track-order-container">
-            <h2>Track Your Orders</h2>
+        <h2>Track Your Orders</h2>
 
-            {restaurantNames.map(restaurantName => (
-                <div key={restaurantName}>
-                    <h3>{restaurantName}</h3>
-                    {ordersByRestaurant[restaurantName] && ordersByRestaurant[restaurantName].length > 0 ? (
-                        <ul>
-                            {ordersByRestaurant[restaurantName].map(order => (
-                                <li key={order.orderId}>
-                                    <p>Order ID: {order.orderId}</p>
-                                    <p>Status: {order.status}</p>
-                                    {/* ... other order details */}
-                                </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <p>No orders placed at this restaurant yet.</p>
-                    )}
+        <div className="filters">
+            {restaurantNames.map((restaurantName) => (
+            <div className="filter-section" key={restaurantName}>
+                <div
+                className={`filter-header ${expandedRestaurant === restaurantName ? 'expanded' : ''}`}
+                onClick={() => toggleRestaurant(restaurantName)}
+                >
+                <span>{restaurantName}</span>
+                <span className="icon">{expandedRestaurant === restaurantName ? '▼' : '▶'}</span>
                 </div>
+                <div
+                className={`filter-content ${expandedRestaurant === restaurantName ? 'expanded' : ''}`}
+                >
+                {ordersByRestaurant[restaurantName] && ordersByRestaurant[restaurantName].length > 0 ? (
+                    <ul>
+                    {ordersByRestaurant[restaurantName].map((order) => (
+                        <li key={order.orderId}>
+                        <p>Order ID: {order.orderId}</p>
+                        <p>Status: {order.status}</p>
+                        </li>
+                    ))}
+                    </ul>
+                ) : (
+                    <p className="empty-message">No orders placed at this restaurant yet.</p>
+                )}
+                </div>
+            </div>
             ))}
+        </div>
         </div>
     );
 };

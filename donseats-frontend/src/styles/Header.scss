@@ -141,7 +141,6 @@
   z-index: 1;
   width: 12rem;
   padding: 8px 0;
-  margin-top: 5px;
   transition: all 0.2s ease;
   display: none; /* Initially hidden */
 }
@@ -166,4 +165,9 @@
 .dropdown-menu a:hover {
   background-color: #f8f8f8;
   padding-left: 10px;
+}
+
+.restraunt-header-menu-buttons{
+  display:flex;
+  margin-top: 15px;
 }

@@ -1,42 +1,79 @@
 .track-order-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: calc(100vh - 80px);
-  padding: 20px;
-  background-color: #f5f5f5;
-}
-.track-order-container h2 {
-  margin-bottom: 20px;
+  max-width: 800px;
+  margin: 0 auto;
   color: #333;
 }
-.track-order-container ul {
-  list-style: none;
-  padding: 0;
-  width: 80%;
-  max-width: 800px;
-}
-.track-order-container ul li {
-  background-color: white;
-  padding: 20px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-.track-order-container ul li h3 {
-  margin-top: 0;
-  color: #007bff;
-}
-.track-order-container ul li p {
-  margin-bottom: 10px;
-}
-.track-order-container ul li p span {
-  margin-right: 10px;
-}
-.track-order-container .no-orders {
+.track-order-container h2 {
+  font-size: 24px;
   text-align: center;
-  color: #666;
+  margin-bottom: 20px;
+  color: #e67e22;
   margin-top: 20px;
 }
-
-/*# sourceMappingURL=TrackOrder.css.map */
+.track-order-container .filters {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.track-order-container .filters .filter-section {
+  width: 30rem;
+  border: 1px solid #d0d4de;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f9faff;
+}
+.track-order-container .filters .filter-section .filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  cursor: pointer;
+  background-color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+.track-order-container .filters .filter-section .filter-header:hover {
+  background-color: #e8e8e8;
+}
+.track-order-container .filters .filter-section .filter-header .icon {
+  font-size: 18px;
+  color: #888;
+  transition: transform 0.3s ease;
+}
+.track-order-container .filters .filter-section .filter-header.expanded .icon {
+  transform: rotate(180deg);
+}
+.track-order-container .filters .filter-section .filter-content {
+  display: none;
+  padding: 10px 16px;
+  font-size: 14px;
+  background-color: #ffffff;
+}
+.track-order-container .filters .filter-section .filter-content.expanded {
+  display: block;
+}
+.track-order-container .filters .filter-section .filter-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.track-order-container .filters .filter-section .filter-content ul li {
+  border-bottom: 1px solid #eee;
+  padding: 8px 0;
+}
+.track-order-container .filters .filter-section .filter-content ul li:last-child {
+  border-bottom: none;
+}
+.track-order-container .filters .filter-section .filter-content ul li p {
+  margin: 0;
+}
+.track-order-container .filters .filter-section .filter-content ul li p:first-child {
+  font-weight: bold;
+}
+.track-order-container .filters .filter-section .filter-content .empty-message {
+  font-size: 14px;
+  color: #777;
+  text-align: center;
+  padding: 10px 0;
+}/*# sourceMappingURL=TrackOrder.css.map */

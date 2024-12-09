@@ -58,6 +58,10 @@ const HomePage = () => {
     restaurantsRef.current.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const navigateToTrackOrder = () => {
+    navigate('/trackOrder'); // Navigate to /trackOrder when button is clicked
+  };
+
   return (
     <div className="homepage">
       {/* Header Section */}
@@ -75,6 +79,7 @@ const HomePage = () => {
               <ul className="nav__links">
                 <li>Special Offers</li>
                 <li onClick={handleScrollToRestaurants}>Restaurants</li> {/* Trigger scroll to Popular Restaurants */}
+                <li onClick={navigateToTrackOrder} style={{ cursor: 'pointer' }}>Track Order</li>
               </ul>
             </nav>
           </div>
@@ -83,12 +88,15 @@ const HomePage = () => {
               <p>Loading...</p>
             ) : user ? (
               <div className="user-menu">
-                <button className="username-btn">
-                  Welcome, {user.displayName || user.email}!
-                </button>
+                <span className="username">Welcome, {user.displayName || user.email}!</span>
+                <div className="logout-icon" onClick={handleLogout}>
+                  <i className="fas fa-sign-out-alt"></i>
+                </div>
               </div>
             ) : (
-              <button className="login-btn" onClick={handleLoginRedirect}>Login/Signup</button>
+              <button className="login-btn" onClick={handleLoginRedirect}>
+                Login/Signup
+              </button>
             )}
           </div>
           </div>
@@ -98,12 +106,12 @@ const HomePage = () => {
       {/* Hero Section */}
       <section className="homepage__hero">
         <div className="hero__content">
-          <h1>Get your Food Anywhere on-campus</h1>
-          <p>Order on-campus restaurant food for takeaway</p>
-          <div className="hero__search">
+          <h1>Campus Food, On Your Schedule</h1>
+          <p>Order ahead and pick up anytime.</p>
+          {/* <div className="hero__search">
             <input type="text" placeholder="Enter Delivery address" />
             <button>Search</button>
-          </div>
+          </div> */}
         </div>
         <div className="hero__image">
           <img src="headerelephant.png" alt="Elephant holding burger" />
@@ -151,7 +159,6 @@ const HomePage = () => {
 
       <footer className="homepage__footer">
         <p>Official Purdue Fort Wayne Food Ordering Service</p>
-        <p>&copy; Order4U. All Rights Reserved.</p>
       </footer>
     </div>
   );

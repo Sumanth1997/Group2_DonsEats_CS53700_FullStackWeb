@@ -37,6 +37,10 @@ const RestaurantsHeader = ({ cartItems, restaurant, menuItems, setCartItems }) =
       navigate('/EinsteinBros', { state: { restaurant, cartItems } });
     } else if (restaurantName === "Bon Bon's Coffee") {
       navigate('/bonsmenu', { state: { restaurant, cartItems } });
+    } else if (restaurantName === "Java Spot"){
+      navigate('/javamenu', { state: { restaurant, cartItems } });
+    } else if (restaurantName === "Don's at Walb"){
+      navigate('/donsmenu', { state: { restaurant, cartItems } });
     }
     setDropdownOpen(false); // Close the dropdown after selection
   };
@@ -87,6 +91,7 @@ const RestaurantsHeader = ({ cartItems, restaurant, menuItems, setCartItems }) =
             <span className="rating-score">{restaurant.rating}</span>
             <p>{restaurant.reviews} reviews</p>
           </div>
+          <div className="restraunt-header-menu-buttons">
           <Cart cartItems={cartItems} setCartItems={setCartItems} menuItems={menuItems} restaurant={restaurant.title}/>
 
           {loading ? (
@@ -100,6 +105,7 @@ const RestaurantsHeader = ({ cartItems, restaurant, menuItems, setCartItems }) =
               Login/Signup
             </Link>
           )}
+          </div>
         </div>
       </div>
 
