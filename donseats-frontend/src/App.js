@@ -126,7 +126,7 @@ const App = () => {
             element={
               <> 
                 <RestaurantsHeader cartItems={einsteinCartItems} setCartItems={setEinsteinCartItems} menuItems={menuItems} restaurant={RestaurantsData["Einstein Bros."]} />
-                <NavBar onCategorySelect={setActiveCategory} activeCategory={activeCategory} />
+                {/* <NavBar onCategorySelect={setActiveCategory} activeCategory={activeCategory} /> */}
                 <Menu category={activeCategory} cartItems={einsteinCartItems} setCartItems={setEinsteinCartItems} />
               </>
             } 
@@ -137,7 +137,7 @@ const App = () => {
               <> 
                 {/* <Header cartItems={bonsCartItems} setCartItems={setBonsCartItems} menuItems={bonsMenuItems} /> */}
                 <RestaurantsHeader cartItems={bonsCartItems} setCartItems={setBonsCartItems} menuItems={bonsMenuItems} restaurant={RestaurantsData["Bon Bon's Coffee"]} />
-                <BonsNavBar onCategorySelect={setBonsSelectedCategory} activeCategory={bonsSelectedCategory} />
+                {/* <BonsNavBar onCategorySelect={setBonsSelectedCategory} activeCategory={bonsSelectedCategory} /> */}
                 <BonsMenu category={bonsSelectedCategory} cartItems={bonsCartItems} setCartItems={setBonsCartItems} />
               </>
             } 
@@ -148,7 +148,7 @@ const App = () => {
               <> 
                 {/* <Header cartItems={bonsCartItems} setCartItems={setBonsCartItems} menuItems={bonsMenuItems} /> */}
                 <RestaurantsHeader cartItems={donsCartItems} setCartItems={setDonsCartItems} menuItems={donsMenuItems} restaurant={RestaurantsData["Don's at Walb"]} />
-                <DonsNavBar onCategorySelect={setDonsSelectedCategory} activeCategory={donsSelectedCategory} />
+                {/* <DonsNavBar onCategorySelect={setDonsSelectedCategory} activeCategory={donsSelectedCategory} /> */}
                 <DonsMenu category={donsSelectedCategory} cartItems={donsCartItems} setCartItems={setDonsCartItems} />
               </>
             } 
@@ -159,7 +159,7 @@ const App = () => {
               <> 
                 {/* <Header cartItems={bonsCartItems} setCartItems={setBonsCartItems} menuItems={bonsMenuItems} /> */}
                 <RestaurantsHeader cartItems={javaCartItems} setCartItems={setJavaCartItems} menuItems={javaMenuItems} restaurant={RestaurantsData["Java Spot"]} />
-                <JavaNavBar onCategorySelect={setJavaSelectedCategory} activeCategory={javaSelectedCategory} />
+                {/* <JavaNavBar onCategorySelect={setJavaSelectedCategory} activeCategory={javaSelectedCategory} /> */}
                 <JavaMenu category={javaSelectedCategory} cartItems={javaCartItems} setCartItems={setJavaCartItems} />
               </>
             } 

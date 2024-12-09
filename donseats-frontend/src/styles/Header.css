@@ -170,3 +170,41 @@
   display: flex;
   margin-top: 15px;
 }/*# sourceMappingURL=Header.css.map */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #ffffff;
+  color: #fff;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 25rem;
+}
+
+.website-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.admin-title {
+  font-size: 1.2rem;
+}
+
+.logout-button {
+  background-color: #ff4d4d;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.logout-button:hover {
+  background-color: #ff1a1a;
+}

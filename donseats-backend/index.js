@@ -19,12 +19,12 @@ const {
   getDownloadURL,
 } = require("firebase-admin/storage"); // Import from Firebase Admin SDK
 app.use(express.json());
-//const serviceAccount = require("./serviceAccountKey.json"); // Correct path is crucial
+const serviceAccount = require("./serviceAccountKey.json"); // Correct path is crucial
 // const functions = require('firebase-functions');
 
-const serviceAccount = JSON.parse(
-  Buffer.from(process.env.FIREBASE_CREDENTIALS, 'base64').toString('utf8')
-);
+// const serviceAccount = JSON.parse(
+//   Buffer.from(process.env.FIREBASE_CREDENTIALS, 'base64').toString('utf8')
+// );
 
 admin.initializeApp({
   // Use admin.initializeApp

@@ -5,6 +5,7 @@ import "../styles/Dashboard.css";
 import { AuthContext } from "../services/AuthContext";
 // import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import axios from "axios";
+import AdminHeader from "./AdminHeader"; // Import AdminHeader
 
 // const db = getFirestore(app);
 // const storage = getStorage(app);
@@ -263,6 +264,9 @@ const JavaDashBoard = () => {
 
   return (
     <div className="dashboard">
+            <AdminHeader /> {/* Render AdminHeader */}
+      <section className="dashboard-content">
+      <h2>Welcome to the Admin Dashboard</h2>
       {/* Pending Orders Section */}
       <section className="orders-section">
         <h2>Pending Orders</h2>
@@ -466,6 +470,7 @@ const JavaDashBoard = () => {
             </li>
           ))}
         </ul>
+      </section>
       </section>
     </div>
   );
